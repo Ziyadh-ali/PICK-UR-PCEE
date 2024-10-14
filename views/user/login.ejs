@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/UserLogin.css" />
+    <link
+      data-minify="1"
+      href="https://www.bacancytechnology.com/blog/wp-content/cache/min/1/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css?ver=1727441421"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Toastify CSS and JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <h2 style="text-align: center; margin-top: 100px">PICK UR PCEE</h2>
+    <div class="login-container">
+      <div class="login-form">
+        <h2>Login</h2>
+        <% if(success_message.length > 0) { %>
+        <div class="text-success text-center"><%= success_message %></div>
+        <% } else if(error_message.length > 0) { %>
+        <div class="text-danger text-center"><%= error_message %></div>
+        <% } %>
+        <form id="form" action="/login" method="post">
+          <div class="input-group">
+            <label for="username">Email</label>
+            <input type="text" id="email" name="email" />
+            <div class="error"></div>
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" />
+            <div class="error"></div>
+          </div>
+          <a href="/register">Forgot Password</a>
+          <button type="submit" class="primary-btn">Login</button>
+          <a href="/google" type="submit" class="primary2-btn">
+            <i class="fa-brands fa-google" style="color: #ffffff;display: flex;justify-content: center;margin-top: 12px;"></i>
+          </a>
+        </form>
+        <p>Don't have an account? <a href="/register">Sign up</a></p>
+      </div>
+    </div>
+    <script defer src="js/loginValid.js"></script>
+  </body>
+</html>

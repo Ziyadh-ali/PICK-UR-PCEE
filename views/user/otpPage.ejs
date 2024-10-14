@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="css/otp.css" />
+    <link
+      data-minify="1"
+      href="https://www.bacancytechnology.com/blog/wp-content/cache/min/1/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css?ver=1727441421"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </head>
+  <body>
+    <h2 style="text-align: center; margin-top: 100px">PICK UR PCEE</h2>
+
+    <div class="login-container">
+      <div class="login-form">
+        <h2>OTP Verification</h2>
+        <% if (success_message.length > 0) { %>
+        <div class="text-success text-center">
+          <%= success_message %>
+        </div>
+        <% } else if (error_message.length > 0) { %>
+        <div class="text-danger text-center">
+          <%= error_message %>
+        </div>
+        <% } %>
+
+        <form id="form" action="/otp" method="post">
+          <div class="input-group">
+            <label for="otp">Enter OTP</label>
+            <div class="otp-inputs" id="otp-inputs">
+              <input type="text" id="otp-1" maxlength="1" name="otp1" />
+              <input type="text" id="otp-2" maxlength="1" name="otp2" />
+              <input type="text" id="otp-3" maxlength="1" name="otp3" />
+              <input type="text" id="otp-4" maxlength="1" name="otp4" />
+              <input type="text" id="otp-5" maxlength="1" name="otp5" />
+              <input type="text" id="otp-6" maxlength="1" name="otp6" />
+            </div>
+            <div class="error" style="text-align: center"></div>
+          </div>
+          <button type="submit" class="primary-btn">Verify</button>
+          <h2 id="timer"></h2>
+          <button type="button" id="resend-otp" class="primary-btn">Resend OTP</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const inputs = document.querySelectorAll("#otp-inputs input");
+
+      // Handle input focus and paste for OTP input fields
+      inputs.forEach((input, index) => {
+        input.addEventListener("input", (event) => {
+          if (event.target.value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          }
+        });
+
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Backspace" && event.target.value === "" && index > 0) {
+            inputs[index - 1].focus();
+          }
+        });
+
+        input.addEventListener("paste", (event1) => {
+          const pastedData = event1.clipboardData.getData("text");
+          if (pastedData.length === inputs.length) {
+            inputs.forEach((input, i) => {
+              input.value = pastedData[i] || "";
+            });
+            event1.preventDefault();
+          }
+        });
+      });
+
+      const form = document.getElementById("form");
+
+      let x = true;
+
+      const setError = (input, message) => {
+        input.innerText = message;
+        input.classList.add("error");
+        x = false;
+      };
+
+      const clearError = (input) => {
+        input.classList.remove("error");
+      };
+
+      const validateInputs = () => {
+        x = true;
+
+        const input1Value = document.getElementById("otp-1").value.trim();
+        const input2Value = document.getElementById("otp-2").value.trim();
+        const input3Value = document.getElementById("otp-3").value.trim();
+        const input4Value = document.getElementById("otp-4").value.trim();
+        const input5Value = document.getElementById("otp-5").value.trim();
+        const input6Value = document.getElementById("otp-6").value.trim();
+
+        if (input1Value === "") setError(input1, "enter the otp");
+        if (input2Value === "") setError(input2, "enter the otp");
+        if (input3Value === "") setError(input3, "enter the otp");
+        if (input4Value === "") setError(input4, "enter the otp");
+        if (input5Value === "") setError(input5, "enter the otp");
+        if (input6Value === "") setError(input6, "enter the otp");
+
+        return x;
+      };
+
+      form.addEventListener("submit", (event) => {
+        const isValid = validateInputs();
+        if (!isValid) {
+          event.preventDefault();
+        }
+      });
+
+      // Handle Resend OTP logic
+      const resendBtn = document.getElementById("resend-otp");
+
+      resendBtn.addEventListener("click", async function () {
+        try {
+          const response = await fetch("/resendOtp", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            showToast("OTP Resent Successfully!", "success");
+            startTimer(); // Restart the timer
+          } else {
+            showToast(result.message, "error");
+          }
+        } catch (error) {
+          showToast("An error occurred while resending OTP", "error");
+        }
+      });
+
+      // Timer logic
+      let timeLeft = 120; // Set 2 minutes initially
+      let timerInterval = null; // Initialize a global timer variable
+
+      function startTimer() {
+        clearInterval(timerInterval); // Clear any existing timer before starting a new one
+        timeLeft = 120; // Reset to 2 minutes
+
+        timerInterval = setInterval(() => {
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerText = "OTP expired";
+            document.querySelector("button[type='submit']").disabled = true; // Disable submit button on expiration
+          } else {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById("timer").innerText = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+            timeLeft--;
+          }
+        }, 1000);
+      }
+
+      // Call this function when the page loads to start the timer initially
+      startTimer();
+
+      function showToast(message, type) {
+        let backgroundColor;
+
+        // Set the background color based on the type of message
+        if (type === "success") {
+          backgroundColor = "green";
+        } else if (type === "error") {
+          backgroundColor = "red";
+        } else {
+          backgroundColor = "gray"; // Default color for other messages
+        }
+
+        // Initialize Toastify with the appropriate message and style
+        Toastify({
+          text: message,
+          duration: 3000, // Show for 3 seconds
+          close: true,
+          gravity: "top", // Show at the top of the screen
+          position: "right", // Align toast to the right
+          backgroundColor: backgroundColor,
+        }).showToast();
+      }
+    </script>
+  </body>
+</html>

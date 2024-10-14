@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/UserLogin.css" />
+    <link
+      data-minify="1"
+      href="https://www.bacancytechnology.com/blog/wp-content/cache/min/1/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css?ver=1727441421"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Toastify CSS and JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <h2 style="text-align: center; margin-top: 100px">PICK UR PCEE</h2>
+    <div class="login-container">
+      <div class="login-form">
+        <h2>Admin Login</h2>
+        <form id="form" action="/admin" method="post">
+          <div class="input-group">
+            <label for="username">Email</label>
+            <input type="text" id="email" name="email"/>
+            <div class="error"></div>
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" />
+            <div class="error"></div>
+          </div>
+          <button type="submit" class="primary-btn">Login</button>
+        </form>
+      </div>
+    </div>
+    <!-- <script defer src="js/loginValid.js"></script> -->
+     <script>
+      const form = document.getElementById('form');
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    let isValid = true;  // Track form validity
+
+    const setError = (input, message) => {
+        const inputControl = input.parentElement;
+        const errorDisplay = inputControl.querySelector('.error');
+        errorDisplay.innerText = message;
+        inputControl.classList.add('error');
+        inputControl.classList.remove('success');
+        isValid = false;
+    };
+
+    const setSuccess = (input) => {
+        const inputControl = input.parentElement;
+        const errorDisplay = inputControl.querySelector('.error');
+        errorDisplay.innerText = '';
+        inputControl.classList.add('success');
+        inputControl.classList.remove('error');
+    };
+
+    const validateInputs = () => {
+        isValid = true;
+        const emailValue = email.value.trim();
+        const passwordValue = password.value.trim();
+
+        if (emailValue === "") {
+            setError(email, "Email is required");
+        } else {
+            setSuccess(email);
+        }
+
+        if (passwordValue === "") {
+            setError(password, "Password is required");
+        } else {
+            setSuccess(password);
+        }
+
+        return isValid;
+    };
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); 
+
+        if (validateInputs()) {
+            const formData = $(this).serialize(); 
+            $.ajax({
+                url: '/admin',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = "/admin/dashboard";
+                    } else {
+                        showToast(response.message, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    
+                    showToast("Request failed: " + error, "error");
+                }
+            });
+        }
+    });
+
+   
+    function showToast(message, type) {
+        let backgroundColor;
+
+        if (type === 'success') {
+            backgroundColor = "green";
+        } else if (type === 'error') {
+            backgroundColor = "red";
+        } else {
+            backgroundColor = "gray";
+        }
+
+        Toastify({
+            text: message,
+            duration: 2000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: backgroundColor,
+        }).showToast();
+    }
+     </script>
+  </body>
+</html>
