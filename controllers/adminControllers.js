@@ -6,6 +6,7 @@ const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require("bcrypt");
+const Order = require("../model/orderModel")
 
 
 const adminLogin = async (req, res) => {
@@ -285,15 +286,15 @@ const editCategory = async (req, res) => {
         if (req.body.description !== Categories.description) {
             descriptionChanged = true
         }
-        
+        let nameExists
         if (nameChanged) {
-            const nameExists = await Category.findOne({ name: req.body.name });
+            nameExists = await Category.findOne({ name: req.body.name });
             if (nameExists) {
-                req.flash("err_message", "Category already exists");
-                res.redirect(`/admin/categories/edit/${req.params.id}`);
-            }
+                return (req.flash("err_message", "Category already exists") ,res.redirect(`/admin/categories/edit/${req.params.id}`))
+        }   
+                
         }
-        if (nameChanged || descriptionChanged) {
+        if ((nameChanged || descriptionChanged )) { 
             const edit = await Category.findByIdAndUpdate(id, { name: req.body.name , description:req.body.description});
             req.flash("right_message", "Edit successfull");
             res.redirect("/admin/categories");
@@ -425,6 +426,169 @@ const blockUser = async (req, res) => {
         console.log(error);
     }
 }
+const orderList = async (req, res) => {
+    try {
+        
+        const search = req.query.search || '';
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5; 
+        const searchQuery = search
+            ? {
+                $or: [
+                    { 'selectedAddress.fullName': { $regex:new RegExp(search, "i") } },
+                    { 'orderStatus': { $regex:new RegExp(search, "i")} },
+                ],
+            }
+            : {};
+
+        const totalOrders = await Order.countDocuments(searchQuery);
+
+      
+        const orders = await Order.find(searchQuery)
+            .populate('products.productId') 
+            .populate('userId')
+            .sort({ orderedAt: -1 }) 
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        
+        const totalPages = Math.ceil(totalOrders / limit);
+        
+        res.render('orderList', {
+            orders,
+            currentPage: page,
+            totalPages,
+            search,
+        });
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+    }
+};
+
+
+
+const orderDetails = async (req,res) =>{
+    try {
+        const {id} = req.params
+        const order = await Order.findById(id).populate('products.productId').populate('userId')
+        res.render("orderDetails",({
+            order
+        }))
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const statusChange = async (req,res)=>{
+    try {
+        const {statusSelected , orderId} = req.body;
+        const order = await Order.findById(orderId);
+        for (let product of order.products) {
+            await Product.updateOne(
+                { _id: product.productId._id },
+                { $inc: { stock: (product.quantity) } }
+            );
+        }
+        const changeStatus = await Order.findByIdAndUpdate(orderId,
+            {$set : {orderStatus : statusSelected}}
+        )
+        if(changeStatus){
+            res.status(200).json({success : true});
+        }
+        
+        
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+const loadCoupon = async (req,res)=>{
+    try {
+        
+const coupons = [
+    {
+        id: "1",
+        code: "SUMMER10",
+        description: "Get 10% off on all items",
+        discount: "10%",
+        discountType: "Percentage",
+        minPurchase: "$50",
+        expiryDate: "2024-12-31",
+        usageLimit: "100 uses",
+        status: "Active"
+    },
+    {
+        id: "2",
+        code: "NEW25",
+        description: "25% off for new users",
+        discount: "25%",
+        discountType: "Percentage",
+        minPurchase: "$100",
+        expiryDate: "2025-01-15",
+        usageLimit: "1 use per customer",
+        status: "Active"
+    },
+    {
+        id: "3",
+        code: "FREESHIP",
+        description: "Free shipping on all orders",
+        discount: "Free Shipping",
+        discountType: "Flat",
+        minPurchase: "No minimum",
+        expiryDate: "2024-11-30",
+        usageLimit: "200 uses",
+        status: "Active"
+    },
+    {
+        id: "4",
+        code: "FLASH20",
+        description: "Limited time 20% off",
+        discount: "20%",
+        discountType: "Percentage",
+        minPurchase: "$75",
+        expiryDate: "2024-10-31",
+        usageLimit: "50 uses",
+        status: "Expired"
+    },
+    {
+        id: "5",
+        code: "BLACKFRIDAY",
+        description: "50% off on Black Friday",
+        discount: "50%",
+        discountType: "Percentage",
+        minPurchase: "$200",
+        expiryDate: "2024-11-29",
+        usageLimit: "100 uses",
+        status: "Active"
+    },
+    {
+        id: "6",
+        code: "WELCOME5",
+        description: "Flat $5 discount for new customers",
+        discount: "$5",
+        discountType: "Flat",
+        minPurchase: "$20",
+        expiryDate: "2024-12-15",
+        usageLimit: "1 use per customer",
+        status: "Active"
+    }
+];
+
+        res.render("coupons",({
+            coupons
+        }));
+    } catch (error) {
+        console.error(error);
+    }
+}
+const addCoupons = async (req,res)=>{
+    try {
+        const data = req.body
+        res.status(200).json({success : true});
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 const logout = async (req,res)=>{
     try {
@@ -463,5 +627,10 @@ module.exports = {
     loadEditProduct,
     editProduct,
     removeProduct,
+    orderList,
+    orderDetails,
+    statusChange,
+    loadCoupon,
+    addCoupons,
     logout
 }

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Electro - HTML Ecommerce Template</title>
+
+    <!-- Google font -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700"
+      rel="stylesheet"
+    />
+    
+    <!-- Toastify CSS and JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="css/UserHome.css" />
+    <!-- Sweet alert -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" />
+
+    <style>
+      /* Custom styles */
+      .account-section {
+        margin-top: 30px;
+      }
+      .nav-tabs > li.active > a {
+        background-color: #d10024;
+        color: white;
+      }
+      .tab-content {
+        margin-top: 20px;
+      }
+      .order-table th,
+      .order-table td {
+        text-align: center;
+      }
+      .address-actions button {
+        margin-right: 5px;
+      }
+      .form-group .error {
+    color: #ff3860;
+    font-size: 15px;
+    height: 13px;      
+}
+.form-group.success input {
+    border-color: #09c372;
+}
+
+.form-group.error input {
+    border-color: #ff3860;
+}
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- TOP HEADER -->
+      <div id="top-header">
+        <div class="container">
+          <ul class="header-links pull-left">
+            <li>
+              <a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a>
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a
+              >
+            </li>
+          </ul>
+          <ul class="header-links pull-right">
+            <% if(user){%>
+            <li><a href="/logout">Logout</a></li>
+            <li>
+              <a href="#"><i class="fa fa-user-o"></i> My Account</a>
+            </li>
+
+            <%}else{%>
+            <li><a href="/login">Login</a></li>
+            <%} %>
+          </ul>
+        </div>
+      </div>
+      <!-- /TOP HEADER -->
+
+      <!-- MAIN HEADER -->
+      <div id="header">
+        <!-- container -->
+        <div class="container">
+          <!-- row -->
+          <div class="row">
+            <!-- LOGO -->
+            <div class="col-md-3">
+              <div class="header-logo">
+                <div class="header-logo">
+                  <h2 style="margin-top: 20px">
+                    <a href="/" class="logo">PICK UR PCEE</a>
+                  </h2>
+                </div>
+              </div>
+            </div>
+            <!-- /LOGO -->
+
+            <!-- SEARCH BAR -->
+            <div class="col-md-6">
+              <div class="header-search">
+                <form>
+                  <select class="input-select">
+                    <option value="0">All Categories</option>
+                    <option value="1">Category 01</option>
+                    <option value="1">Category 02</option>
+                  </select>
+                  <input class="input" placeholder="Search here" />
+                  <button class="search-btn">Search</button>
+                </form>
+              </div>
+            </div>
+            <!-- /SEARCH BAR -->
+
+            <!-- ACCOUNT -->
+            <div class="col-md-3 clearfix">
+              <div class="header-ctn">
+                <!-- Wishlist -->
+                <div>
+                  <a href="#">
+                    <i class="fa fa-heart-o"></i>
+                    <span>Your Wishlist</span>
+                    <div class="qty">2</div>
+                  </a>
+                </div>
+                <!-- /Wishlist -->
+
+                <!-- Cart -->
+                <div>
+                  <a href="/cart">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Your Cart</span>
+                    <!-- <div class="qty">3</div> -->
+                  </a>
+                </div>
+                <!-- /Cart -->
+
+                <!-- Menu Toogle -->
+                <div class="menu-toggle">
+                  <a href="#">
+                    <i class="fa fa-bars"></i>
+                    <span>Menu</span>
+                  </a>
+                </div>
+                <!-- /Menu Toogle -->
+              </div>
+            </div>
+            <!-- /ACCOUNT -->
+          </div>
+          <!-- row -->
+        </div>
+        <!-- container -->
+      </div>
+      <!-- /MAIN HEADER -->
+    </header>
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb" class="section">
+      <!-- container -->
+      <div class="container">
+        <!-- row -->
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="breadcrumb-tree">
+              <li><a href="/">Home</a></li>
+              <li>
+                <a href="/account">Account</a>
+              </li>
+              <!-- <li><a href="#">Accessories</a></li>
+                              <li><a href="#">Headphones</a></li>
+                              <li class="active">Product name goes here</li>   -->
+            </ul>
+          </div>
+        </div>
+        <!-- /row -->
+      </div>
+      <!-- /container -->
+    </div>
+    <!-- /BREADCRUMB -->
+    <div class="container">
+      <div class="row account-section">
+        <div class="col-md-12">
+          <div class="section-title">
+            <h3 class="title">Account Management</h3>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <!-- Tabs Navigation -->
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#profile" data-toggle="tab">Profile</a>
+            </li>
+            <li><a href="#orders" data-toggle="tab">Order Details</a></li>
+            <li>
+              <a href="#addresses" data-toggle="tab">Address Management</a>
+            </li>
+          </ul>
+
+          <!-- Tab Content -->
+          <div class="tab-content">
+            <!-- User Profile Section -->
+            <div class="tab-pane fade in active" id="profile">
+              <h3>Profile Information</h3>
+              <form id="form1">
+                <div class="form-group">
+                  <label for="username">First Name:</label>
+                  <input
+                    name="firstName"
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    value="<%= userData.firstName %>"
+                  />
+                  <span class="error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="username">Last Name:</label>
+                  <input
+                    name="lastName"
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    value="<%= userData.lastName %>"
+                  />
+                  <span class="error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="username">Email:</label>
+                  <input
+                    style="cursor: pointer"
+                    disabled
+                    name="email"
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    value="<%= userData.email %>"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="username">Mobile:</label>
+                  <input
+                    maxlength="10"
+                    name="mobile"
+                    type="text"
+                    class="form-control"
+                    id="mobile"
+                    value="<%= userData.mobile %>"
+                  />
+                  <span class="error"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                  Update Profile
+                </button>
+              </form>
+            </div>
+
+            <!-- Order Details Section -->
+            <div class="tab-pane fade" id="orders">
+              <h3>Your Orders</h3>
+              <% if(orders.length >0){%>
+                <table class="table table-striped order-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample Order -->
+                         <% orders.forEach(order=>{%>
+                            <tr>
+                                <td>#<%= order._id %></td>
+                                <td><%= new Date(order.orderedAt).toDateString() %></td>
+                                <td><%= order.orderStatus %></td>
+                                <td>₹<%= order.totalPrice %></td>
+                                <td><a href="/order/orderDetails/<%= order._id %>" class="btn btn-info btn-sm">View</a></td>
+                            </tr>
+                            <%}) %>
+                        
+                        <!-- Additional orders can be added here -->
+                    </tbody>
+                </table>
+                <%}else{%>
+                    <h4 style="text-align: center;">You have not ordered anything</h4>
+                    <%} %>
+             
+            </div>
+
+            <!-- Address Management Section -->
+            <div class="tab-pane fade" id="addresses">
+              <h3>Manage Addresses</h3>
+              <div id="addressManage" class="address-list">
+                <button style="margin-bottom: 20px;" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#addAddressForm">
+                    + Add New Address
+                  </button>
+                  <div id="addAddressForm" class="collapse">
+                    <form id="addressForm">
+                        <!-- Full Name -->
+                        <div class="form-group">
+                          <label for="fullName">Full Name:</label>
+                          <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter Full Name">
+                          <span class="error"></span>
+                        </div>
+                      
+                        <!-- Mobile Number -->
+                        <div class="form-group">
+                          <label for="addMobile">Mobile Number:</label>
+                          <input type="text" class="form-control" id="addMobile" name="addMobile" placeholder="Enter Mobile Number">
+                          <span class="error"></span>
+                        </div>
+                      
+                        <!-- Address -->
+                        <div class="form-group">
+                          <label for="address">Address:</label>
+                          <textarea class="form-control" id="address" name="userAddress" placeholder="Enter Address"></textarea>
+                          <span class="error"></span>
+                        </div>
+                      
+                        <!-- City -->
+                        <div class="form-group">
+                          <label for="city">City:</label>
+                          <input type="text" class="form-control" id="city" name="city" placeholder="Enter City">
+                          <span class="error"></span>
+                        </div>
+                      
+                        <!-- State -->
+                        <div class="form-group">
+                            <label for="state">State:</label>
+                            <select class="form-control" id="state" name="state">
+                              <option value="">Select State</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telangana">Telangana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="West Bengal">West Bengal</option>
+                              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                              <option value="Daman and Diu">Daman and Diu</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Puducherry">Puducherry</option>
+                              <option value="Ladakh">Ladakh</option>
+                              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                            </select>
+                            <span class="error"></span>
+                          </div>
+                          
+                      
+                        <!-- Pincode -->
+                        <div class="form-group">
+                          <label for="pincode">Pincode:</label>
+                          <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter Pincode">
+                          <span class="error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="type">Address Type:</label>
+                            <select class="form-control" id="type" name="type">
+                              <option value="">Select Type</option>
+                              <option value="Home">Home</option>
+                              <option value="Office">Office</option>
+                            </select>
+                            <span class="error"></span>
+                          </div>
+                      
+                        <!-- Alternative Mobile (optional) -->
+                        <div class="form-group">
+                          <label for="altMobile">Alternative Mobile Number (optional):</label>
+                          <input type="text" class="form-control" id="altMobile" name="altMobile" placeholder="Enter Alternative Mobile Number">
+                        </div>
+                      
+                        <!-- Submit Button -->
+                        <button style="margin-bottom: 20px;" type="submit" class="btn btn-success">Save Address</button>
+                      </form>
+                      
+                  </div>
+                <!-- Sample Address -->
+                 <% if(address && address.addresses.length > 0){%>
+                    <% address.addresses.forEach(address =>{%>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                              <p>
+                                <strong style="font-size: 20px;"><%= address.fullName %></strong>
+                                <br><span style="background-color: brown ; color: white; border-radius: 5px; padding: 2px 5px;"><%= address.addressType %></span>
+                                <br> <%= address.address %>
+                                <br> <%= address.city %>
+                                <br> <%= address.state %>
+                                <br> <%= address.mobile %>
+                                <% if(address.altMobile){%>
+                                    <br> <%= address.altMobile %>
+                                    <%} %>
+                              </p>
+                              <div class="address-actions">
+                                <a href="/editAddress/<%= address.fullName %>?from=account">
+                                <button class="btn btn-warning btn-sm">Edit</button>
+                                </a>
+                                <button class="btn btn-danger btn-sm" onclick="deleteAddress('<%= address.fullName %>')">Delete</button>
+                              </div>
+                            </div>
+                          </div>
+                        <%}) %>
+                    
+                    <%}else{%>
+                        <div class="">
+                        <h4 style="text-align: center;">You don't have a address<br> Create one by clicking the add address</h4>
+                          </div>
+                        <%} %>
+                 
+                <!-- Add New Address -->
+                
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- NEWSLETTER -->
+    <div id="newsletter" class="section"></div>
+    <!-- /NEWSLETTER -->
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <!-- top footer -->
+      <div class="section">
+        <!-- container -->
+        <div class="container">
+          <!-- row -->
+          <div class="row">
+            <div class="col-md-3 col-xs-6">
+              <div class="footer">
+                <h3 class="footer-title">About Us</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut.
+                </p>
+                <ul class="footer-links">
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a>
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-envelope-o"></i>email@email.com</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-xs-6">
+              <div class="footer">
+                <h3 class="footer-title">Categories</h3>
+                <ul class="footer-links">
+                  <li><a href="#">Hot deals</a></li>
+                  <li><a href="#">Laptops</a></li>
+                  <li><a href="#">Smartphones</a></li>
+                  <li><a href="#">Cameras</a></li>
+                  <li><a href="#">Accessories</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="clearfix visible-xs"></div>
+
+            <div class="col-md-3 col-xs-6">
+              <div class="footer">
+                <h3 class="footer-title">Information</h3>
+                <ul class="footer-links">
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Orders and Returns</a></li>
+                  <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-xs-6">
+              <div class="footer">
+                <h3 class="footer-title">Service</h3>
+                <ul class="footer-links">
+                  <li><a href="#">My Account</a></li>
+                  <li><a href="#">View Cart</a></li>
+                  <li><a href="#">Wishlist</a></li>
+                  <li><a href="#">Track My Order</a></li>
+                  <li><a href="#">Help</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- /row -->
+        </div>
+        <!-- /container -->
+      </div>
+      <!-- /top footer -->
+
+      <!-- bottom footer -->
+      <div id="bottom-footer" class="section">
+        <div class="container">
+          <!-- row -->
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <ul class="footer-payments">
+                <li>
+                  <a href="#"><i class="fa fa-cc-visa"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-credit-card"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-cc-paypal"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-cc-mastercard"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-cc-discover"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-cc-amex"></i></a>
+                </li>
+              </ul>
+              <span class="copyright">
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                All rights reserved | This template is made with
+                <i class="fa fa-heart-o" aria-hidden="true"></i> by
+                <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </span>
+            </div>
+          </div>
+          <!-- /row -->
+        </div>
+        <!-- /container -->
+      </div>
+      <!-- /bottom footer -->
+    </footer>
+    <!-- /FOOTER -->
+
+    <!-- jQuery Plugins -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/userProfile.js"></script>
+    <!-- <script src="js/userAddressEdit.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        //address remove 
+        function deleteAddress (name) {
+            Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel!",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-secondary",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: `/addressDelete`,
+              type: "DELETE",
+              data : {
+                name
+              },
+              success: function (response) {
+                if (response.success) {
+                  showToast("Deleted successfully","success");
+                  $("#addressManage").load("/account #addressManage")
+                } else {
+                  showToast("Delete failed","error");
+                }
+              },
+              error: function (xhr, status, error) {
+                Swal.fire({
+                  text: "Error deleting item! Try again later.",
+                  icon: "error",
+                  confirmButtonText: "Ok",
+                  buttonsStyling: false,
+                  customClass: {
+                    confirmButton: "btn btn-primary",
+                  },
+                });
+              },
+            });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+              text: "Your data is safe!",
+              icon: "info",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+          }
+        });
+        }
+        
+      
+        
+        // Address form validation and submission script
+        document.addEventListener("DOMContentLoaded",function(){
+          const setError = (input, message) => {
+          const inputControl = input.parentElement;
+          const errorDisplay = inputControl.querySelector(".error");
+          errorDisplay.innerText = message;
+          inputControl.classList.add("error");
+          inputControl.classList.remove("success");
+          isValid = false;
+        };
+        
+        const setSuccess = (input) => {
+          const inputControl = input.parentElement;
+          const errorDisplay = inputControl.querySelector(".error");
+          errorDisplay.innerText = "";
+          inputControl.classList.add("success");
+          inputControl.classList.remove("error");
+        };
+        
+        // Validation function
+        const validateInputs = () => {
+          isValid = true;
+          const fullName = document.getElementById("fullName");
+          const mobile = document.getElementById("addMobile");
+          const address = document.getElementById("address");
+          const city = document.getElementById("city");
+          const state = document.getElementById("state");
+          const pincode = document.getElementById("pincode");
+          const type = document.getElementById("type");
+
+        
+          if (fullName.value.trim() === "") {
+            setError(fullName, "Full Name is required");
+          } else {
+            setSuccess(fullName);
+          }
+        
+          if (mobile.value.trim() === "") {
+            setError(mobile, "Mobile Number is required");
+          } else if (mobile.value.length !== 10) {
+            setError(mobile, "Mobile Number should be exactly 10 digits");
+          } else {
+            setSuccess(mobile);
+          }
+        
+          if (address.value.trim() === "") {
+            setError(address, "Address is required");
+          } else {
+            setSuccess(address);
+          }
+        
+          if (city.value.trim() === "") {
+            setError(city, "City is required");
+          } else {
+            setSuccess(city);
+          }
+        
+          if (state.value === "") {
+            setError(state, "State is required");
+          } else {
+            setSuccess(state);
+          }
+        
+          if (pincode.value.trim() === "") {
+            setError(pincode, "Pincode is required");
+          } else {
+            setSuccess(pincode);
+          }
+
+          if (type.value === "") {
+            setError(type, "Address type is required");
+          } else {
+            setSuccess(type);
+          }
+        
+          return isValid;
+        };
+        
+        // Form submission event listener
+        document.getElementById("addressForm").addEventListener("submit",event => {
+          event.preventDefault();
+          if (validateInputs()) {
+            const formData = $(event.currentTarget).serialize();
+            $.ajax({
+              url: "/addAddress",
+              method: "POST",
+              data: formData, 
+              success: (response) => {
+                if (response.success) {
+                  showToast("Address added successfully", "success");
+                  $("#addressManage").load("/account #addressManage")
+                } else {
+                  showToast(response.message, "error");
+                }
+              },
+              error: (error) => {
+                showToast("Request failed: " + error.responseText, "error");
+              }
+            });
+          }
+        });
+        })
+        
+        
+        
+        
+        // Toast notification function
+        function showToast(message, type) {
+          let backgroundColor;
+        
+          if (type === "success") {
+            backgroundColor = "green";
+          } else if (type === "error") {
+            backgroundColor = "red";
+          } else {
+            backgroundColor = "gray";
+          }
+        
+          Toastify({
+            text: message,
+            duration: 2000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: backgroundColor,
+          }).showToast();
+        }
+        </script>
+        
+  </body>
+</html>

@@ -21,16 +21,16 @@
       <div class="login-form">
         <h2>OTP Verification</h2>
         <% if (success_message.length > 0) { %>
-        <div class="text-success text-center">
+        <div id="flash-success" class="text-success text-center">
           <%= success_message %>
         </div>
         <% } else if (error_message.length > 0) { %>
-        <div class="text-danger text-center">
+        <div id="flash-error" class="text-danger text-center">
           <%= error_message %>
         </div>
         <% } %>
 
-        <form id="form" action="/otp" method="post">
+        <form id="form" method="post" action="/otp">
           <div class="input-group">
             <label for="otp">Enter OTP</label>
             <div class="otp-inputs" id="otp-inputs">
@@ -43,9 +43,9 @@
             </div>
             <div class="error" style="text-align: center"></div>
           </div>
-          <button type="submit" class="primary-btn">Verify</button>
-          <h2 id="timer"></h2>
-          <button type="button" id="resend-otp" class="primary-btn">Resend OTP</button>
+          <button id="submit" type="submit" class="primary-btn">Verify</button>
+          <h6 id="timer" style="text-align: center;"></h6>
+          <button style="display: none;" type="button" id="resend-otp" class="primary-btn">Resend OTP</button>
         </form>
       </div>
     </div>
@@ -119,77 +119,126 @@
         }
       });
 
-      // Handle Resend OTP logic
-      const resendBtn = document.getElementById("resend-otp");
+     document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("form");
+  const resendBtn = document.getElementById("resend-otp");
+  const timerDisplay = document.getElementById("timer");
 
-      resendBtn.addEventListener("click", async function () {
-        try {
-          const response = await fetch("/resendOtp", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+  // Initially hide the resend button
+  resendBtn.style.display = "none";
 
-          const result = await response.json();
-          if (result.success) {
-            showToast("OTP Resent Successfully!", "success");
-            startTimer(); // Restart the timer
-          } else {
-            showToast(result.message, "error");
-          }
-        } catch (error) {
-          showToast("An error occurred while resending OTP", "error");
-        }
+  let timeLimit = 2 * 60 * 1000; // 2 minutes in milliseconds
+  let interval;
+
+  // Timer logic
+  const startTimer = () => {
+    const endTime = Date.now() + timeLimit;
+
+    const updateTimer = () => {
+      const now = Date.now();
+      const timeLeft = endTime - now;
+
+      if (timeLeft > 0) {
+        const minutes = Math.floor(timeLeft / 60000);
+        const seconds = Math.floor((timeLeft % 60000) / 1000);
+        timerDisplay.innerHTML = `OTP expires in ${minutes}m ${seconds}s`;
+      } else {
+        clearInterval(interval);
+        timerDisplay.innerHTML = "OTP has expired!";
+        // Show the resend button when the timer expires
+        resendBtn.style.display = "block";
+      }
+    };
+
+    // Update the timer every second
+    interval = setInterval(updateTimer, 1000);
+  };
+
+  startTimer(); // Start the timer initially
+
+  resendBtn.addEventListener("click", async function () {
+    try {
+      const response = await fetch("/resendOtp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
-      // Timer logic
-      let timeLeft = 120; // Set 2 minutes initially
-      let timerInterval = null; // Initialize a global timer variable
-
-      function startTimer() {
-        clearInterval(timerInterval); // Clear any existing timer before starting a new one
-        timeLeft = 120; // Reset to 2 minutes
-
-        timerInterval = setInterval(() => {
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            document.getElementById("timer").innerText = "OTP expired";
-            document.querySelector("button[type='submit']").disabled = true; // Disable submit button on expiration
-          } else {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById("timer").innerText = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-            timeLeft--;
-          }
-        }, 1000);
+      const result = await response.json();
+      if (result.success) {
+        showToast("OTP Resent Successfully!", "success");
+        timeLimit = 2 * 60 * 1000; // New 2 minutes
+        resendBtn.style.display = "none"; // Hide the resend button again
+        startTimer(); // Restart the timer
+      } else {
+        showToast(result.message, "error");
       }
+    } catch (error) {
+      showToast("An error occurred while resending OTP", "error");
+    }
+  });
 
-      // Call this function when the page loads to start the timer initially
-      startTimer();
+  // Intercept the form submit to send OTP via AJAX
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent the form from submitting normally
 
-      function showToast(message, type) {
-        let backgroundColor;
+    const otp1 = document.getElementById("otp-1").value;
+    const otp2 = document.getElementById("otp-2").value;
+    const otp3 = document.getElementById("otp-3").value;
+    const otp4 = document.getElementById("otp-4").value;
+    const otp5 = document.getElementById("otp-5").value;
+    const otp6 = document.getElementById("otp-6").value;
 
-        // Set the background color based on the type of message
-        if (type === "success") {
-          backgroundColor = "green";
-        } else if (type === "error") {
-          backgroundColor = "red";
-        } else {
-          backgroundColor = "gray"; // Default color for other messages
-        }
+    const otpInput = `${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
 
-        // Initialize Toastify with the appropriate message and style
-        Toastify({
-          text: message,
-          duration: 3000, // Show for 3 seconds
-          close: true,
-          gravity: "top", // Show at the top of the screen
-          position: "right", // Align toast to the right
-          backgroundColor: backgroundColor,
-        }).showToast();
+    try {
+      const response = await fetch("/otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp1, otp2, otp3, otp4, otp5, otp6 }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        showToast("OTP verified successfully!", "success");
+        // Redirect user to another page (e.g., login) after successful OTP verification
+        window.location.href = "/login";
+      } else {
+        showToast(result.message, "error");
       }
-    </script>
+    } catch (error) {
+      showToast("An error occurred during OTP verification", "error");
+    }
+  });
+
+  // Toast notification function
+  function showToast(message, type) {
+    let backgroundColor;
+
+    // Set the background color based on the type of message
+    if (type === "success") {
+      backgroundColor = "green";
+    } else if (type === "error") {
+      backgroundColor = "red";
+    } else {
+      backgroundColor = "gray"; // Default color for other messages
+    }
+
+    // Initialize Toastify with the appropriate message and style
+    Toastify({
+      text: message,
+      duration: 3000, // Show for 3 seconds
+      close: true,
+      gravity: "top", // Show at the top of the screen
+      position: "right", // Align toast to the right
+      backgroundColor: backgroundColor,
+    }).showToast();
+  }
+});
+</script>
   </body>
 </html>

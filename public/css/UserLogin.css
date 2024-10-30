@@ -78,3 +78,24 @@
 .input-group input:focus {
     outline: 0;
 }   
+.input-wrapper {
+  position: relative;
+}
+
+#password {
+  width: 100%;
+  padding-right: 40px; /* Adjust padding to make space for the eye icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 55px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888; /* Optional: eye icon color */
+}
+
+.toggle-password i {
+  font-size: 18px; /* Adjust icon size */
+}

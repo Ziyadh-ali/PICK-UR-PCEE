@@ -1,9 +1,21 @@
+const User = require("../model/userModel");
+
+
 const isLogin = async (req,res,next)=>{
     try{
-        if(req.session.userLogin){
-            next();
+        const userId = req.session.userLogin
+        if(userId){
+            const user = await User.findById(userId);
+            if(!user.isBlocked){
+                next()
+            }else{
+                req.session.userLogin = null
+                req.flash("error_message","You have been blocked")
+                res.redirect("/login");
+            }
+            
         }else{
-            req.flash("success_message","You needed to be login to use this Function")
+            req.flash("error_message","You needed to be login to use this Function")
             res.redirect("/login");
         }
     }catch(error){

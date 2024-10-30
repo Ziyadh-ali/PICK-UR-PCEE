@@ -57,6 +57,16 @@ aRouter.post("/brands/edit/:id",auth.isLogin,adminController.editBrand);
 aRouter.get("/userList",auth.isLogin,adminController.loadUserList);
 aRouter.get("/user/block/:id",auth.isLogin,adminController.blockUser);
 aRouter.get("/user/unblock/:id",auth.isLogin,adminController.unBlockUser);
+// Order 
+aRouter.get("/orderlist",auth.isLogin,adminController.orderList);
+aRouter.get("/orderDetails/:id",auth.isLogin,adminController.orderDetails);
+aRouter.patch("/orderStatus",auth.isLogin,adminController.statusChange);
+// Coupon 
+aRouter.get("/coupons",auth.isLogin,adminController.loadCoupon);
+aRouter.post("/coupons",auth.isLogin,adminController.addCoupons);
+
+
+
 
 aRouter.get("/logout",auth.isLogin,adminController.logout);
 

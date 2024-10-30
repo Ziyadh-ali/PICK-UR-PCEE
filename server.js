@@ -32,6 +32,9 @@ app.use("/", userRouter);
 
 const adminRouter = require("./routes/adminRouter");
 app.use('/admin', adminRouter);
+app.use("*",(req , res)=>{
+    res.render("404");
+})
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);

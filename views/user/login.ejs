@@ -35,9 +35,9 @@
       <div class="login-form">
         <h2>Login</h2>
         <% if(success_message.length > 0) { %>
-        <div class="text-success text-center"><%= success_message %></div>
+        <div id="flash-success" class="text-success text-center"><%= success_message %></div>
         <% } else if(error_message.length > 0) { %>
-        <div class="text-danger text-center"><%= error_message %></div>
+        <div id="flash-error" class="text-danger text-center"><%= error_message %></div>
         <% } %>
         <form id="form" action="/login" method="post">
           <div class="input-group">
@@ -48,9 +48,12 @@
           <div class="input-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" />
+            <span class="toggle-password">
+              <i class="fa-regular fa-eye" id="togglePassword" style="cursor: pointer;color: black;"></i>
+            </span>
             <div class="error"></div>
           </div>
-          <a href="/register">Forgot Password</a>
+          <a href="/forgotPassword">Forgot Password</a>
           <button type="submit" class="primary-btn">Login</button>
           <a href="/google" type="submit" class="primary2-btn">
             <i class="fa-brands fa-google" style="color: #ffffff;display: flex;justify-content: center;margin-top: 12px;"></i>
@@ -60,5 +63,41 @@
       </div>
     </div>
     <script defer src="js/loginValid.js"></script>
+    <script>
+    const togglePassword = document.querySelector("#togglePassword");
+    const password = document.querySelector("#password");
+        
+    togglePassword.addEventListener("click", function () {
+      const type = password.getAttribute("type") === "password" ? "text" : "password";
+      password.setAttribute("type", type);
+    
+      if (this.classList.contains("fa-eye")) {
+    this.classList.remove("fa-eye");
+    this.classList.add("fa-eye-slash");
+  } else {
+    this.classList.remove("fa-eye-slash");
+    this.classList.add("fa-eye");
+  }
+    });
+
+  setTimeout(function() {
+    const successMessage = document.getElementById('flash-success');
+    if (successMessage) {
+      successMessage.style.transition = 'opacity 1s ease'; 
+      successMessage.style.opacity = '0';  
+      setTimeout(function() {
+        successMessage.remove();
+      }, 1000);  
+    }
+    const errorMessage = document.getElementById('flash-error');
+    if (errorMessage) {
+      errorMessage.style.transition = 'opacity 1s ease';
+      errorMessage.style.opacity = '0';
+      setTimeout(function() {
+        errorMessage.remove();
+      }, 1000);
+    }
+  }, 3000);
+    </script>
   </body>
 </html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Evara Dashboard</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="index.html" class="brand-wrap">
+        <h2>PICK UR PCEE</h2>
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item has-submenu active">
+          <a class="menu-link" href="page-products-list.html">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Products</span>
+          </a>
+          <div class="submenu">
+            <a href="/admin/products">Product List</a>
+            <a href="/admin/categories" class="active">Categories</a>
+          </div>
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
+        </li>
+        <li class="menu-item has-submenu">
+          <a class="menu-link" href="page-form-product-1.html">
+            <i class="icon material-icons md-add_box"></i>
+            <span class="text">Add product</span>
+          </a>
+          <div class="submenu">
+            <a href="/admin/addProduct">Add product</a>
+          </div>
+        </li>
+        <li class="menu-item has-submenu">
+          <a class="menu-link" href="page-transactions-1.html">
+            <i class="icon material-icons md-monetization_on"></i>
+            <span class="text">Transactions</span>
+          </a>
+          <div class="submenu">
+            <a href="page-transactions-1.html">Transaction 1</a>
+            <a href="page-transactions-2.html">Transaction 2</a>
+            <a href="page-transactions-details.html">Transaction Details</a>
+          </div>
+        </li>
+        <li class="menu-item has-submenu">
+          <a class="menu-link"> <i class="icon material-icons md-person"></i>
+            <span class="text">User</span>
+          </a>
+          <div class="submenu">
+            <a href="/admin/userList">User List</a>
+          </div>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="page-reviews.html">
+            <i class="icon material-icons md-comment"></i>
+            <span class="text">Reviews</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/brands">
+            <i class="icon material-icons md-stars"></i>
+            <span class="text">Brands</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" disabled href="/admin/coupons">
+            <i class="icon material-icons md-pie_chart"></i>
+            <span class="text">Coupons</span>
+          </a>
+        </li>
+      </ul>
+      <hr />
+      <ul class="menu-aside">
+        <li class="menu-item has-submenu">
+          <a class="menu-link" href="#">
+            <i class="icon material-icons md-settings"></i>
+            <span class="text">Settings</span>
+          </a>
+          <div class="submenu">
+            <a href="page-settings-1.html">Setting sample 1</a>
+            <a href="page-settings-2.html">Setting sample 2</a>
+          </div>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="page-blank.html">
+            <i class="icon material-icons md-local_offer"></i>
+            <span class="text"> Starter page </span>
+          </a>
+        </li>
+      </ul>
+      <br />
+      <br />
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+        <form class="searchform">
+          <div class="input-group">
+            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+            <button class="btn btn-light bg" type="button">
+              <i class="material-icons md-search"></i>
+            </button>
+          </div>
+          <datalist id="search_terms">
+            <option value="Products"></option>
+            <option value="New orders"></option>
+            <option value="Apple iphone"></option>
+            <option value="Ahmed Hassan"></option>
+          </datalist>
+        </form>
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" href="#">
+              <i class="material-icons md-notifications animation-shake"></i>
+              <span class="badge rounded-pill">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
+                class="material-icons md-public"></i></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+              <a class="dropdown-item text-brand" href="#"><img src="/assets/imgs/theme/flag-us.png"
+                  alt="English" />English</a>
+              <a class="dropdown-item" href="#"><img src="/assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+              <a class="dropdown-item" href="#"><img src="/assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+              <a class="dropdown-item" href="#"><img src="/assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="/assets/imgs/people/avatar2.jpg" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+              <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                Profile</a>
+              <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+              <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+              <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+              <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout"><i
+                  class="material-icons md-exit_to_app"></i>Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <section class="content-main">
+      <div class="container mt-5">
+        <h2>Coupon Management</h2>
+
+        <!-- Add Coupon Button -->
+        <!-- Modal Trigger Button -->
+        <!-- Coupon Modal Trigger Button -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCouponModal">
+          Add Coupon
+        </button>
+
+        <!-- Coupon Modal -->
+        <div class="modal fade" id="addCouponModal" tabindex="-1" aria-labelledby="addCouponModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addCouponModalLabel">Add New Coupon</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form id="couponForm">
+                  <!-- Coupon Code -->
+                  <div class="input-group mb-3">
+                    <label for="couponCode" class="form-label">Coupon Code</label>
+                    <input type="text" class="form-control" id="couponCode" name="couponCode" placeholder="Enter coupon code">
+                  </div>
+                
+                  <!-- Coupon Type (Percentage or Fixed) -->
+                  <div class="input-group mb-3">
+                    <label for="couponType" class="form-label">Discount Type</label>
+                    <select class="form-select" id="discountType" name="discountType">
+                      <option value="" selected disabled>Select type</option>
+                      <option value="percentage">Percentage</option>
+                      <option value="fixed">Fixed Amount</option>
+                    </select>
+                  </div>
+                
+                  <!-- Discount Value -->
+                  <div class="input-group mb-3">
+                    <label for="discountValue" class="form-label">Discount Value</label>
+                    <input type="number" class="form-control" id="discountValue" name="discountValue" placeholder="Enter discount value">
+                  </div>
+                
+                  <!-- Minimum Spend -->
+                  <div class="input-group mb-3">
+                    <label for="minSpend" class="form-label">Minimum Discount</label>
+                    <input type="number" class="form-control" id="minSpend" name="minSpend" placeholder="Enter minimum spend amount">
+                  </div>
+                
+                  <!-- Maximum Discount (if percentage) -->
+                  <div class="input-group mb-3">
+                    <label for="maxDiscount" class="form-label">Maximum Discount</label>
+                    <input type="number" class="form-control" id="maxDiscount" name="maxDiscount" placeholder="Enter maximum discount value">
+                  </div>
+                  
+                  <!-- Expiry Date -->
+                  <div class="input-group mb-3">
+                    <label for="expiryDate" class="form-label">Expiry Date</label>
+                    <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                  </div>
+                
+                  <!-- Usage Limit -->
+                  <div class="input-group mb-3">
+                    <label for="usageLimit" class="form-label">Usage Limit</label>
+                    <input type="number" class="form-control" id="usageLimit" name="usageLimit" placeholder="Enter usage limit">
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <label for="useCount" class="form-label">Use Count</label>
+                    <input type="number" class="form-control" id="useCount" name="useCount" placeholder="Enter use count">
+                  </div>
+                
+                  <!-- Status (Active/Inactive) -->
+                  <div class="input-group mb-3">
+                    <label for="couponStatus" class="form-label">Status</label>
+                    <select class="form-select" id="couponStatus" name="couponStatus">
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Coupon</button>
+                  </div>
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Coupon Code</th>
+              <th>Discount</th>
+              <th>Expiry Date</th>
+              <th>Min Purchase</th>
+              <th>Usage Limit</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% coupons.forEach(coupon=> { %>
+              <tr>
+                <td>
+                  <%= coupon.code %>
+                </td>
+                <td>
+                  <%= coupon.discountType==='percentage' ? coupon.discount + '%' : '$' + coupon.discount %>
+                </td>
+                <td>
+                  <%= coupon.expiryDate %>
+                </td>
+                <td>$<%= coupon.minPurchase %>
+                </td>
+                <td>
+                  <%= coupon.usageLimit %>
+                </td>
+                <td>
+                  <%= coupon.active ? 'Active' : 'Inactive' %>
+                </td>
+                <td>
+                  <button class="btn btn-info btn-sm" onclick="editCoupon('<%= coupon._id %>')">Edit</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteCoupon('<%= coupon._id %>')">Delete</button>
+                  <button class="btn btn-secondary btn-sm" onclick="toggleStatus('<%= coupon._id %>')">
+                    <%= coupon.active ? 'Deactivate' : 'Activate' %>
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+
+
+      </div>
+      <!-- card .// -->
+    </section>
+    <!-- content-main end// -->
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          ©, Evara - HTML Ecommerce Template .
+        </div>
+        <div class="col-sm-6">
+          <div class="text-sm-end">All rights reserved</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/vendors/select2.min.js"></script>
+  <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+  <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
+  <!-- Main Script -->
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+  <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const couponCode = document.getElementById('couponCode');
+    const discountType = document.getElementById('discountType');
+    const discountValue = document.getElementById('discountValue');
+    const minSpend = document.getElementById('minSpend');
+    const maxDiscount = document.getElementById('maxDiscount');
+    const expiryDate = document.getElementById('expiryDate');
+    const usageLimit = document.getElementById('usageLimit');
+    const couponForm = document.getElementById('couponForm');
+    const useCount = document.getElementById('useCount');
+
+
+    let isValid = true;
+
+    const setError = (input, message) => {
+      const inputControl = input.parentElement;
+      const errorDisplay = inputControl.querySelector(".error");
+      errorDisplay.innerText = message;
+      inputControl.classList.add("error");
+      inputControl.classList.remove("success");
+      isValid = false;
+    };
+
+    const setSuccess = (input) => {
+      const inputControl = input.parentElement;
+      const errorDisplay = inputControl.querySelector(".error");
+      errorDisplay.innerText = "";
+      inputControl.classList.add("success");
+      inputControl.classList.remove("error");
+    };
+
+    const validateCouponInputs = () => {
+      isValid = true;
+
+      const couponCodeValue = couponCode.value.trim();
+      const discountTypeValue = discountType.value;
+      const discountValueValue = discountValue.value.trim();
+      const minSpendValue = minSpend.value.trim();
+      const maxDiscountValue = maxDiscount.value.trim();
+      const expiryDateValue = expiryDate.value;
+      const usageLimitValue = usageLimit.value.trim();
+      const useCountLimit = useCount.value.trim();
+
+
+      if (couponCodeValue === "") {
+        setError(couponCode, "Please enter a coupon code.");
+      } else {
+        setSuccess(couponCode);
+      }
+
+
+      if (discountTypeValue === "") {
+        setError(discountType, "Please select a coupon type.");
+      } else {
+        setSuccess(discountType);
+      }
+
+
+      if (discountValueValue === "" || parseFloat(discountValueValue) <= 0) {
+        setError(discountValue, "Please enter a valid discount value greater than 0.");
+      } else {
+        setSuccess(discountValue);
+      }
+
+
+      if (minSpendValue === "" || parseFloat(minSpendValue) < 0) {
+        setError(minSpend, "Please enter a valid minimum spend amount.");
+      } else {
+        setSuccess(minSpend);
+      }
+
+
+      if (maxDiscountValue.trim() !== "" && (isNaN(maxDiscountValue) || parseFloat(maxDiscountValue) < 0)) {
+        setError(maxDiscount, "Please enter a valid maximum discount value.");
+      } else {
+        setSuccess(maxDiscount);
+      }
+
+      if (expiryDateValue === "") {
+        setError(expiryDate, "Please select an expiry date.");
+      } else {
+        const today = new Date();
+        const expiry = new Date(expiryDateValue);
+        if (expiry <= today) {
+          setError(expiryDate, "Expiry date must be in the future.");
+        } else {
+          setSuccess(expiryDate);
+        }
+      }
+
+
+      if (usageLimitValue.trim() !== "" && (isNaN(usageLimitValue) || parseInt(usageLimitValue) < 0)) {
+        setError(usageLimit, "Please enter a valid usage limit.");
+      } else {
+        setSuccess(usageLimit);
+      }
+
+      if (useCountLimit.trim() !== "" && (isNaN(useCountLimit) || parseInt(useCountLimit) < 0)) {
+        setError(useCount, "Please enter a valid usage limit.");
+      } else {
+        setSuccess(useCount);
+      }
+      return isValid;
+    };
+
+
+    couponForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = {
+         couponCode: document.getElementById("couponCode").value,
+         discountType: document.getElementById("discountType").value,
+         discountValue: document.getElementById("discountValue").value,
+         minSpend: document.getElementById("minSpend").value,
+         maxDiscount: document.getElementById("maxDiscount").value,
+         expiryDate: document.getElementById("expiryDate").value,
+         usageLimit: document.getElementById("usageLimit").value,
+         couponStatus: document.getElementById("couponStatus").value,
+         useCount : document.getElementById('useCount').value
+
+      };
+
+      if (validateCouponInputs()) {
+        $.ajax({
+          url: "/admin/coupons",
+          type: "POST",
+          contentType: "application/json",
+          data : JSON.stringify(data),  
+          success: function (response) {
+            if (response.success) {
+              showToast("Coupon added successfully", "success");
+            } else {
+              showToast("Coupon not added", "error");
+            }
+          },
+          error : function (error){
+            showToast("Error"+ error, "error");
+          }
+        })
+      }
+    });
+
+    function showToast(message, type) {
+      let backgroundColor;
+
+      if (type === "success") {
+        backgroundColor = "green";
+      } else if (type === "error") {
+        backgroundColor = "red";
+      } else {
+        backgroundColor = "gray";
+      }
+
+      Toastify({
+        text: message,
+        duration: 2000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: backgroundColor,
+      }).showToast();
+    }
+
+
+  </script>
+</body>
+
+</html>

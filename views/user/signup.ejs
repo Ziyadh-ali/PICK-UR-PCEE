@@ -35,9 +35,9 @@
       <div class="login-form">
         <h2>Sign Up</h2>
         <% if(success_message.length > 0) { %>
-        <div class="text-success text-center"><%= success_message %></div>
+        <div id="flash-success" class="text-success text-center"><%= success_message %></div>
         <% } else if(error_message.length > 0) { %>
-        <div class="text-danger text-center"><%= error_message %></div>
+        <div id="flash-error" class="text-danger text-center"><%= error_message %></div>
         <% } %>
 
         <form action="/register" method="post" id="form">
@@ -79,5 +79,25 @@
       </div>
     </div>
     <script defer src="js/signupValid.js"></script>
+    <script>
+       setTimeout(function() {
+    const successMessage = document.getElementById('flash-success');
+    if (successMessage) {
+      successMessage.style.transition = 'opacity 1s ease'; 
+      successMessage.style.opacity = '0';  
+      setTimeout(function() {
+        successMessage.remove();
+      }, 1000);  
+    }
+    const errorMessage = document.getElementById('flash-error');
+    if (errorMessage) {
+      errorMessage.style.transition = 'opacity 1s ease';
+      errorMessage.style.opacity = '0';
+      setTimeout(function() {
+        errorMessage.remove();
+      }, 1000);
+    }
+  }, 3000);
+    </script>
   </body>
 </html>
