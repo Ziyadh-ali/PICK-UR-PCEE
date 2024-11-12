@@ -4598,16 +4598,29 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
     display: none;
   }
 }
-.input-group .error {
+/* Error message styling */
+.error-message {
   color: #ff3860;
-  font-size: 15px;
-  height: 13px;      
+  font-size: 13px;
+  position: absolute;
+  bottom: -18px;
+  left: 0;
 }
-.input-group.success input {
+
+/* Success border styling */
+.success input {
   border-color: #09c372;
 }
 
-.input-group.error input {
+/* Error border styling */
+.error input {
   border-color: #ff3860;
 }
+
+/* Input wrapper styling for consistent spacing */
+.input-group-custom {
+  position: relative;
+  margin-bottom: 30px;
+}
+
 /*# sourceMappingURL=main.css.map */

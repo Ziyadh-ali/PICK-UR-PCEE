@@ -14,7 +14,9 @@ function addWishlist(productId){
                     showConfirmButton : false,
                     timer : 1000
                 });
-                $("#productContainer").load("/shop #productContainer")
+                setTimeout(() => {
+                    $("#productContainer").load("/shop #productContainer")
+                }, 1000);
             } else {
                 Swal.fire({
                     title: "error",

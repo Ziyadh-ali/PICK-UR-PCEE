@@ -5,7 +5,6 @@ let form = document.getElementById('orderDetails');
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
-    
     let selectedAddressElement = document.querySelector('.address-radio:checked');
     let selectedAddress = null;
     
@@ -31,31 +30,62 @@ form.addEventListener('submit', function(event) {
    
     let paymentElement = document.querySelector('input[name="payment"]:checked');
     let selectedPaymentMethod = paymentElement ? paymentElement.value : null;
-    
+    const totalPriceText = document.getElementById("totalPrice").innerHTML;
+    const totalPrice = totalPriceText.replace(/[^\d.-]/g, '');
 
     
    
-    let couponCode = document.getElementById('coupons').value;
 
     
     let orderData = {
+        totalPrice,
         address: selectedAddress,
         paymentMethod: selectedPaymentMethod,
-        coupon: couponCode
     };
 
-    
-    $.ajax({
-        url: '/checkout/placeOrder',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(orderData),
-        success: function(response) {
-            window.location.href = '/orderSuccess';
-        },
-        error: function(error) {
-            // Handle the error response
-            showToast('An error occurred: ' + error,"error");
+    if(selectedPaymentMethod === "Cash on Delivery"){
+        if(totalPrice >= 1000){
+            return showToast("order above 1000 should'nt order cash on delivery","error");
         }
-    });
+        $.ajax({
+            url: '/checkout/placeOrder',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(orderData),
+            success: function(response) {
+                window.location.href = '/orderSuccess';
+            },
+            error: function(error) {
+                showToast('An error occurred: ' + error,"error");
+            }
+        });
+    }else if (selectedPaymentMethod === "Paypal"){
+        $.ajax({
+            url: "/checkout/payWithPaypal",
+            type: "POST",
+            data:  orderData,
+            success: function (response) {
+              if (response.success && response.redirectUrl) {
+                window.location.href = response.redirectUrl;
+              } else {
+                Toastify({
+                  text: "Payment error",
+                  duration: 3000,
+                  gravity: "top",
+                  position: "right",
+                  backgroundColor: "#dc3545",
+                }).showToast();
+              }
+            },
+            error: function () {
+              Toastify({
+                text: "An error occurred",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#dc3545",
+              }).showToast();
+            },
+          });
+        }
 });

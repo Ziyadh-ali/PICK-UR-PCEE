@@ -205,10 +205,15 @@
                           <p class="money">₹<%= product.productId.name %></p>
                         </td>
                         <td class="text-center small--hide">
-                          <a type="button" data-product-id="<%= product.productId._id %>"
-                            class="add-to-cart-btn btn btn-primary" title="Move to Cart">
-                            <i class="icon icon-cart"></i> Add to Cart 
-                          </a>
+                          <% if(product.productId.stock > 0){%>
+                            <a type="button" data-product-id="<%= product.productId._id %>"
+                              class="add-to-cart-btn btn btn-primary" title="Move to Cart">
+                              <i class="icon icon-cart"></i> Add to Cart 
+                            </a>
+                            <%}else{%>
+                                <p style="color:red;">Product is out of stock</p>
+                              <%} %>
+                          
                           <a onclick="removeWishlist('<%= product.productId._id %>')" type="button"
                             class="wishlistRemove btn btn-secondary" title="Remove Item">
                             <i class="icon icon anm anm-times-l"></i>

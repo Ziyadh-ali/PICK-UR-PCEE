@@ -17,9 +17,12 @@ const cartSchema = new mongoose.Schema({
                 min : 1,
                 max : 5
             },
-            offerPrice : Number,
+            price : Number,
         },
     ],
+    totalPrice : {
+        type : Number,
+    }
   },
   {timestamps : true}
 );

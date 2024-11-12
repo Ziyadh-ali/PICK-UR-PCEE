@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
 
-const couponSchema = new mongoose.Schema({
-    code : {
+const offerSchema = new mongoose.Schema({
+    offerName : {
         type : String,
         required : true,
-        trim : true,
-        uppercase : true
     },
     discountType : {
         type : String,
@@ -29,13 +27,15 @@ const couponSchema = new mongoose.Schema({
         type : Date,
         required : true
     },
-    usageLimit : {
-        type : Number,
+    brands : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Brands",
         default : null 
     },
-    usedCount : {
-        type : Number,
-        default : 0 
+    categories : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Category",
+        default : null 
     },
     isActive : {
         type : Boolean,
@@ -45,4 +45,4 @@ const couponSchema = new mongoose.Schema({
     timestamps : true
 });
 
-module.exports = mongoose.model("Coupon",couponSchema);
+module.exports = mongoose.model("Offer",offerSchema);

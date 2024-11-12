@@ -5,8 +5,11 @@ const Product = require("../model/productModel");
 const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
+const excelJS = require("exceljs");
 const bcrypt = require("bcrypt");
-const Order = require("../model/orderModel")
+const Order = require("../model/orderModel");
+const Coupon = require("../model/couponModel");
+const Offer = require("../model/offerModel");
 
 
 const adminLogin = async (req, res) => {
@@ -54,13 +57,21 @@ const verifyAdmin = async (req, res) => {
 }
 const loadDashboard = async (req, res) => {
     try {
-        res.render("dashboard");
+        const order = await Order.find({orderStatus : "Delivered"})
+        const totalOrders = order.length
+        const totalRevenue = order.reduce((acc,curr)=>{
+            return acc += curr.totalPrice
+        },0)
+        res.render("dashboard",{
+            totalOrders,
+            totalRevenue
+        });
     } catch (error) {
         console.log(error);
     }
 }
 
-//Product Controllers
+
 
 const loadProducts = async (req, res) => {
     try {
@@ -88,7 +99,7 @@ const loadAddProduct = async (req, res) => {
 const addProduct = async (req, res) => {
 
     try {
-        const { productName, productDescription, productSpecification, brand, stock, mrp, price, category } = req.body;
+        const { productName, productDescription, productSpecification, brand, stock,  price, category } = req.body;
         const productExists = await Product.findOne({
             name:{ $regex: new RegExp(productName, "i") }
         });
@@ -113,8 +124,7 @@ const addProduct = async (req, res) => {
                 brands: brand,
                 category: category,
                 stock: stock,
-                price: mrp,
-                offerPrice: price,
+                price: price,
                 image: images, 
             });
             await newProduct.save();
@@ -132,7 +142,7 @@ const editProduct = async (req, res) => {
     try {
         const id = req.params.id;
         const product = await Product.findOne({_id:id});
-        const data = req.body;
+        const data = req.body
         const existingProduct = await Product.findOne({
             productName:data.productName,
             _id:{$ne:id}
@@ -148,20 +158,25 @@ const editProduct = async (req, res) => {
         }
 
         const updateFields = {
-            productName : data.productName,
-            description : data.description,
-            brand : data.brand,
+            name : data.productName,
+            description : data.productDescription,
+            specification : data.productSpecification,
+            brands : data.brand,
             category : data.category,
             stock : data.stock,
-            price : data.mrp,
-            offerPrice : data.price,
+            price : data.price,
         }
         if(req.files.length>0){
             updateFields.$push = {image: {$each:images}};
         }
 
-        await Product.findByIdAndUpdate(id,updateFields,{new:true});
-        res.redirect("/admin/products");
+        const productSave = await Product.findByIdAndUpdate(id,updateFields);
+        if(productSave){
+            res.redirect("/admin/products");
+        }else{
+            console.log("not edited")
+        }
+        
     } catch (error) {
         
     }
@@ -504,75 +519,7 @@ const statusChange = async (req,res)=>{
 }
 const loadCoupon = async (req,res)=>{
     try {
-        
-const coupons = [
-    {
-        id: "1",
-        code: "SUMMER10",
-        description: "Get 10% off on all items",
-        discount: "10%",
-        discountType: "Percentage",
-        minPurchase: "$50",
-        expiryDate: "2024-12-31",
-        usageLimit: "100 uses",
-        status: "Active"
-    },
-    {
-        id: "2",
-        code: "NEW25",
-        description: "25% off for new users",
-        discount: "25%",
-        discountType: "Percentage",
-        minPurchase: "$100",
-        expiryDate: "2025-01-15",
-        usageLimit: "1 use per customer",
-        status: "Active"
-    },
-    {
-        id: "3",
-        code: "FREESHIP",
-        description: "Free shipping on all orders",
-        discount: "Free Shipping",
-        discountType: "Flat",
-        minPurchase: "No minimum",
-        expiryDate: "2024-11-30",
-        usageLimit: "200 uses",
-        status: "Active"
-    },
-    {
-        id: "4",
-        code: "FLASH20",
-        description: "Limited time 20% off",
-        discount: "20%",
-        discountType: "Percentage",
-        minPurchase: "$75",
-        expiryDate: "2024-10-31",
-        usageLimit: "50 uses",
-        status: "Expired"
-    },
-    {
-        id: "5",
-        code: "BLACKFRIDAY",
-        description: "50% off on Black Friday",
-        discount: "50%",
-        discountType: "Percentage",
-        minPurchase: "$200",
-        expiryDate: "2024-11-29",
-        usageLimit: "100 uses",
-        status: "Active"
-    },
-    {
-        id: "6",
-        code: "WELCOME5",
-        description: "Flat $5 discount for new customers",
-        discount: "$5",
-        discountType: "Flat",
-        minPurchase: "$20",
-        expiryDate: "2024-12-15",
-        usageLimit: "1 use per customer",
-        status: "Active"
-    }
-];
+        const coupons = await Coupon.find();
 
         res.render("coupons",({
             coupons
@@ -584,11 +531,469 @@ const coupons = [
 const addCoupons = async (req,res)=>{
     try {
         const data = req.body
-        res.status(200).json({success : true});
+        if(data.couponCode !== data.couponCode.toUpperCase()){
+            return res.status(200).json({success : false , message : "Coupon code should be in capital"});
+         }
+        const coupon = await Coupon.findOne({code : data.couponCode.trim().toString()})
+        if(coupon){
+           return res.status(200).json({success : false , message : "coupon already exists"});
+        }
+        const newCoupon = new Coupon({
+            code : data.couponCode,
+            discountType : data.discountType,
+            discountValue : data.discountValue,
+            minPurchaseValue : data.minSpend,
+            maxPurchaseValue : data.maxDiscount,
+            expiryDate : data.expiryDate,
+            usageLimit : data.usageLimit,
+        })
+        const save = await newCoupon.save();
+        if(save){
+            res.status(200).json({success : true});
+        }else{
+            res.status(200).json({success : false, message : "Coupon not added"});
+        }
+        
     } catch (error) {
         console.error(error);
     }
 }
+const couponRemove = async (req,res)=>{
+    try {
+        const {id} = req.params;
+        const remove = await Coupon.findByIdAndDelete(id);
+        if(remove){
+            res.status(200).json({success : true});
+        }else{
+            res.status(200).json({success : false});
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+//offer
+const loadOffer = async (req,res)=>{
+    try {
+        const offers = await Offer.find().populate('brands').populate('categories')
+        const Brands = await Brand.find({status : true});
+        const Categories = await Category.find({status : true})
+        res.render("offers",({
+            offers,
+            Brands,
+            Categories,
+        }));
+    } catch (error) {
+        console.error(error);
+    }
+}
+const addOffer = async (req,res)=>{
+    try {
+        const data = req.body
+        const offer = new Offer({
+            offerName : data.offerName,
+            discountType : data.discountType,
+            discountValue : data.discountValue,
+            minPurchaseValue : data.minSpend,
+            maxPurchaseValue : data.maxDiscount,
+            expiryDate : data.expiryDate,
+            brands : data.brand ? data.brand : null,
+            categories : data.category ? data.category : null,
+        })
+
+        const save = await offer.save();
+        if(save){
+            let query = {}
+            if(data.brand && data.category ){
+                query = {brands : data.brand , categories : data.category}
+            }else if (data.brand){
+                query = {brands : data.brand}
+            }else if (data.category){
+                query = {category : data.category}
+            }
+            const products = await Product.find(query);
+            const currentDate = new Date();
+            for(let product of products){
+                let skipUpdate = false;
+                if(product.offerId){
+                    const existingOffer = await Offer.findById(product.offerId);
+                    if(existingOffer){
+                        const timeDifference = (new Date(existingOffer.expiryDate)-currentDate) / (1000 * 60 * 60 * 24);
+                        
+                        if(timeDifference >= 5) {
+                            skipUpdate = true
+                        }
+                    }
+                }
+                if(!skipUpdate){
+                    let newOfferPrice = 0;
+                    if(offer.discountType === "percentage"){
+                         newOfferPrice = (product.price * offer.discountValue / 100)
+                    }else if (offer.discountType === "fixed"){
+                        newOfferPrice = offer.discountValue
+                    }
+
+                    product.offerPrice = newOfferPrice
+                    product.offerId = offer._id;
+                    await product.save();
+                }
+            }
+            res.status(200).json({success : true});
+        }else{
+            res.status(200).json({success : false});
+        }
+        
+    } catch (error) {
+        console.error(error);
+    }
+}
+const offerRemove = async (req,res)=>{
+    try {
+        const {id} = req.params;
+        const productsWithOffer = await Product.find({ offerId: id });
+        for(let product of productsWithOffer){
+            product.offerId = null
+            product.offerPrice = null
+            await product.save()
+        }
+        if(productsWithOffer){
+            const remove = await Offer.findByIdAndUpdate(id,{isActive : false});
+            res.status(200).json({success : true});
+        }else{
+            res.status(200).json({success : false});
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+// sales report 
+const loadSalesReport = async (req,res)=>{
+    try {
+        const salesReports = await Order.find({orderStatus : "Delivered"}).populate("products.productId")
+        const totalOrders = salesReports.length
+        const totalRevenue = salesReports.reduce((acc,curr)=>{
+            return acc += curr.totalPrice
+        },0)
+    
+        let totalOfferDiscount = 0;
+        let totalCouponDiscount = 0
+        salesReports.forEach(sale => {
+            sale.products.forEach(product => {
+                if (product.productId.offerId) {
+                    const discount = product.productId.offerPrice * product.quantity;
+                    totalOfferDiscount += discount;
+                }
+            });
+            totalCouponDiscount += sale.discountValue
+            
+        });
+        const totalDiscount = totalOfferDiscount+totalCouponDiscount;
+        
+        res.render("salesReport",({
+            sales : salesReports,
+            totalOrders,
+            totalRevenue,
+            totalDiscount,
+            totalOfferDiscount,
+            totalCouponDiscount,
+        }));
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const generateRreport =  async (req, res) => {
+    try {
+    const { startDate, endDate, reportType } = req.body;
+    console.log(req.body)
+
+    let start, end ;
+
+    const currentDate = new Date();
+    if (reportType === "weekly") {
+
+      const dayOfWeek = currentDate.getDay();
+      start = new Date(currentDate);
+      start.setDate(currentDate.getDate() - dayOfWeek);
+      start.setHours(0, 0, 0, 0);
+
+      end = new Date(currentDate);
+      end.setHours(23, 59, 59, 999);
+    } else if (reportType === "monthly") {
+
+      start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      end = new Date(currentDate);
+      end.setHours(23, 59, 59, 999);
+    } else if (reportType === "yearly") {
+
+      start = new Date(currentDate.getFullYear(), 0, 1);
+      end = new Date(currentDate);
+      end.setHours(23, 59, 59, 999);
+    } else if (startDate && endDate) {
+
+      start = new Date(startDate);
+      end = new Date(endDate);
+      end.setHours(23, 59, 59, 999); 
+    } else if (reportType === "all") {
+        start = new Date(0);
+        end = new Date(currentDate); 
+        end.setHours(23, 59, 59, 999);
+    } else {
+      return res.status(400).json({ error: "Invalid date range or report type." });
+    }
+
+      const matchQuery = { orderedAt: { $gte: start, $lte: end },orderStatus : "Delivered" };
+      const reportData = await Order.find(matchQuery).populate('products.productId');
+      const totalOrders = reportData.length
+        const totalRevenue = reportData.reduce((acc,curr)=>{
+            return acc += curr.totalPrice
+        },0)
+    
+        let totalOfferDiscount = 0;
+        let totalCouponDiscount = 0
+        reportData.forEach(data => {
+            data.products.forEach(product => {
+                if (product.productId.offerId) {
+                    const discount = product.productId.offerPrice * product.quantity;
+                    totalOfferDiscount += discount;
+                }
+            });
+            totalCouponDiscount += data.discountValue
+            
+        });
+        const totalDiscount = totalOfferDiscount+totalCouponDiscount;
+      res.status(200).json({
+        data : reportData , 
+        totalRevenue,
+        totalOrders,
+        totalDiscount,
+        totalCouponDiscount,
+        totalOfferDiscount
+     });
+    } catch (error) {
+      console.error( "Failed to generate report" );
+    }
+}
+const downloadExcel = async (req,res)=>{
+    const data = req.body.salesData
+    const {totalOrders,totalRevenue,totalDiscount,totalOfferDiscount,totalCouponDiscount} = req.body
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sales Report');
+
+    worksheet.addRow(['Summary']);
+    worksheet.addRow(['Total Orders:', totalOrders]);
+    worksheet.addRow(['Total Revenue:', `₹${totalRevenue}`]);
+    worksheet.addRow(['Total Discounts:', `₹${totalDiscount}`]);
+    worksheet.addRow(['Discount through Offer:', `₹${totalOfferDiscount}`]);
+    worksheet.addRow(['Discount through Coupon:', `₹${totalCouponDiscount}`]);
+    worksheet.addRow([]);
+
+    worksheet.addRow(['Order ID', 'Buyer Name', 'Quantity', 'Total', 'Order Date', 'Status']);
+    
+    data.forEach(sale => {
+        worksheet.addRow([
+            sale.id,
+            sale.fullName,
+            sale.quantity,
+            sale.totalPrice,
+            sale.orderedAt,
+            sale.orderStatus
+        ]);
+    });
+    
+    res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader(
+        'Content-Disposition',
+        'attachment; filename="SalesReport.xlsx"'
+    );
+
+    await workbook.xlsx.write(res);
+    res.end();
+}
+const saleChart = async (req, res) => {
+    try {
+        const { filter } = req.query;
+        let start, end;
+
+        const currentDate = new Date();
+        switch (filter) {
+            case "weekly":
+                const dayOfWeek = currentDate.getDay();
+                start = new Date(currentDate);
+                start.setDate(currentDate.getDate() - dayOfWeek);
+                start.setHours(0, 0, 0, 0);
+
+                end = new Date(currentDate);
+                end.setHours(23, 59, 59, 999);
+                break;
+
+            case "monthly":
+                start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+                end = new Date(currentDate);
+                end.setHours(23, 59, 59, 999);
+                break;
+
+            case "yearly":
+                start = new Date(currentDate.getFullYear(), 0, 1);
+                end = new Date(currentDate);
+                end.setHours(23, 59, 59, 999);
+                break;
+        }
+
+        const matchQuery = { orderedAt: { $gte: start, $lte: end }, orderStatus: "Delivered" };
+        const reportData = await Order.find(matchQuery);
+        const aggregatedData = reportData.reduce((acc, curr) => {
+            let label;
+            if (filter === "weekly") {
+                label = curr.orderedAt.toLocaleString('en-us', { weekday: 'long' });
+            } else if (filter === "monthly") {
+                label = curr.orderedAt.toLocaleString('en-us', { month: 'long' });
+            } else if (filter === "yearly") {
+                label = curr.orderedAt.toLocaleString('en-us', { month: 'short', year: 'numeric' });
+            }
+
+            const existingLabel = acc.find(item => item.label === label);
+            if (existingLabel) {
+                existingLabel.total += curr.totalPrice;
+            } else {
+                acc.push({ label: label, total: curr.totalPrice });
+            }
+            return acc;
+        }, []);
+
+        res.status(200).json(aggregatedData);
+
+    } catch (error) {
+        console.error("Error generating sales chart data:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+const topProducts = async (req, res) => {
+    try {
+        
+        const topProducts = await Order.aggregate([
+            { $match: { orderStatus: "Delivered" } },
+            { $unwind: "$products" },
+            { 
+                $group: {
+                    _id: "$products.productId",
+                    totalSold: { $sum: "$products.quantity" }
+                }
+            },
+            { $sort: { totalSold: -1 } },
+            { $limit: 10 }
+        ]);
+
+        const productIds = topProducts.map(item => item._id);
+
+        const products = await Product.find({ '_id': { $in: productIds } }).select('name _id');
+
+        const populatedProducts = topProducts.map(product => {
+            const productData = products.find(p => p._id.toString() === product._id.toString());
+            return {
+                label: productData ? productData.name : 'Unknown Product',
+                total: product.totalSold
+            };
+        });
+
+        res.status(200).json(populatedProducts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "An error occurred" });
+    }
+};
+const topCategories = async (req, res) => {
+    try {
+        const categories = await Order.aggregate([
+            {$match : {orderStatus : "Delivered"}},
+            { $unwind: "$products" },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "products.productId",
+                    foreignField: "_id",
+                    as: "productDetails"
+                }
+            },
+            { $unwind: "$productDetails" },
+            {
+                $group: {
+                    _id: "$productDetails.category",
+                    total: { $sum: "$products.quantity" }
+                }
+            },
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "categoryDetails"
+                }
+            },
+            { $unwind: "$categoryDetails" },
+            { $sort: { total: -1 } },
+            { $limit: 10 }
+        ]);
+
+        const formattedCategories = categories.map(cat => ({
+            label: cat.categoryDetails.name,
+            total: cat.total
+        }));
+
+        res.json(formattedCategories);
+    } catch (error) {
+        console.error("Error fetching top categories:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+const topBrands = async (req, res) => {
+    try {
+        const brands = await Order.aggregate([
+            {$match : {orderStatus : "Delivered"}},
+            { $unwind: "$products" }, 
+            {
+                $lookup: {
+                    from: "products", 
+                    localField: "products.productId",
+                    foreignField: "_id",
+                    as: "productDetails"
+                }
+            },
+            { $unwind: "$productDetails" }, 
+            {
+                $group: {
+                    _id: "$productDetails.brands",
+                    total: { $sum: "$products.quantity" } 
+                }
+            },
+            {
+                $lookup: {
+                    from: "brands",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "brandDetails"
+                }
+            },
+            { $unwind: "$brandDetails" },
+            { $sort: { total: -1 } },
+            { $limit: 10 }
+        ]);
+
+        const formattedBrands = brands.map(brand => ({
+            label: brand.brandDetails.name,
+            total: brand.total
+        }));
+
+        res.json(formattedBrands);
+    } catch (error) {
+        console.error("Error fetching top brands:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
 
 const logout = async (req,res)=>{
     try {
@@ -632,5 +1037,16 @@ module.exports = {
     statusChange,
     loadCoupon,
     addCoupons,
+    couponRemove,
+    loadOffer,
+    addOffer,
+    offerRemove,
+    loadSalesReport,
+    generateRreport,
+    downloadExcel,
+    saleChart,
+    topProducts,
+    topCategories,
+    topBrands,
     logout
 }

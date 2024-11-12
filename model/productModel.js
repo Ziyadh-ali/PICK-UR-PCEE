@@ -25,11 +25,16 @@ const productSchema = new mongoose.Schema({
         type : Number
     },
     price : {
-        type : Number,
-        
+        type : Number 
+    },
+    offerId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Offer",
+        default : null
     },
     offerPrice : {
-        type : Number 
+        type : Number ,
+        default : null
     },
     isActive : {
         type : Boolean,

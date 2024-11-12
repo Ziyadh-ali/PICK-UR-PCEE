@@ -163,7 +163,7 @@
 									<a href="/wishlist">
 										<i class="fa fa-heart-o"></i>
 										<span>Your Wishlist</span>
-										<div class="qty">2</div>
+										<!-- <div class="qty">2</div> -->
 									</a>
 								</div>
 								<!-- /Wishlist -->
@@ -246,6 +246,11 @@
 
 											<div class="product-img">
 												<img src="/uploads/re-image/<%= product.image[0] %>" alt="">
+												<% if(product.offerId){%>
+													<div class="product-label">
+														<span class="sale">Offer Available</span>
+													</div>
+													<%} %>
 												<!-- <div class="product-label">
 													<span class="sale">-30%</span>
 													<span class="new">NEW</span>
@@ -259,15 +264,13 @@
 														<%} %>
 												<p class="product-category"><%= product.category.name %></p>
 												<h3 class="product-name"><a href="/product_details/<%= product._id %>"><%= product.name %></a></h3>
-												<h4 class="product-price">₹<%= product.offerPrice %> <del class="product-old-price">₹<%= product.price %> </del></h4>
-												
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
+												<% if(product.offerId){%>
+													<h4 class="product-price">₹<%= product.price - product.offerPrice %>
+														<del class="product-old-price">₹<%= product.price %> </del></h4>
+													<%}else{%>
+														<h4 class="product-price">₹<%= product.price %></h4>
+														<%} %>
+
 												<div class="product-btns">
 													<% const inWishlist = wishlist && wishlist.products.some(item => item.productId.toString() === product._id.toString())%>
 																<% if (inWishlist) { %>
@@ -284,7 +287,6 @@
 																		wishlist</span></button>
 																<% } %>
 													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 												</div>
 											</div>
 											<% if(product.stock <=0){%>
@@ -475,7 +477,10 @@ function addWishlist(productId){
                     showConfirmButton : false,
                     timer : 1000
                 });
-                location.reload()
+				setTimeout(() => {
+					location.reload()
+				}, 1000);
+                
             } else {
                 Swal.fire({
                     title: "error",
@@ -508,7 +513,9 @@ function removeWishlist(productId){
                     showConfirmButton : false,
                     timer : 1000
                 });
-                location.reload()
+                setTimeout(() => {
+					location.reload()
+				}, 1000);
             } else {
                 Swal.fire({
                     title: "error in removing",

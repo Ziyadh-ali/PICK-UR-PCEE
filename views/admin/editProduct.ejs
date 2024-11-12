@@ -13,10 +13,15 @@
     <meta property="og:image" content="">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- Template CSS -->
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -28,7 +33,8 @@
                 <h2>PICK UR PCEE</h2>
             </a>
             <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
             </div>
         </div>
         <nav>
@@ -38,49 +44,40 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item has-submenu active">
-                    <a class="menu-link"> <i class="icon material-icons md-shopping_bag"></i>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
-                    <div class="submenu">
-                        <a href="/admin/products" class="active">Product List</a>
-                        <a href="/admin/categories">Categories</a>
-                    </div>
                 </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
                 </li>
-                <li class="menu-item has-submenu ">
-                    <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
-                        <span class="text">Add product</span>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
+                        <span class="text">Categories</span>
                     </a>
-                    <div class="submenu">
-                        <a href="/admin/addProduct" >Add product</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Transactions</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-transactions-1.html">Transaction 1</a>
-                        <a href="page-transactions-2.html">Transaction 2</a>
-                        <a href="page-transactions-details.html">Transaction Details</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link"> <i class="icon material-icons md-person"></i>
-                        <span class="text">User</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin/userList">User List</a>
-                    </div>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
+                    <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Add product</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/salesReport">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Sales Report</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
+                        <span class="text">User</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
+                        <span class="text">Offers</span>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -88,83 +85,32 @@
                         <span class="text">Brands</span> </a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
+                    <a class="menu-link" href="/admin/coupons">
+                        <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Coupons</span>
                     </a>
                 </li>
             </ul>
-            <hr>
-            <ul class="menu-aside">
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                        <span class="text">Settings</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-settings-1.html">Setting sample 1</a>
-                        <a href="page-settings-2.html">Setting sample 2</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text"> Starter page </span>
-                    </a>
-                </li>
-            </ul>
-            <br>
-            <br>
         </nav>
     </aside>
     <main class="main-wrap">
         <header class="main-header navbar">
             <div class="col-search">
-                <form class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
-                        <option value="Products">
-                        <option value="New orders">
-                        <option value="Apple iphone">
-                        <option value="Ahmed Hassan">
-                    </datalist>
-                </form>
             </div>
             <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+                    <i class="material-icons md-apps"></i>
+                </button>
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link btn-icon" href="#">
-                            <i class="material-icons md-notifications animation-shake"></i>
-                            <span class="badge rounded-pill">3</span>
+                        <a class="nav-link btn-icon darkmode" href="#">
+                            <i class="material-icons md-nights_stay"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                    </li>
                     <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-                            <a class="dropdown-item text-brand" href="#"><img src="/assets/imgs/theme/flag-us.png" alt="English">English</a>
-                            <a class="dropdown-item" href="#"><img src="/assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
-                            <a class="dropdown-item" href="#"><img src="/assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
-                            <a class="dropdown-item" href="#"><img src="/assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
-                        </div>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/assets/imgs/people/avatar2.jpg" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                        </div>
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                class="material-icons md-exit_to_app"></i>Logout</a>
+
                     </li>
                 </ul>
             </div>
@@ -173,195 +119,224 @@
             <div class="row">
                 <div class="col-6">
                     <div class="content-header">
-                        <h2 class="content-title">Add New Product</h2>
+                        <h2 class="content-title"> Edit Product</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card mb-4">
-                        <form id="form"  action="/admin/products/edit/<%= product._id %>" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
+                        <form id="form" action="/admin/products/edit/<%= product._id %>" method="post"
+                            enctype="multipart/form-data" onsubmit="validateAndSubmit(); return false;">
                             <% if (right_message) { %>
                                 <div class="text-success text-center" style="color: green">
-                                  <%= right_message %>
-                                </div>
-                                <% } %> <% if (err_message) { %>
-                                <div class="text-danger text-center" style="color: red">
-                                  <%= err_message %>
+                                    <%= right_message %>
                                 </div>
                                 <% } %>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <h6>1. General info</h6>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="mb-4">
-                                            <label class="form-label">Product title</label>
-                                            <input id="productName" value="<%= product.name %>" name="productName" type="text" placeholder="Type here" class="form-control">
-                                            <div id="productName-error" class="error-message" style="display:none; color:red;"></div>
+                                    <% if (err_message) { %>
+                                        <div class="text-danger text-center" style="color: red">
+                                            <%= err_message %>
                                         </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Description</label>
-                                            <textarea id="descrptionid" name="productDescription" placeholder="Type here" class="form-control" rows="4"><%= product.description %></textarea>
-                                            <div id="description-error" class="error-message" style="display:none; color:red;"></div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Specification</label>
-                                            <textarea id="specificationid" name="productSpecification" placeholder="Type here" class="form-control" rows="4"><%= product.specification %></textarea>
-                                            <div id="specification-error" class="error-message" style="display:none; color:red;"></div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Brand name</label>
-                                            <select class="form-select" name="brand" required>
-                                                <% Brands.forEach(brand => { %>
-                                                    <option value="<%= brand._id %>" <%= (product.brands && product.brands.equals(brand._id)) ? 'selected' : '' %>>
-                                                        <%= brand.name %>
-                                                    </option>
-                                                <% }) %>
-                                            </select>
-                                            
-                                            
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Stock</label>
-                                            <input id="stock" value="<%= product.stock %>" name="stock" type="text" placeholder="Type here" class="form-control">
-                                            <div id="stock-error" class="error-message" style="display:none; color:red;"></div>
-                                        </div>
-                                    </div> <!-- col.// -->
-                                </div> <!-- row.// -->
-                                <hr class="mb-4 mt-0">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <h6>2. Pricing</h6>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="mb-4">
-                                            <label class="form-label">MRP</label>
-                                            <input id="mrp" value="<%= product.price %>" name="mrp" type="text" placeholder="$00.0" class="form-control">
-                                            <div id="mrp-error" class="error-message" style="display:none; color:red;"></div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">PUP Price</label>
-                                            <input id="price" value="<%= product.offerPrice %>" name="price" type="text" placeholder="$00.0" class="form-control">
-                                            <div id="salePrice-error" class="error-message" style="display:none; color:red;"></div>
-                                        </div>
-                                    </div> <!-- col.// -->
-                                </div> <!-- row.// -->
-                                <hr class="mb-4 mt-0">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <h6>3. Category</h6>
-                                    </div>
-                                    <div class="mb-4">
-                                        <select class="form-select" name="category">
-                                            <% Categories.forEach(category =>{ %>
-                                                <option value="<%= category._id %>" <%= (product.category && product.category.equals(category._id)) ? 'selected' : '' %>> <%= category.name %> </option>
-                                                <%}) %>
-                                        </select>
-                                    </div>
-                                    <div id="category-error" class="error-message"></div>
-                                </div> <!-- row.// -->
-                                <div class="row">
-                                    <div class="card mb-2">
-                                        <div class="card-header">
-                                            <h6>4. Choose images</h6>
-                                        </div>
-                                           <% for(let i=0;i<product.image.length;i++){%>
-                                            <div class="col-md-12">
-                                                <div class="mb-4">
-                                                    <div class="col-12">
-                                                        <td>
-                                                            <input type="hidden" value="<%= product.image[i] %>" id="imageDatas">
-                                                            <img class="rounded" style="width: 50px; height: 60px;"
-                                                                src="/uploads/re-image/<%= product.image[i] %>"
-                                                                alt="">
-                                                            <i onclick="deleteSingleImage('<%= product.image[i]%>','<%=product._id%>')" style="position: absolute; margin-left: .5rem; cursor: pointer;" class="fa-thin fa-x"></i>
-                                                        </td>
+                                        <% } %>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h6>1. General info</h6>
                                                     </div>
-                                                   
-                                                </div>
-                                            </div>
-                                            <%} %>
-                                                
-         
-                                </div>
-                                <hr class="mb-4 mt-0">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <h6>5. Media</h6>
-                                    </div>
-                                   
-                                            <!-- <label class="form-label">Images</label>
-                                            <input id="productImages" name="productImages" accept="image/*" class="form-control" type="file" multiple> -->
-                                            <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                                <img src="" alt="" id="imgView1">
-                                                                            <input class="form-control" type="file" name="images" id="input1"
-                                                                                accept="image/png, image/jpeg, image/jpg"
-                                                                                onchange="viewImage1(event), viewImage(event, 1)">
-                                                                                <div id="images1-error" class="error-message" style="display:none; color:red;"></div>
-                                        </div>
-                                        <div class="image-cropper d-flex align-items-center"
-                                                                   style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                                                   <img src="" id="croppedImg1" alt="">
-                                                                   <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
-                                        </div>
-                                </div>
+                                                    <div class="col-md-9">
+                                                        <div class="mb-4">
+                                                            <label class="form-label">Product title</label>
+                                                            <input id="productName" value="<%= product.name %>"
+                                                                name="productName" type="text" placeholder="Type here"
+                                                                class="form-control">
+                                                            <span class="error" style="color: red;"></span>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label class="form-label">Description</label>
+                                                            <textarea id="descrptionid" name="productDescription"
+                                                                placeholder="Type here" class="form-control"
+                                                                rows="4"><%= product.description %></textarea>
+                                                            <span class="error" style="color: red;"></span>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label class="form-label">Specification</label>
+                                                            <textarea id="specificationid" name="productSpecification"
+                                                                placeholder="Type here" class="form-control"
+                                                                rows="4"><%= product.specification %></textarea>
+                                                            <span class="error" style="color: red;"></span>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label class="form-label">Brand name</label>
+                                                            <select class="form-select" name="brand" required>
+                                                                <% Brands.forEach(brand=> { %>
+                                                                    <option value="<%= brand._id %>" <%=(product.brands
+                                                                        && product.brands.equals(brand._id))
+                                                                        ? 'selected' : '' %>>
+                                                                        <%= brand.name %>
+                                                                    </option>
 
-                                <div class="row">
-                                                            <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                                                <img src="" alt="" id="imgView2">
+                                                                    <% }) %>
+                                                            </select>
+                                                            <span class="error" style="color: red;"></span>
 
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label class="form-label">Stock</label>
+                                                            <input id="stock" value="<%= product.stock %>" name="stock"
+                                                                type="text" placeholder="Type here"
+                                                                class="form-control">
+                                                            <span class="error" style="color: red;"></span>
+                                                        </div>
+                                                    </div> <!-- col.// -->
+                                                </div> <!-- row.// -->
+                                                <hr class="mb-4 mt-0">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h6>2. Pricing</h6>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="mb-4">
+                                                            <label class="form-label">PUP Price</label>
+                                                            <input id="price" value="<%= product.price %>" name="price"
+                                                                type="text" placeholder="$00.0" class="form-control">
+                                                            <span class="error" style="color: red;"></span>
+                                                        </div>
+                                                    </div> <!-- col.// -->
+                                                </div> <!-- row.// -->
+                                                <hr class="mb-4 mt-0">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h6>3. Category</h6>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <select class="form-select" name="category">
+                                                            <% Categories.forEach(category=>{ %>
+                                                                <option value="<%= category._id %>" <%=(product.category
+                                                                    && product.category.equals(category._id))
+                                                                    ? 'selected' : '' %>> <%= category.name %>
+                                                                </option>
+                                                                <%}) %>
+                                                        </select>
+                                                        <span class="error" style="color: red;"></span>
+                                                    </div>
+                                                </div> <!-- row.// -->
+                                                <div class="row">
+                                                    <div class="card mb-2">
+                                                        <div class="card-header">
+                                                            <h6>4. Choose images</h6>
+                                                        </div>
+                                                        <% for(let i=0;i<product.image.length;i++){%>
+                                                            <div id="imagesContainer" class="col-md-12">
+                                                                <div class="mb-4">
+                                                                    <div class="col-12">
+                                                                        <td>
+                                                                            <input type="hidden"
+                                                                                value="<%= product.image[i] %>"
+                                                                                id="imageDatas">
+                                                                            <img class="rounded"
+                                                                                style="width: 50px; height: 60px;"
+                                                                                src="/uploads/re-image/<%= product.image[i] %>"
+                                                                                alt="">
+                                                                            <i onclick="deleteSingleImage('<%= product.image[i]%>','<%=product._id%>')"
+                                                                                style="position: absolute; margin-left: .5rem; cursor: pointer;"
+                                                                                class="fa-thin fa-x"></i>
+                                                                        </td>
+                                                                    </div>
 
-                                                                <input class="form-control" type="file" name="images" id="input2"
-                                                                    accept= "image/png, image/jpeg, image/jpg"
-                                                                    onchange="viewImage2(event),viewImage(event, 2)">
-                                                                    <div id="images2-error" class="error-message" style="display:none; color:red;"></div>
-                                                            </div>  
-                                                            <div class="image-cropper d-flex align-items-center"
-                                                                style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                                                <img src="" id="croppedImg2" alt="">
-                                                                <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
+                                                                </div>
+                                                                <span class="error" style="color: red;"></span>
                                                             </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                        <img src="" alt="" id="imgView3">
+                                                            <%} %>
 
 
-                                        <input class="form-control" type="file" name="images" id="input3"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            onchange="viewImage3(event),viewImage(event, 3)">
-                                            <div id="images3-error" class="error-message" style="display:none; color:red;"></div>
-                                    </div>
-                                    <div class="image-cropper d-flex align-items-center"
-                                        style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                        <img src="" id="croppedImg3" alt="">
-                                        <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
-                                    </div>
-                                </div>
-                               
-                                <div class="row">
-                                    <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                        <img src="" alt="" id="imgView4">
+                                                    </div>
+                                                    <hr class="mb-4 mt-0">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <h6>5. Media</h6>
+                                                        </div>
+
+                                                        <!-- <label class="form-label">Images</label>
+                                            <input id="productImages" name="productImages" accept="image/*" class="form-control" type="file" multiple> -->
+                                                        <div class="card-body align-items-center"
+                                                            style="margin-bottom: 20px;">
+                                                            <img src="" alt=""
+                                                                id="imgView1">
+                                                            <input class="form-control" type="file" name="images"
+                                                                id="input1" accept="image/png, image/jpeg, image/jpg"
+                                                                onchange="viewImage1(event), viewImage(event, 1)">
+                                                            <div id="images1-error" class="error-message"
+                                                                style="display:none; color:red;"></div>
+                                                        </div>
+                                                        <div class="image-cropper d-flex align-items-center"
+                                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
+                                                            <img src="" id="croppedImg1" alt="">
+                                                            <button type="button" id="saveButton1"
+                                                                class="btn-sm btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="card-body align-items-center"
+                                                            style="margin-bottom: 20px;">
+                                                            <img src="" alt="" id="imgView2">
 
 
-                               
-                                        <input class="form-control" type="file" name="images" id="input4"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            onchange="viewImage4(event),viewImage(event, 4)">
-                                    </div>
-                                    <div class="image-cropper d-flex align-items-center"
-                                        style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                        <img src="" id="croppedImg4" alt="">
-                                        <button type="button" id="saveButton4" class="btn-sm btn-primary">Save</button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <button type="submit" class="btn btn-primary btn-sm rounded" onclick="validateAndSubmit()" >Edit</button>
-                                </div>
-                            </div>  
+                                                            <input class="form-control" type="file" name="images"
+                                                                id="input2" accept="image/png, image/jpeg, image/jpg"
+                                                                onchange="viewImage2(event),viewImage(event, 2)">
+                                                            <div id="images2-error" class="error-message"
+                                                                style="display:none; color:red;"></div>
+                                                        </div>
+                                                        <div class="image-cropper d-flex align-items-center"
+                                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
+                                                            <img src="" id="croppedImg2" alt="">
+                                                            <button type="button" id="saveButton2"
+                                                                class="btn-sm btn-primary">Save</button>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="card-body align-items-center"
+                                                            style="margin-bottom: 20px;">
+                                                            <img src="" alt="" id="imgView3">
+
+
+                                                            <input class="form-control" type="file" name="images"
+                                                                id="input3" accept="image/png, image/jpeg, image/jpg"
+                                                                onchange="viewImage3(event),viewImage(event, 3)">
+                                                        </div>
+                                                        <div class="image-cropper d-flex align-items-center"
+                                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
+                                                            <img src="" id="croppedImg3" alt="">
+                                                            <button type="button" id="saveButton3"
+                                                                class="btn-sm btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="card-body align-items-center"
+                                                            style="margin-bottom: 20px;">
+                                                            <img src="" alt="" id="imgView4">
+
+
+
+                                                            <input class="form-control" type="file" name="images"
+                                                                id="input4" accept="image/png, image/jpeg, image/jpg"
+                                                                onchange="viewImage4(event),viewImage(event, 4)">
+                                                        </div>
+                                                        <div class="image-cropper d-flex align-items-center"
+                                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
+                                                            <img src="" id="croppedImg4" alt="">
+                                                            <button type="button" id="saveButton4"
+                                                                class="btn-sm btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <button type="submit"
+                                                            class="btn btn-primary btn-sm rounded">Edit</button>
+                                                    </div>
+                                                </div>
                         </form>
                     </div>
                 </div>
@@ -372,7 +347,7 @@
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
                     <script>
-                    document.write(new Date().getFullYear())
+                        document.write(new Date().getFullYear())
                     </script> ©, Evara - HTML Ecommerce Template .
                 </div>
                 <div class="col-sm-6">
@@ -396,200 +371,169 @@
 
 
         function validateAndSubmit() {
-        if (validateForm()) {
-           document.forms[0].submit();
-        }
-        }
-        
-        
-        
-        
-        function validateForm() {
-           let imageDatas = false
-                   console.log("validate form");
-                   clearErrorMessages();
-                   const name = document.getElementById('productName').value;
-                   const description = document.getElementById('descrptionid').value;
-                   const specification = document.getElementById('specificationid').value;
-                   const price = document.getElementById('mrp').value;
-                   const saleprice = document.getElementById('price').value;
-                   const images1 = document.getElementById('input1');
-                   const images2 = document.getElementById('input2');
-                   const images3 = document.getElementById('input3');
-                   const stock = document.getElementById('stock').value;
-        imageDatas = document.getElementById("imageDatas")?.value;
-                   let isValid = true;    
-                   if (name.trim() === "") {
-           displayErrorMessage('productName-error', 'Please enter a product name.');
-           isValid = false;
-        }
-                  
-                   if (description=== '') {
-                       displayErrorMessage('description-error', 'Please enter a product description.');
-                       isValid = false;
-                   } 
-        
-        
-                   if ( parseInt(stock) < 0) {
-                       displayErrorMessage('stock-error', 'Please enter a valid non-negative quantity.');
-                       isValid = false;
-                   }
+            if (validateForm()) {
 
-                   if (!/^\d+(\.\d{1,2})?$/.test(price) || parseFloat(price) < 0) {
-                       displayErrorMessage('mrp-error', 'Please enter a valid non-negative price.');
-                       isValid = false;
-                   }
-                  if (!/^\d+(\.\d{1,2})?$/.test(saleprice) || parseFloat(saleprice) < 0) {
-                       displayErrorMessage('salePrice-error', 'Please enter a valid non-negative price.');
-                       isValid = false;
-                   }
-                  
-                //    if (!imageDatas && images.files.length === 0) {
-                //        displayErrorMessage("images-error",'Please select an image.');
-                //        isValid = false;
-                //    }
-                   if (!imageDatas &&images1.files.length === 0) {
-                        displayErrorMessage('images1-error', 'Please select an image.');
-                        isValid = false;
-                    }
-                    if (!imageDatas &&images2.files.length === 0) {
-                        displayErrorMessage('images2-error', 'Please select an image.');
-                        isValid = false;
-                    }
-                    if (!imageDatas &&images3.files.length === 0) {
-                        displayErrorMessage('images3-error', 'Please select an image.');
-                        isValid = false;
-                    }
-                   return isValid;
-               }
-              
-               function displayErrorMessage(elementId, message) {
-                   var errorElement = document.getElementById(elementId);
-                   errorElement.innerText = message;
-                   errorElement.style.display = "block";
-               }
-        
-        
-               function clearErrorMessages() {
-                   const errorElements = document.getElementsByClassName('error-message');
-                   Array.from(errorElements).forEach(element => {
-                       element.innerText = '';
-                   });
-                   const errorMessage = document.getElementById('errorMessage');
-        
-        
-               }
-        
-        
-        
-        
+                document.forms.submit();
+            }
+        }
+
+
+
+
+        function validateForm() {
+            let isValid = true;
+
+            const productName = document.getElementById("productName").value.trim();
+            if (productName === "") {
+                document.querySelector("#productName + .error").innerText = "Product title is required.";
+                isValid = false;
+            }
+
+            const description = document.getElementById("descrptionid").value.trim();
+            if (description === "") {
+                document.querySelector("#descrptionid + .error").innerText = "Description is required.";
+                isValid = false;
+            }
+
+            const specification = document.getElementById("specificationid").value.trim();
+            if (specification === "") {
+                document.querySelector("#specificationid + .error").innerText = "Specification is required.";
+                isValid = false;
+            }
+
+            const stock = document.getElementById("stock").value.trim();
+            if (stock === "" || isNaN(stock) || parseInt(stock) < 0) {
+                document.querySelector("#stock + .error").innerText = "Please enter a valid stock quantity.";
+                isValid = false;
+            }
+
+            const price = document.getElementById("price").value.trim();
+            if (price === "" || isNaN(price) || parseFloat(price) <= 0) {
+                document.querySelector("#price + .error").innerText = "Please enter a valid price.";
+                isValid = false;
+            }
+
+            const category = document.querySelector("select[name='category']").value;
+            if (category === "") {
+                document.querySelector("select[name='category'] + .error").innerText = "Please select a category.";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateAndSubmit() {
+            if (validateForm()) {
+                document.getElementById("form").submit();
+            }
+        }
         function viewImage1(event) {
-                   document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
-               }
-        
-        
-               function viewImage2(event) {
-                   document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
-               }
-        
-        
-               function viewImage3(event) {
-                   document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
-               }
-        
-        
-               function viewImage4(event) {
-                   document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[0])
-               }
-        
-        
-        
-        
-               function viewImage(event, index) {
-                   let input = event.target;
-                   let reader = new FileReader();
-                   reader.onload = function () {
-                       let dataURL = reader.result;
-                       let image = document.getElementById('imgView' + index);
-                       image.src = dataURL;
-                       let cropper = new Cropper(image, {
-                           aspectRatio: 1,
-                           viewMode: 1,
-                           guides: true,
-                           background: false,
-                           autoCropArea: 1,
-                           zoomable: true
-                       });
-                       let cropperContainer = document.querySelector('#croppedImg' + index).parentNode;
-                       cropperContainer.style.display = 'block';
-                       let saveButton = document.querySelector('#saveButton' + index);
-                       saveButton.addEventListener('click', async function () {
-                           let croppedCanvas = cropper.getCroppedCanvas();
-                           let croppedImage = document.getElementById("croppedImg" + index);
-                           croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
-                           let timestamp = new Date().getTime();
-                           let fileName = `cropped-img-${timestamp}-${index}.png`;
-                           await croppedCanvas.toBlob(blob => {
-                               let input = document.getElementById('input' + index);
-                               let imgFile = new File([blob], fileName, blob)
-                               const fileList = new DataTransfer();
-                               fileList.items.add(imgFile);
-                               input.files = fileList.files
-                           });
-                           cropperContainer.style.display = 'none';
-                       });
-                   };
-                   reader.readAsDataURL(input.files[0]);
-               }
-        
-        
-               const selectedImages = [];
-           document.getElementById("imageInput").addEventListener("change", handleFileSelect);
-        
-        
-               function handleFileSelect(event) {
-                   const addedImagesContainer = document.getElementById("addedImagesContainer");
-                   addedImagesContainer.innerHTML = "";
-                   const files = event.target.files;
-                   for (let i = 0; i < files.length; i++) {
-                       const file = files[i];
-                       selectedImages.push(file);
-                       const thumbnail = document.createElement("div");
-                       thumbnail.classList.add("thumbnail");
-                       const img = document.createElement("img");
-                       img.src = URL.createObjectURL(file);
-                       img.alt = "thumbnail";
-                       img.style.width = "50px";
-                       img.style.height = "auto";
-                       const removeIcon = document.createElement("span");
-                       removeIcon.classList.add("remove-icon");
-                       removeIcon.innerHTML = "&times;";
-                       removeIcon.addEventListener("click", function () {
-                           const index = selectedImages.indexOf(file);
-                           if (index !== -1) {
-                               selectedImages.splice(index, 1);
-                           }
-                           thumbnail.remove();
-                       });
-                       thumbnail.appendChild(img);
-                       thumbnail.appendChild(removeIcon);
-                       addedImagesContainer.appendChild(thumbnail);
-                   }
-               };
-               function deleteSingleImage(imageId,productId){
-                    $.ajax({
-                        url:"/admin/products/deleteImage",
-                        method : "post",
-                        data : {imageNameToServer : imageId,productIdToServer : productId},
-                        success : ((response)=>{
-                            if(response.status === true){
-                                window.location.reload();
-                            }
-                        })
-                    })
-               }
-           </script>
-        
+            document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+        }
+
+
+        function viewImage2(event) {
+            document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
+        }
+
+
+        function viewImage3(event) {
+            document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
+        }
+
+
+        function viewImage4(event) {
+            document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[0])
+        }
+
+
+
+
+        function viewImage(event, index) {
+            let input = event.target;
+            let reader = new FileReader();
+            reader.onload = function () {
+                let dataURL = reader.result;
+                let image = document.getElementById('imgView' + index);
+                image.src = dataURL;
+                let cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    guides: true,
+                    background: false,
+                    autoCropArea: 1,
+                    zoomable: true
+                });
+                let cropperContainer = document.querySelector('#croppedImg' + index).parentNode;
+                cropperContainer.style.display = 'block';
+                let saveButton = document.querySelector('#saveButton' + index);
+                saveButton.addEventListener('click', async function () {
+                    let croppedCanvas = cropper.getCroppedCanvas();
+                    let croppedImage = document.getElementById("croppedImg" + index);
+                    croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+                    let timestamp = new Date().getTime();
+                    let fileName = `cropped-img-${timestamp}-${index}.png`;
+                    await croppedCanvas.toBlob(blob => {
+                        let input = document.getElementById('input' + index);
+                        let imgFile = new File([blob], fileName, blob)
+                        const fileList = new DataTransfer();
+                        fileList.items.add(imgFile);
+                        input.files = fileList.files
+                    });
+                    cropperContainer.style.display = 'none';
+                });
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+
+
+        const selectedImages = [];
+        document.getElementById("imageInput").addEventListener("change", handleFileSelect);
+
+
+        function handleFileSelect(event) {
+            const addedImagesContainer = document.getElementById("addedImagesContainer");
+            addedImagesContainer.innerHTML = "";
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                selectedImages.push(file);
+                const thumbnail = document.createElement("div");
+                thumbnail.classList.add("thumbnail");
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.alt = "thumbnail";
+                img.style.width = "50px";
+                img.style.height = "auto";
+                const removeIcon = document.createElement("span");
+                removeIcon.classList.add("remove-icon");
+                removeIcon.innerHTML = "&times;";
+                removeIcon.addEventListener("click", function () {
+                    const index = selectedImages.indexOf(file);
+                    if (index !== -1) {
+                        selectedImages.splice(index, 1);
+                    }
+                    thumbnail.remove();
+                });
+                thumbnail.appendChild(img);
+                thumbnail.appendChild(removeIcon);
+                addedImagesContainer.appendChild(thumbnail);
+            }
+        };
+        function deleteSingleImage(imageId, productId) {
+            $.ajax({
+                url: "/admin/products/deleteImage",
+                method: "post",
+                data: { imageNameToServer: imageId, productIdToServer: productId },
+                success: ((response) => {
+                    if (response.status === true) {
+                        window.location.reload();
+                    }
+                })
+            })
+        }
+    </script>
+
 </body>
 
 </html>

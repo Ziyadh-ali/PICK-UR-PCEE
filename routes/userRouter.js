@@ -9,6 +9,7 @@ const passport = require("passport");
 const passportAuth = require("../config/passport")
 const auth = require("../middleware/userAuth");
 const User = require("../model/userModel");
+const paymentController = require("../controllers/paymentController")
 
 uRouter.use(nocache());
 uRouter.set("views", path.join(__dirname, "../views/user"));
@@ -82,12 +83,23 @@ uRouter.get("/editAddress/:name", auth.isLogin,userControllers.loadEditAdd);
 
 // checkout
 uRouter.get("/checkout", auth.isLogin,userControllers.loadChechout);
-uRouter.post("/checkout/placeOrder", auth.isLogin,userControllers.placeOrder)
+uRouter.post("/checkout/placeOrder", auth.isLogin,userControllers.placeOrder);
+uRouter.post("/checkout/payWithPaypal", auth.isLogin,paymentController.payWithPaypal);
+uRouter.get("/checkout/paymentSuccess", auth.isLogin, paymentController.paymentSuccess);
+uRouter.get("/checkout/paymentFailed", auth.isLogin, paymentController.paymentCancel);
+uRouter.post("/applyCoupon", auth.isLogin,userControllers.verifyCoupon);
+uRouter.post("/removeCoupon", auth.isLogin,userControllers.removeCoupon);
 
 uRouter.get("/orderSuccess", auth.isLogin,userControllers.loadOrderSuccces);
-uRouter.get("/order/orderDetails/:id", auth.isLogin,userControllers.loadOrderDetails)
-uRouter.post("/cancelOrder/:id", auth.isLogin,userControllers.cancelOrder)
-uRouter.post("/cancelOne", auth.isLogin,userControllers.cancelOne)
+uRouter.get("/order/orderDetails/:id", auth.isLogin,userControllers.loadOrderDetails);
+uRouter.post("/cancelOrder/:id", auth.isLogin,userControllers.cancelOrder);
+uRouter.post("/returnOrder", auth.isLogin,userControllers.returnOrder);
+uRouter.post("/order/payWithPaypal", auth.isLogin,paymentController.payFromOrder);
+uRouter.get("/order/paymentSuccess", auth.isLogin, paymentController.orderPaymentSuccess);
+uRouter.get("/order/paymentFailed", auth.isLogin, paymentController.orderPaymentCancel);
+//invoice
+uRouter.get("/download-invoice/:orderId", auth.isLogin,userControllers.invoiceDownload)
+
 
 
 

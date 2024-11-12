@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Evara Dashboard</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body >
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="index.html" class="brand-wrap">
+        <h2>PICK UR PCEE</h2>
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item  ">
+          <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
+              <span class="text">Products</span>
+          </a>
+      </li>
+      <li class="menu-item ">
+          <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
+              <span class="text">Orders</span>
+          </a>
+      </li>
+      <li class="menu-item ">
+          <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
+              <span class="text">Categories</span>
+          </a>
+      </li>
+      <li class="menu-item">
+          <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+              <span class="text">Add product</span>
+          </a>
+      </li>
+      <li class="menu-item active">
+          <a class="menu-link" href="/admin/salesReport">
+            <i class="icon material-icons md-monetization_on"></i>
+            <span class="text">Sales Report</span>
+          </a>
+        </li>
+      <li class="menu-item ">
+          <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
+              <span class="text">User</span>
+          </a>
+      </li>
+        <li class="menu-item ">
+            <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
+                <span class="text">Offers</span>
+            </a>
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/brands">
+            <i class="icon material-icons md-stars"></i>
+            <span class="text">Brands</span>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" disabled href="/admin/coupons">
+            <i class="icon material-icons md-pie_chart"></i>
+            <span class="text">Coupons</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
+            </a>
+          </li>
+          <li class="dropdown nav-item">
+              <a class="dropdown-item text-danger" href="/admin/logout"><i
+                  class="material-icons md-exit_to_app"></i>Logout</a>
+            
+          </li>
+        </ul>
+      </div>
+    </header>
+    <section class="content-main">
+      <div class="container mt-5">
+        <h2>Sales Report</h2>
+        
+         <!-- Generate Report Button -->
+         <button type="button" class="btn btn-primary" onclick="generateSalesReport()">
+          Generate Report
+        </button>
+        <button  class="btn btn-secondary" onclick="downloadExcel()">
+          Download as Excel
+        </button>
+        <div class="row mt-4">
+          <% if(!totalOrders){ %>
+              <p id="totalOrders">Total Orders: 0</p>
+          <% } else { %>
+              <p id="totalOrders">Total Orders: <%= totalOrders %></p>
+          <% } %>
+          
+          <% if(!totalRevenue){ %>
+              <p id="totalRevenue">Total Revenue: ₹0</p>
+          <% } else { %>
+              <p id="totalRevenue">Total Revenue: ₹<%= totalRevenue %></p>
+          <% } %>
+          
+          <% if(!totalDiscount){ %>
+              <p id="totalDiscount">Total Discounts: ₹0</p>
+          <% } else { %>
+              <p id="totalDiscount">Total Discounts: ₹<%= totalDiscount %></p>
+          <% } %>
+          
+          <% if(!totalOfferDiscount){ %>
+              <p id="totalOfferDiscount">Discount through Offer: ₹0</p>
+          <% } else { %>
+              <p id="totalOfferDiscount">Discount through Offer: ₹<%= totalOfferDiscount %></p>
+          <% } %>
+          
+          <% if(!totalCouponDiscount){ %>
+              <p id="totalCouponDiscount">Discount through Coupon: ₹0</p>
+          <% } else { %>
+              <p id="totalCouponDiscount">Discount through Coupon: ₹<%= totalCouponDiscount %></p>
+          <% } %>
+      </div>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <label for="startDate" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="startDate" name="startDate">
+          </div>
+          <div class="col-md-6">
+            <label for="endDate" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="endDate" name="endDate">
+          </div>
+        </div>
+        
+        <!-- Report Type Selection -->
+        <div class="mt-3">
+          <label for="reportType" class="form-label">Report Type</label>
+          <select id="reportType" class="form-select">
+            <option value="">Select Type</option>
+            <option value="all">All</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+       
+    
+    
+        <!-- Sales Report Table -->
+        <div class="table-responsive mt-4">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Products</th>
+                <th>Total Amount</th>
+                <th>Order Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="salesReportBody">
+              <% sales.forEach(sale => { %>
+              <tr>
+                <td><%= sale._id %></td>
+                <td><%= sale.selectedAddress.fullName %></td>
+                <td>
+                  <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <% sale.products.forEach(product => { %>
+                      <li>
+                        <strong>Product:</strong> <%= product.productId.name %><br>
+                        <strong>Quantity:</strong> <%= product.quantity %>
+                      </li>
+                    <% }) %>
+                  </ul>
+                </td>
+                <td>₹<%= sale.totalPrice %></td>
+                <td><%= new Date(sale.orderedAt).toLocaleDateString() %></td>
+                <td><%= sale.orderStatus %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          ©, Evara - HTML Ecommerce Template .
+        </div>
+        <div class="col-sm-6">
+          <div class="text-sm-end">All rights reserved</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/vendors/select2.min.js"></script>
+  <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+  <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
+  <!-- Main Script -->
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+  <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+
+    function downloadExcel() {
+      const salesReportBody = document.getElementById('salesReportBody');
+
+      const salesData = [];
+      
+
+      const totalOrders = parseInt(document.getElementById("totalOrders").innerText.replace("Total Orders: ", "")) || 0;
+      const totalRevenue = parseFloat(document.getElementById("totalRevenue").innerText.replace("Total Revenue: ₹", "")) || 0;
+      const totalDiscount = parseFloat(document.getElementById("totalDiscount").innerText.replace("Total Discounts: ₹", "")) || 0;
+      const totalOfferDiscount = parseFloat(document.getElementById("totalOfferDiscount").innerText.replace("Discount through Offer: ₹", "")) || 0;
+      const totalCouponDiscount = parseFloat(document.getElementById("totalCouponDiscount").innerText.replace("Discount through Coupon: ₹", "")) || 0;
+
+
+      for (let row of salesReportBody.rows) {
+        const productsCell = row.cells[2];
+    const quantities = productsCell.querySelectorAll("li");
+
+    let totalQuantity = 0;
+    quantities.forEach(item => {
+      const quantityMatch = item.innerText.match(/Quantity\s*:\s*(\d+)/i);
+
+        if (quantityMatch) {
+            totalQuantity += parseInt(quantityMatch[1], 10);
+        }
+    });
+          salesData.push({
+              id: row.cells[0].innerText,              
+              fullName: row.cells[1].innerText,         
+              quantity: totalQuantity,      
+              totalPrice: row.cells[3].innerText,       
+              orderedAt: row.cells[4].innerText,        
+              orderStatus: row.cells[5].innerText,   
+          });
+      }
+      fetch('/admin/excelDownload', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          salesData,
+          totalOrders,
+          totalRevenue,
+          totalDiscount,
+          totalOfferDiscount,
+          totalCouponDiscount
+        }),
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'SalesReport.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    })
+    .catch(error => {
+        console.error("Error downloading the file:", error);
+    });
+    }
+function generateSalesReport() {
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const reportType = document.getElementById('reportType').value;
+    
+
+    if ((reportType && (startDate || endDate)) || (!reportType && !(startDate && endDate))) {
+        showToast("Please select either a report type or a date range, not both","error");
+        return;
+    }
+
+    if (startDate  && !endDate ) {
+        showToast("Please select the end date.","error");
+        return;
+    }
+
+    if (!startDate  && endDate ) {
+        showToast("Please select the start date.","error");
+        return;
+    }
+
+    // if (!reportType || !startDate) {
+    //     showToast("Please select a the anything.","error");
+    //     return;
+    // }
+
+    if (new Date(startDate) > new Date(endDate)) {
+        showToast("Start date must be before end date.","error");
+        return;
+    }
+    const requestData = reportType ? { reportType } : { startDate, endDate };
+    $.ajax({
+        url: '/admin/generateReport',
+        type: 'POST',
+        data: requestData,
+        success: function(response) {
+            showToast("Report Generated","success")
+            updateReportTable(response);
+        },
+        error: function(error) {
+            showToast("Error generating report:", "error");
+        }
+    });
+}
+
+
+function updateReportTable(response) {
+
+  const { data: salesData, totalOrders, totalRevenue, totalDiscount, totalCouponDiscount, totalOfferDiscount } = response;
+
+    $('#totalOrders').text(`Total Orders: ${totalOrders || 0}`);
+    $('#totalRevenue').text(`Total Revenue: ₹${totalRevenue || 0}`);
+    $('#totalDiscount').text(`Total Discounts: ₹${totalDiscount || 0}`);
+    $('#totalCouponDiscount').text(`Discount through Coupon: ₹${totalCouponDiscount || 0}`);
+    $('#totalOfferDiscount').text(`Discount through Offer: ₹${totalOfferDiscount || 0}`);
+    const salesReportBody = $('#salesReportBody');
+    salesReportBody.empty();
+
+    salesData.forEach(sale => {
+        // Generate HTML for each product in the order
+        const productsList = sale.products
+            .map(product => `
+                <li>
+                    <strong>Product:</strong> ${product.productId.name}<br>
+                    <strong>Quantity:</strong> ${product.quantity}
+                </li>
+            `)
+            .join('');
+
+        // Create a new row for the sale with the correct HTML structure
+        const row = `
+            <tr>
+                <td>${sale._id}</td>
+                <td>${sale.selectedAddress.fullName}</td>
+                <td>
+                  <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    ${productsList}
+                  </ul>
+                </td>
+                <td>₹${sale.totalPrice}</td>
+                <td>${new Date(sale.orderedAt).toLocaleDateString()}</td>
+                <td>${sale.orderStatus}</td>
+            </tr>
+        `;
+        salesReportBody.append(row);
+    });
+}
+function showToast(message, type) {
+        let backgroundColor;
+
+        if (type === 'success') {
+            backgroundColor = "green";
+        } else if (type === 'error') {
+            backgroundColor = "red";
+        } else {
+            backgroundColor = "gray";
+        }
+
+        Toastify({
+            text: message,
+            duration: 2000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: backgroundColor,
+        }).showToast();
+    }
+  </script>
+</body>
+
+</html>

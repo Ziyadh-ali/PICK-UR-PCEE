@@ -151,10 +151,9 @@
               <div class="header-ctn">
                 <!-- Wishlist -->
                 <div>
-                  <a href="#">
+                  <a href="/wishlist">
                     <i class="fa fa-heart-o"></i>
                     <span>Your Wishlist</span>
-                    <div class="qty">2</div>
                   </a>
                 </div>
                 <!-- /Wishlist -->
@@ -220,13 +219,10 @@
         <div class="col-md-12">
           <!-- Tabs Navigation -->
           <ul class="nav nav-tabs">
-            <li class="active">
-              <a href="#profile" data-toggle="tab">Profile</a>
-            </li>
+            <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
             <li><a href="#orders" data-toggle="tab">Order Details</a></li>
-            <li>
-              <a href="#addresses" data-toggle="tab">Address Management</a>
-            </li>
+            <li><a href="#addresses" data-toggle="tab">Address Management</a></li>
+            <li><a href="#wallet" data-toggle="tab">Wallet</a></li> <!-- New Wallet Tab -->
           </ul>
 
           <!-- Tab Content -->
@@ -466,11 +462,66 @@
                         <h4 style="text-align: center;">You don't have a address<br> Create one by clicking the add address</h4>
                           </div>
                         <%} %>
-                 
-                <!-- Add New Address -->
-                
-                  
               </div>
+            </div>
+            <!-- Wallet -->
+
+            <div class="tab-pane fade" id="wallet">
+              <% if(wallet){%>
+                <h3>Your Wallet</h3>
+                <div class="wallet-info">
+                  <p><strong>Wallet Balance:</strong> ₹<%= wallet.balance %></p>
+                  <!-- <button class="btn btn-primary" data-toggle="collapse" data-target="#addFundsForm">Add Funds</button> -->
+                </div>
+      
+                <!-- Add Funds Form -->
+                <!-- <div id="addFundsForm" class="collapse">
+                  <h4>Add Funds to Wallet</h4>
+                  <form id="addFunds">
+                    <div class="form-group">
+                      <label for="amount">Amount:</label>
+                      <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount">
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Funds</button>
+                  </form>
+                </div> -->
+      
+                <!-- Transaction History Table -->
+                <h4>Transaction History</h4>
+                <% if (wallet.walletHistory && wallet.walletHistory.length > 0) { %>
+                  <table class="table table-striped wallet-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>transactionType</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% wallet.walletHistory.forEach(history => { %>
+                        <tr>
+                          <td><%= new Date(history.date).toDateString() %></td>
+                          <td><%= history.description %></td>
+                          <td>₹<%= history.amount %></td>
+                          <td><%= history.transactionType %></td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                <% } else { %>
+                  <p style="text-align: center;">No transactions available</p>
+                <% } %>
+                <%}else{%>
+                  <h3>Your Wallet</h3>
+                <div class="wallet-info">
+                  <p><strong>Wallet Balance:</strong> 0</p>
+                </div>
+                <p style="text-align: center;">No transactions available</p>
+
+                  <%} %>
+              
+              
             </div>
           </div>
         </div>

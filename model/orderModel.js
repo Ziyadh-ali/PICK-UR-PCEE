@@ -45,21 +45,37 @@ const orderSchema = new mongoose.Schema({
                 min : 1,
                 max : 5
             },
-            offerPrice : Number,
+            price : Number,
             status :{
                 type :  String,
                 default : null
             },
         },
     ],
+    couponCode : {
+        type : String,
+        default : null
+    },
+    discountValue : {
+        type : Number,
+        default : 0
+    },
     totalPrice : Number,
     paymentMethod : {
         type : String,
         enum : ["Paypal","Wallet","Cash on Delivery"]
     },
+    paymentId : {
+        type : String
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["Pending", "Completed", "Failed"],
+        default: "Pending",
+      },
     orderStatus : {
         type : String,
-        enum : ["Processing","Shipped","Delivered","Cancelled"]
+        enum : ["Processing","Shipped","Delivered","Cancelled","Returned","Failed"]
     },
     orderedAt : {
         type : Date,

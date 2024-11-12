@@ -39,7 +39,7 @@
         <% } else if(error_message.length > 0) { %>
         <div id="flash-error" class="text-danger text-center"><%= error_message %></div>
         <% } %>
-        <form id="form" action="/login" method="post">
+        <form id="form">
           <div class="input-group">
             <label for="username">Email</label>
             <input type="text" id="email" name="email" />
@@ -62,7 +62,7 @@
         <p>Don't have an account? <a href="/register">Sign up</a></p>
       </div>
     </div>
-    <script defer src="js/loginValid.js"></script>
+    <script src="/js/loginValid.js"></script> 
     <script>
     const togglePassword = document.querySelector("#togglePassword");
     const password = document.querySelector("#password");
@@ -98,6 +98,27 @@
       }, 1000);
     }
   }, 3000);
+
+  function showToast(message, type) {
+        let backgroundColor;
+
+        if (type === 'success') {
+            backgroundColor = "green";
+        } else if (type === 'error') {
+            backgroundColor = "red";
+        } else {
+            backgroundColor = "gray";
+        }
+
+        Toastify({
+            text: message,
+            duration: 2000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: backgroundColor,
+        }).showToast();
+    }
     </script>
   </body>
 </html>

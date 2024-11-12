@@ -46,48 +46,48 @@
           </a>
         </li>
         <li class="menu-item  ">
-          <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
-              <span class="text">Products</span>
-          </a>
-      </li>
-      <li class="menu-item ">
-          <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Orders</span>
-          </a>
-      </li>
-      <li class="menu-item ">
-          <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
-              <span class="text">Categories</span>
-          </a>
-      </li>
-      <li class="menu-item">
-          <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
-              <span class="text">Add product</span>
-          </a>
-      </li>
-      <li class="menu-item ">
-          <a class="menu-link" href="/admin/salesReport">
-            <i class="icon material-icons md-monetization_on"></i>
-            <span class="text">Sales Report</span>
-          </a>
+            <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Products</span>
+            </a>
         </li>
-      <li class="menu-item ">
-          <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
-              <span class="text">User</span>
-          </a>
-      </li>
-        <li class="menu-item">
-          <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
-            <span class="text">Offers</span>
-        </a> 
+        <li class="menu-item ">
+            <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
+                <span class="text">Orders</span>
+            </a>
+        </li>
+        <li class="menu-item ">
+            <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
+                <span class="text">Categories</span>
+            </a>
         </li>
         <li class="menu-item">
+            <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+                <span class="text">Add product</span>
+            </a>
+        </li>
+        <li class="menu-item ">
+            <a class="menu-link" href="/admin/salesReport">
+              <i class="icon material-icons md-monetization_on"></i>
+              <span class="text">Sales Report</span>
+            </a>
+          </li>
+        <li class="menu-item ">
+            <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
+                <span class="text">User</span>
+            </a>
+        </li>
+        <li class="menu-item active">
+            <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
+                <span class="text">Offers</span>
+            </a>
+        </li>
+        <li class="menu-item ">
           <a class="menu-link" href="/admin/brands">
             <i class="icon material-icons md-stars"></i>
             <span class="text">Brands</span>
           </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item ">
           <a class="menu-link" disabled href="/admin/coupons">
             <i class="icon material-icons md-pie_chart"></i>
             <span class="text">Coupons</span>
@@ -98,35 +98,35 @@
   </aside>
   <main class="main-wrap">
     <header class="main-header navbar">
-      <div class="col-search">
-      </div>
-      <div class="col-nav">
-        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
-          <i class="material-icons md-apps"></i>
-        </button>
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link btn-icon darkmode" href="#">
-              <i class="material-icons md-nights_stay"></i>
-            </a>
-          </li>
-          <li class="dropdown nav-item">
-              <a class="dropdown-item text-danger" href="/admin/logout"><i
-                  class="material-icons md-exit_to_app"></i>Logout</a>
-            
-          </li>
-        </ul>
-      </div>
-    </header>
+        <div class="col-search">
+        </div>
+        <div class="col-nav">
+          <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+            <i class="material-icons md-apps"></i>
+          </button>
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link btn-icon darkmode" href="#">
+                <i class="material-icons md-nights_stay"></i>
+              </a>
+            </li>
+            <li class="dropdown nav-item">
+                <a class="dropdown-item text-danger" href="/admin/logout"><i
+                    class="material-icons md-exit_to_app"></i>Logout</a>
+              
+            </li>
+          </ul>
+        </div>
+      </header>
     <section  class="content-main">
       <div  class="container mt-5">
-        <h2>Coupon Management</h2>
+        <h2>Offer Management</h2>
 
         <!-- Add Coupon Button -->
         <!-- Modal Trigger Button -->
         <!-- Coupon Modal Trigger Button -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCouponModal">
-          Add Coupon
+          Add Offer
         </button>
 
         <!-- Coupon Modal -->
@@ -134,15 +134,15 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="addCouponModalLabel">Add New Coupon</h5>
+                <h5 class="modal-title" id="addCouponModalLabel">Add New Offer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form id="couponForm">
+                <form id="offerForm">
                   <!-- Coupon Code -->
                   <div class="mb-3">
-                    <label for="couponCode" class="form-label">Coupon Code</label>
-                    <input type="text" class="form-control" id="couponCode" name="couponCode" placeholder="Enter coupon code">
+                    <label for="offerName" class="form-label">Offer Name</label>
+                    <input type="text" class="form-control" id="offerName" name="offerName" placeholder="Enter Offer Name">
                     <span class="error" style="color: red;"></span>
                   </div>
                   
@@ -187,8 +187,24 @@
                   
                   <!-- Usage Limit -->
                   <div class="mb-3">
-                    <label for="usageLimit" class="form-label">Usage Limit</label>
-                    <input type="number" class="form-control" id="usageLimit" name="usageLimit" placeholder="Enter usage limit">
+                    <label for="brand" class="form-label">Brand</label>
+                      <select class="form-select" id="brand" name="brand">
+                      <option value="" selected >Select Brand</option>
+
+                      <% Brands.forEach(brand => {%>
+                        <option value="<%= brand._id %>"><%= brand.name %></option>
+                        <%}) %>
+                    </select>
+                    <span class="error" style="color: red;"></span>
+                  </div>
+                  <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" name="category">
+                      <option value="" selected >Select Categoy</option>
+                      <% Categories.forEach(category => {%>
+                        <option value="<%= category._id %>"><%= category.name %></option>
+                        <%}) %>
+                    </select>
                     <span class="error" style="color: red;"></span>
                   </div>
         
@@ -196,7 +212,7 @@
                   <!-- Footer Buttons -->
                   <div class="modal-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Coupon</button>
+                    <button type="submit" class="btn btn-primary">Save Offer</button>
                   </div>
                 </form>
               </div>
@@ -207,45 +223,60 @@
         <table   class="table table-bordered">
           <thead>
             <tr>
-              <th>Coupon Code</th>
+              <th>Offer Name</th>
               <th>Discount</th>
               <th>Expiry Date</th>
               <th>Min Purchase</th>
               <th>Max Purchase</th>
-              <th>Usage Limit</th>
-              <th>Used Count</th>
+              <th>Brand</th>
+              <th>Category</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody >
-            <% coupons.forEach(coupon=> { %>
+            <% offers.forEach(offer=> { %>
               <tr>
                 <td>
-                  <%= coupon.code %>
+                  <%= offer.offerName %>
                 </td>
                 <td>
-                  <%= coupon.discountType==='percentage' ? coupon.discountValue + '%' : '₹' + coupon.discountValue %>
+                  <%= offer.discountType==='percentage' ? offer.discountValue + '%' : '₹' + offer.discountValue %>
                 </td>
                 <td>
-                  <%= new Date(coupon.expiryDate).toDateString() %>
+                  <%= new Date(offer.expiryDate).toDateString() %>
                 </td>
-                <td>₹<%= coupon.minPurchaseValue %>
+                <td>₹<%= offer.minPurchaseValue %>
                 </td>
-                <td>₹<%= coupon.maxPurchaseValue %>
-                </td>
-                <td>
-                  <%= coupon.usageLimit %>
+                <td>₹<%= offer.maxPurchaseValue %>
                 </td>
                 <td>
-                  <%= coupon.usedCount %>
+                  <% if(offer.brands){%>
+                    <%= offer.brands.name %>
+                    <%}else{%>
+                            No Categories
+                        <%} %>
                 </td>
                 <td>
-                  <%= coupon.isActive ? 'Active' : 'Inactive' %>
+                  <% if(offer.categories){%>
+                    <%= offer.categories.name %>
+                    <%}else{%>
+                            No Categories
+                        <%} %>
                 </td>
                 <td>
-                  <button class="btn btn-danger btn-sm" onclick="deleteCoupon('<%= coupon._id %>')">Delete</button>
+                  <%= offer.isActive ? 'Active' : 'Inactive' %>
                 </td>
+                <% if(offer.isActive === true){%>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteOffer('<%= offer._id %>')">Delete</button>
+                        </td>
+                    <%}else{%>
+                        <td>
+                            <button class="btn btn-danger btn-sm" disabled>Deleted</button>
+                        </td>
+                        <%} %>
+                
               </tr>
               <% }) %>
           </tbody>
@@ -281,7 +312,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
 
-function deleteCoupon(id) {
+function deleteOffer(id) {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -297,8 +328,8 @@ function deleteCoupon(id) {
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: `/admin/couponRemove/${id}`,
-              type: "DELETE",
+              url: `/admin/offerRemove/${id}`,
+              type: "PATCH",
               success: function (response) {
                 if (response.success) {
                   Swal.fire({
@@ -340,14 +371,15 @@ function deleteCoupon(id) {
         });
       }
 
-    const couponCode = document.getElementById('couponCode');
+    const offerName = document.getElementById('offerName');
     const discountType = document.getElementById('discountType');
     const discountValue = document.getElementById('discountValue');
     const minSpend = document.getElementById('minSpend');
     const maxDiscount = document.getElementById('maxDiscount');
     const expiryDate = document.getElementById('expiryDate');
-    const usageLimit = document.getElementById('usageLimit');
-    const couponForm = document.getElementById('couponForm');
+    const brand = document.getElementById('brand');
+    const category = document.getElementById('category');
+    const offerForm = document.getElementById('offerForm');
 
 
     let isValid = true;
@@ -368,23 +400,23 @@ function deleteCoupon(id) {
       inputControl.classList.add("success");
       inputControl.classList.remove("error");
     };
-
-    const validateCouponInputs = () => {
+    const validateOfferInputs = () => {
       isValid = true;
-
-      const couponCodeValue = couponCode.value.trim();
+      
+      const offerNameValue = offerName.value.trim();
       const discountTypeValue = discountType.value;
       const discountValueValue = discountValue.value.trim();
       const minSpendValue = minSpend.value.trim();
       const maxDiscountValue = maxDiscount.value.trim();
       const expiryDateValue = expiryDate.value;
-      const usageLimitValue = usageLimit.value.trim();
+      const brandValue = brand.value.trim();
+      const categoryValue = category.value.trim();
 
 
-      if (couponCodeValue === "") {
-        setError(couponCode, "Please enter a coupon code.");
+      if (offerNameValue === "") {
+        setError(offerName, "Please enter a coupon code.");
       } else {
-        setSuccess(couponCode);
+        setSuccess(offerName);
       }
 
 
@@ -428,40 +460,50 @@ function deleteCoupon(id) {
       }
 
 
-      if (usageLimitValue.trim() === "" ) {
-        setError(usageLimit, "Please enter a valid usage limit.");
+      if (brandValue.trim() === "" && categoryValue.trim() === "" ) {
+        setError(brand, "Please select one.");
+        setError(category, "Please select one.");
       } else {
-        setSuccess(usageLimit);
+        setSuccess(brand);
+        setSuccess(category);
       }
+    //   if (categoryValue.trim() === "" ) {
+    //     setError(category, "Please Select .");
+    //   } else {
+    //     setSuccess(category);
+    //   }
 
       return isValid;
     };
 
 
-    couponForm.addEventListener("submit", (event) => {
+    offerForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const data = {
-         couponCode: document.getElementById("couponCode").value,
-         discountType: document.getElementById("discountType").value,
-         discountValue: document.getElementById("discountValue").value,
-         minSpend: document.getElementById("minSpend").value,
-         maxDiscount: document.getElementById("maxDiscount").value,
-         expiryDate: document.getElementById("expiryDate").value,
-         usageLimit: document.getElementById("usageLimit").value,
-
+            offerName : document.getElementById('offerName').value,
+            discountType : document.getElementById('discountType').value,
+            discountValue : document.getElementById('discountValue').value,
+            minSpend : document.getElementById('minSpend').value,
+            maxDiscount : document.getElementById('maxDiscount').value,
+            expiryDate : document.getElementById('expiryDate').value,
+            brand : document.getElementById('brand').value,
+            category : document.getElementById('category').value,
+            offerForm : document.getElementById('offerForm').value,
       };
-      if (validateCouponInputs()) {
+      if (validateOfferInputs()) {
         $.ajax({
-          url: "/admin/coupons",
+          url: "/admin/offers",
           type: "POST",
           contentType: "application/json",
           data : JSON.stringify(data),  
           success: function (response) {
             if (response.success) {
-              showToast("Coupon added successfully", "success");
-              window.location.reload()
+              showToast("Offer added successfully", "success");
+              setTimeout(() => {
+                window.location.reload()
+              }, 500);
             } else {
-              showToast(response.message, "error");
+              showToast("Offer not added", "error");
             }
           },
           error : function (error){

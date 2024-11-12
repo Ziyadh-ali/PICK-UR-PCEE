@@ -36,13 +36,86 @@
     <!-- <link rel="stylesheet" href="assets1/css/bootstrap.min.css"> -->
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="assets1/css/style.css" />
-    <link rel="stylesheet" href="assets1/css/responsive.css" />
+    <!-- <link rel="stylesheet" href="assets1/css/responsive.css" /> -->
     <!-- Sweet alert -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      /* Ensure table layout remains contained */
+      .table-responsive {
+        overflow-x: auto;
+        width: 100%;
+      }
+      
+      /* Responsive styling for mobile screens */
+      @media (max-width: 576px) {
+        /* Set cart table to full width */
+        .cart {
+          width: 100%;
+        }
+        
+        /* Adjust quantity controls to be inline and compact */
+        .cart__qty {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+        }
+      
+        /* Compact quantity buttons */
+        .qtyBtn {
+          width: 25px !important;
+          height: 25px !important;
+          font-size: 14px !important;
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+        }
+      
+        .cart__qty-input {
+          width: 40px !important;
+          text-align: center !important;
+        }
+        .cart .cart__header {
+          display: none;
+        }
+        /* Make each row's content align vertically */
+        .cart__row {
+          display: flex;
+          flex-direction: column !important;
+          align-items: center;
+          text-align: center;
+        }
+      
+        /* Center-align and set full width for price and total columns */
+        .cart__price-wrapper,
+        .cart-price,
+        .cart-total {
+          width: 100% !important;
+          text-align: center !important;
+        }
+      
+        /* Adjust the product name and remove button for compact display */
+        .cart__product-title,
+        .cart__remove {
+          display: inline-block !important;
+          width: auto !important;
+          margin-top: 5px !important;
+        }
+      
+        /* Ensure that 'Continue Shopping' and 'Checkout' buttons align properly */
+        .cart-buttons {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          width: 100% !important;
+        }
+      }
+      </style>
+      
   </head>
   <body>
     <!-- HEADER -->
@@ -117,10 +190,9 @@
               <div class="header-ctn">
                 <!-- Wishlist -->
                 <div>
-                  <a href="#">
+                  <a href="/wishlist">
                     <i class="fa fa-heart-o"></i>
                     <span>Your Wishlist</span>
-                    <div class="qty">2</div>
                   </a>
                 </div>
                 <!-- /Wishlist -->
@@ -176,11 +248,11 @@
 
     <!--CART  -->
     <div class="container">
-      <div  id="cartTable" class="row">
-        <% if(cart && cart.products.length >0){%>
-        <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
+      <div id="cartTable" class="row">
+        <% if(cart && cart.products.length > 0) { %>
+        <div class="col-12 main-col">
           <form action="#" method="post" class="cart style2">
-            <table>
+            <table class="table table-responsive">
               <thead class="cart__row cart__header">
                 <tr>
                   <th colspan="2" class="text-center">Product</th>
@@ -191,89 +263,97 @@
                 </tr>
               </thead>
               <tbody>
-                <% cart.products.forEach(product =>{%>
-                <tr class="cart__row border-bottom line1 cart-flex border-top">
-                  <td class="cart__image-wrapper cart-flex-item">
-                    <a href="#"
-                      ><img
+                <% cart.products.forEach(product => { %>
+                <tr class="cart__row border-bottom line1 cart-flex border-top d-flex flex-column flex-sm-row">
+                  <td class="cart__image-wrapper cart-flex-item text-center">
+                    <a href="#">
+                      <img
                         style="width: 100px"
                         src="/uploads/re-image/<%= product.productId.image[0] %>"
-                        alt="Elastic Waist Dress - Navy / Small"
-                    /></a>
+                        alt="Product Image"
+                      />
+                    </a>
                   </td>
-                  <td class="cart__meta small--text-left cart-flex-item">
+                  <td class="cart__meta small--text-left cart-flex-item text-center text-sm-left">
                     <div class="list-view-item__title">
-                      <a href="#"
-                        ><p style="font-size: 14px">
-                          <%= product.productId.name %>
-                        </p></a
-                      >
+                      <a href="#">
+                        <p style="font-size: 14px"><%= product.productId.name %></p>
+                      </a>
                     </div>
-
                     <div class="cart__meta-text">
                       Category: <%= product.productId.category.name %>
                     </div>
                   </td>
-                  <td class="cart__price-wrapper cart-flex-item">
-                    <p class="money">₹<%= product.offerPrice %></p>
+                  <td class="cart__price-wrapper cart-flex-item text-center">
+                    <% if(product.productId.offerId){%>
+                      <p class="money">₹<%= product.price - product.productId.offerPrice %></p>
+                      <%}else{%>
+                        <p class="money">₹<%= product.price %></p>
+                        <%} %>
+                    
                   </td>
-                  <td class="cart__update-wrapper cart-flex-item text-right">
-                    <div class="cart__qty text-center">
-                      <div class="qtyField">
-                        <a
-                          onclick="updateQuantity('<%= product.productId._id %>',0)"
-                          class="qtyBtn minus"
-                          ><i class="icon icon-minus"></i
-                        ></a>
+                  <td class="cart__update-wrapper cart-flex-item text-center">
+                    <div class="cart__qty d-flex align-items-center justify-content-center">
+                      <div class="qtyField d-flex align-items-center" style="gap: 5px;">
+                        <button
+                          type="button"
+                          onclick="updateQuantity('<%= product.productId._id %>', 0)"
+                          class="qtyBtn minus btn btn-outline-secondary btn-sm"
+                          aria-label="Decrease quantity"
+                          style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;"
+                        >
+                          <i class="icon icon-minus"></i>
+                        </button>
                         <input
-                          class="cart__qty-input qty"
+                          class="cart__qty-input qty text-center"
                           type="text"
                           name="updates[]"
                           id="qty"
                           value="<%= product.quantity %>"
                           pattern="[0-9]*"
+                          style="width: 50px; margin: 0 5px;"
                         />
-                        <a
-                          onclick="updateQuantity('<%= product.productId._id %>',1)"
-                          class="qtyBtn plus"
-                          ><i class="icon icon-plus"></i
-                        ></a>
+                        <button
+                          type="button"
+                          onclick="updateQuantity('<%= product.productId._id %>', 1)"
+                          class="qtyBtn plus btn btn-outline-secondary btn-sm"
+                          aria-label="Increase quantity"
+                          style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;"
+                        >
+                          <i class="icon icon-plus"></i>
+                        </button>
                       </div>
                     </div>
                   </td>
-                  <td class="text-right small--hide cart-price">
-                    <div>
-                      <span class="money"
-                        >₹<%=product.quantity*product.offerPrice%></span
-                      >
-                    </div>
+                  <td class="cart-price text-right text-sm-center">
+                    <% if(product.productId.offerId){%>
+                      <p class="money">₹<%= product.quantity * (product.price-product.productId.offerPrice) %></p>
+                      <%}else{%>
+                        <span class="money">₹<%= product.quantity * product.price %></span>
+                        <%} %>
+                    
                   </td>
-                  <td class="text-center small--hide">
-                    <a
+                  <td class="text-center">
+                    <button
                       onclick="removeCart('<%= product.productId._id %>')"
-                      type="button"
-                      class="cartRemove btn btn-secondary"
-                      title="Remove tem"
-                      ><i class="icon icon anm anm-times-l"></i
-                    ></a>
+                      class="cartRemove btn btn-secondary btn-sm"
+                      title="Remove item"
+                    >
+                      <i class="icon icon anm anm-times-l"></i>
+                    </button>
                   </td>
                 </tr>
-                <%}) %>
+                <% }) %>
               </tbody>
               <tfoot>
                 <tr>
                   <td colspan="3" class="text-left">
-                    <a href="/" class="btn--link cart-continue"
-                      ><i class="icon icon-arrow-circle-left"></i> Continue
-                      shopping</a
-                    >
+                    <a href="/" class="btn--link cart-continue">
+                      <i class="icon icon-arrow-circle-left"></i> Continue shopping
+                    </a>
                   </td>
                   <td colspan="3" class="text-right">
-                    <button
-                      type="submit"
-                      name="update"
-                      class="btn--link cart-update"
-                    >
+                    <button type="submit" name="update" class="btn--link cart-update">
                       <i class="fa fa-refresh"></i> Update
                     </button>
                   </td>
@@ -283,42 +363,37 @@
             <hr />
           </form>
         </div>
-        <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
-          <div class="solid-border">
-            <div class="row">
-              <span class="col-12 col-sm-6 cart__subtotal-title"
-                ><strong>Subtotal</strong></span
-              >
-              <span
-                class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"
-                ><span id="subTotal" class="money">₹<%= subTotal %></span></span
-              >
+        <div class="col-12 cart__footer">
+          <div class="solid-border p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span><strong>Subtotal</strong></span>
+              <span id="subTotal" class="money">₹<%= cart.totalPrice %></span>
             </div>
             <div class="cart__shipping">
               Shipping &amp; taxes calculated at checkout
             </div>
             <a href="/checkout">
               <input
-              type="submit"
-              name="checkout"
-              id="cartCheckout"
-              class="btn btn--small-wide checkout"
-              value="Checkout"
-            />
+                type="submit"
+                name="checkout"
+                id="cartCheckout"
+                class="btn btn--small-wide checkout w-100 mt-2"
+                value="Checkout"
+              />
             </a>
-            
           </div>
         </div>
-        <%}else{%>
-        <div class="row" style="margin: 100px; text-align: center;">
-            <h3>Cart is empty</h3><br>
-            <a href="/">continue shopping</a>
+        <% } else { %>
+        <div class="row text-center my-5">
+          <h3>Cart is empty</h3><br>
+          <a href="/">Continue shopping</a>
         </div>
-        <%} %>
-
-        
+        <% } %>
       </div>
     </div>
+    
+    
+    
 
     <!-- FOOTER -->
     <footer id="footer">
@@ -487,7 +562,7 @@
               });
             }
           },
-          error: function (xhr, status, error) {
+          error: function (error) {
             Swal.fire({
               text: "Error incrementing",
               icon: "error",

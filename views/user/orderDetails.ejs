@@ -13,6 +13,7 @@
       href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- Toastify CSS and JS -->
     <link
@@ -205,10 +206,9 @@
               <div class="header-ctn">
                 <!-- Wishlist -->
                 <div>
-                  <a href="#">
+                  <a href="/wishlist">
                     <i class="fa fa-heart-o"></i>
                     <span>Your Wishlist</span>
-                    <div class="qty">2</div>
                   </a>
                 </div>
                 <!-- /Wishlist -->
@@ -273,33 +273,58 @@
                 <div class="col-md-6">
                     <div class="section-title">Order ID: <%= order._id %></div>
                     <div class="section-content">Order Date: <%= new Date(order.orderedAt).toDateString() %></div>
+                    <% if(order.couponCode){%>
+                      <div class="section-content">Coupon Code: <%= order.couponCode %></div>
+                    
+                      <div class="section-content">Discount: ₹<%= order.discountValue %></div>
+                      <%} %>
+                    <div class="section-content">Payment Method: <%= order.paymentMethod %></div>
+                    <% if(order.paymentMethod !== "Cash on Delivery"){%>
+                      <div class="section-content">Payment Status: <%= order.paymentStatus %></div>
+                  <%} %>
+                    
+                    <% if(order.paymentStatus === "Failed" && order.orderStatus !== "Cancelled"){%>
+                          <button onclick="payWithPaypal('<%= order._id %>')" style=" color: #0c2755;" class="btn btn-warning btn-sm" id="cancelOrderBtn"><i class="fa-brands fa-paypal" style="font-size: 20px; color: #0c2755;"></i> PayPal</button>
+                      <%} %>
                 </div>
                 <div class="col-md-6">
                     <div class="section-title">Total Amount: ₹ <%= order.totalPrice %></div>
                     <div id="bar-progress" class="section-content">
-                        <% 
-                        const allCancelled = order.products.every(product => product.status === 'Cancelled');
-                        %>
-                        <div class="step <%= order.orderStatus === 'Processing' || order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || allCancelled ? 'step-active' : '' %>">
+                        <% if(order.orderStatus !== "Failed"){%>
+                          <div class="step <%= order.orderStatus === 'Processing' || order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned' ? 'step-active' : '' %>">
                             <span class="number-container">
                                 <span class="number">1</span>
                             </span>
                             <h5>Processing</h5>
                         </div>
                         <div class="seperator"></div>
-                        <div class="step <%= order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || allCancelled ? 'step-active' : '' %>">
+                        <div class="step <%= order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned' ? 'step-active' : '' %>">
                             <span class="number-container">
                                 <span class="number">2</span>
                             </span>
                             <h5>Shipped</h5>
                         </div>
                         <div class="seperator"></div>
-                        <div class="step <%= order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || allCancelled ? 'step-active' : '' %>">
+                        <div class="step <%= order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned'  ? 'step-active' : '' %>">
                             <span class="number-container">
                                 <span class="number">3</span>
                             </span>
-                            <h5><%= allCancelled ? 'Cancelled' : (order.orderStatus === 'Cancelled' ? 'Cancelled' : 'Delivered') %></h5>
-                        </div>
+                            <h5>
+                              <%= order.orderStatus === 'Cancelled' 
+                                  ? 'Cancelled' 
+                                  : order.orderStatus === 'Returned' 
+                                  ? 'Returned' 
+                                  : 'Delivered' %>
+                            </h5>
+                          </div>
+                          <%}else{%>
+                            <div>
+                              <p style="color: red;">Order Failed</p>
+                              <p style="color: red;">Complete the Payment to Process the delivery</p>
+                          </div>
+                            <%} %>
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -319,37 +344,34 @@
                     <div class="col-md-6">
                         <h4><%= product.productId.name %></h4>
                         <p>Quantity: <%= product.quantity %></p>
-                        <p>Price: ₹ <%= product.offerPrice %></p>
-                        <p>Sub Total: ₹ <%= product.offerPrice * product.quantity %></p>
+                        
+                        <% if(product.productId.offerId){%>
+                          <p>Price: ₹ <%= product.price - product.productId.offerPrice %></p>
+                          <p>Sub Total: ₹ <%= (product.price - product.productId.offerPrice) * product.quantity %></p>
+                          <%}else{%>
+                            <p>Price: ₹ <%= product.price %></p>
+                            <p>Sub Total: ₹ <%= product.price  * product.quantity %></p>
+                            <%} %>
+                        
                     </div>
                     <div class="col-md-4 text-right">
-                        <p>Delivered on: 2024-09-28</p>
+                        <p></p>
                     </div>
-                    <% if(order.orderStatus !== "Cancelled"){ %>
-                        <% if(product.status !== "Cancelled"){ %>
-                            <div class="col-md-4 text-right">
-                                <button onclick="cancelOne('<%= order._id %>','<%= product.productId._id %>')" class="btn btn-warning btn-sm">Cancel Item</button>
-                            </div>
-                        <% } else { %>
-                            <div class="col-md-4 text-right">
-                                <span class="label label-danger">Cancelled</span>
-                            </div>
-                        <% } %>
-                    <% } else { %>
-                        <div class="col-md-4 text-right">
-                            <span class="label label-danger">Cancelled</span>
-                        </div>
-                    <% } %>
+                  
                 <% }) %>
             </div>
         </div>
         
         <!-- Order Actions (Cancel & Return Buttons) -->
         <div class="order-actions">
-            <% if(order.orderStatus !== "Cancelled" && !allCancelled){ %> 
-                <button onclick="cancelOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Cancel Order</button>
-            <% } %>
-            <!-- <button class="btn btn-danger btn-sm" id="returnOrderBtn">Return Order</button> -->
+          <% if (order.orderStatus !== "Cancelled" && order.orderStatus !== "Delivered" && order.orderStatus !== "Returned") { %> 
+            <button onclick="cancelOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Cancel Order</button>
+          <% } %><% if(order.orderStatus !== "Returned" && order.orderStatus === "Delivered"){ %> 
+              <button onclick="returnOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Return Order</button>
+          <% } %>
+
+          <button class="btn btn-grey btn-sm" id="invoice" onclick="downloadInvoice('<%= order._id %>')">Download Invoice</button>
+
         </div>
         
     </div>
@@ -495,8 +517,38 @@
     <!-- <script src="js/userAddressEdit.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+    function payWithPaypal(orderId){
+      $.ajax({
+            url: "/order/payWithPaypal",
+            type: "POST",
+            data: {orderId},
+            success: function (response) {
+              if (response.success && response.redirectUrl) {
+                window.location.href = response.redirectUrl;
+              } else {
+                Swal.fire({
+                    text: "Error in paying",
+                    icon: "error",
+                    timer: 1000,
+                    showConfirmButton: false,
+                  });
+              }
+            },
+            error: function () {
+              Swal.fire({
+                    text: "Error",
+                    icon: "error",
+                    timer: 1000,
+                    showConfirmButton: false,
+                  });
+            },
+          });
+    }
+    function downloadInvoice(orderId) {
+        window.location.href = `/download-invoice/${orderId}`;
+    }
 
-function cancelOne(orderId , productId){
+function returnOrder(orderId){
             Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -512,11 +564,10 @@ function cancelOne(orderId , productId){
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: `/cancelOne`,
+              url: `/returnOrder`,
               type: "POST",
               data : {
                 orderId,
-                productId
               },
               success: function (response) {
                 if (response.success) {

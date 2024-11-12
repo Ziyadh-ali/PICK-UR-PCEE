@@ -264,6 +264,12 @@
 											<div class="product">
 												<div class="product-img">
 													<img src="/uploads/re-image/<%= product.image[0] %>" alt="">
+													<% if(product.offerId){%>
+														<div class="product-label">
+															<span class="sale">Offer Available!</span>
+														</div>
+														<%}%>
+														  
 													<!-- <div class="product-label">
 															<span class="sale">-30%</span>
 															<span class="new">NEW</span>
@@ -285,17 +291,18 @@
 																		href="/product_details/<%= product._id %>">
 																		<%= product.name %>
 																	</a></h3>
-																<h4 class="product-price">$<%= product.offerPrice %><del
-																			class="product-old-price">$<%= product.price
-																				%></del></h4>
+																	<% if(product.offerId){%>
+																		<h3 class="product-price">
+																		  ₹<%= product.price-product.offerPrice %><del class="product-old-price"
+																			>₹<%= product.price %></del
+																		  >
+																		</h3>
+																		<%}else{%>
+																		  <h3 class="product-price">
+																			₹<%= product.price %>
+																		  </h3>
+																		  <%} %>
 
-																<div class="product-rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																</div>
 																<div id="product" class="product-btns">
 																	<% const inWishlist = wishlist && wishlist.products.some(item => item.productId.toString() === product._id.toString())%>
 																<% if (inWishlist) { %>
@@ -316,9 +323,6 @@
 																			class="fa fa-exchange"></i><span
 																			class="tooltipp">add to
 																			compare</span></button>
-																	<button class="quick-view"><i
-																			class="fa fa-eye"></i><span
-																			class="tooltipp">quick view</span></button>
 																</div>
 												</div>
 												<% if(product.stock <=0){%>
@@ -362,7 +366,7 @@
 							</li>
 						<% } %>
 						</ul>
-					</div>
+					</div>	
 
 
 
@@ -520,7 +524,7 @@
 	<script src="js/nouislider.min.js"></script>
 	<script src="js/jquery.zoom.min.js"></script>
 	<script src="js/main.js"></script>
-	<script src="js/addWishlist.js"></script>;
+	<script src="js/addWishlist.js"></script>
 	<script>
 
 
@@ -540,13 +544,13 @@
 				}, delay);
 			};
 		}
-		let currentPage = 1; // Initialize the current page
+		let currentPage = 1;
 
 		const handleSort = (() => {
 			const searchTermMemoize = {};
 			return function ({query = searchTermMemoize?.searchTerm, page = 1} = {}) {
 				console.log('funtion called with', query, page)
-				currentPage = page; // Update currentPage variable
+				currentPage = page; 
 
 				const sortOption = document.getElementById("sortBy").value;
 				const categoryCheckboxes = document.getElementsByClassName("selectedCategory");
@@ -602,18 +606,13 @@
                     				                </h6>
                     				                <p class="product-category">${product.category.name}</p>
                     				                <h3 class="product-name"><a href="/product_details/${product._id}">${product.name}</a></h3>
-                    				                <h4 class="product-price">$${product.offerPrice}<del class="product-old-price">$${product.price}</del></h4>
-                    				                <div class="product-rating">
-                    				                    <i class="fa fa-star"></i>
-                    				                    <i class="fa fa-star"></i>
-                    				                    <i class="fa fa-star"></i>
-                    				                    <i class="fa fa-star"></i>
-                    				                    <i class="fa fa-star"></i>
-                    				                </div>
+													${product.offerId ? 
+													`<h4 class="product-price">₹ ${product.price - product.offerPrice}<del class="product-old-price">₹ ${product.price}</del></h4>`
+												: `<h4 class="product-price">₹ ${product.price}</h4>`}
+                    				                
                     				                <div class="product-btns">
                     				                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                     				                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                    				                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                     				                </div>
                     				            </div>
                     				            ${product.stock > 0 ? `
@@ -635,8 +634,6 @@
 							
 						}
 						
-
-						// Update pagination
 						updatePagination(response.currentPage, response.totalPages);
 					}
 				});
@@ -646,9 +643,9 @@
 
 		function updatePagination(currentPage, totalPages) {
 			const paginationContainer = document.getElementById("paginationContainer");
-			paginationContainer.innerHTML = ''; // Clear existing pagination
+			paginationContainer.innerHTML = '';
 
-			// Create "Previous" button
+			
 			if (currentPage > 1) {
 				paginationContainer.innerHTML += `<li>
             		<span onclick="handleSort(searchTermMemoize.searchTerm, ${currentPage - 1})">
@@ -657,7 +654,6 @@
         		</li>`;
 			}
 
-			// Create page number buttons
 			for (let i = 1; i <= totalPages; i++) {
 				paginationContainer.innerHTML += `
             		<li class="${currentPage === i ? 'active' : ''}">
@@ -665,7 +661,6 @@
             	</li>`;
 			}
 
-			// Create "Next" button
 			if (currentPage < totalPages) {
 				paginationContainer.innerHTML += `<li>
             <span onclick="handleSort(searchTermMemoize.searchTerm, ${currentPage + 1})">
