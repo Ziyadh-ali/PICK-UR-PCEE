@@ -2,7 +2,7 @@
     const email = document.getElementById("email");
     const password = document.getElementById("password");
 
-    let isValid = true;  // Track form validity
+    let isValid = true;
 
     const setError = (input, message) => {
         const inputControl = input.parentElement;
@@ -52,7 +52,6 @@
                 data: formData,
                 success: function (response) {
                     if (response.success) {
-                        console.log("hii")
                         window.location.href = "/";
                     } else {
                         showToast(response.message, "error");
@@ -65,6 +64,26 @@
             });
         }
     });
+     function showToast(message, type) {
+        let backgroundColor;
+
+        if (type === 'success') {
+            backgroundColor = "green";
+        } else if (type === 'error') {
+            backgroundColor = "red";
+        } else {
+            backgroundColor = "gray";
+        }
+
+        Toastify({
+            text: message,
+            duration: 2000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: backgroundColor,
+        }).showToast();
+    }
 
    
     
