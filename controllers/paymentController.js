@@ -279,24 +279,6 @@ const convertCurrency = async (amountInINR) => {
         if(statusChange){
             res.redirect(`/order/orderDetails/${orderId}`)
         }
-  
-    //   const savedOrder = await newOrder.save();
-    //     if (savedOrder) {
-    //         await Cart.findByIdAndDelete({ _id: cart._id });
-    //         for (const product of cart.products) {
-    //             await Product.updateOne(
-    //                 { _id: product.productId._id },
-    //                 { $inc: { stock: -(product.quantity) } }
-    //             );
-    //             if(coupon){
-    //                 coupons.usedCount += 1
-    //                 coupons.save();
-    //             }
-    //             req.session.coupon = ""
-    //         }
-    //         res.redirect("/orderSuccess") 
-    //     }
-      
     } catch (error) {
       console.error("paymentSuccess:",error.message);
     }

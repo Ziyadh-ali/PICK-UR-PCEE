@@ -129,24 +129,32 @@
                             </span> <br>
                             <!-- <small class="text-muted">Order ID: <%= order._id %></small> -->
                         </div>
-                        <% if(order.orderStatus !== "Cancelled"){%>
-                            <form id="statusChange">
+                        <% if(order.orderStatus === "Cancelled"){%>
+                            <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                <h4 style="color: red;">Cancelled</h4>
+                            </div>
+                            <%}else if(order.orderStatus === "Delivered"){%>
                                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                    <select id="orderStatus"  class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
-                                        <option value="">Change status</option>
-                                        <option value="Processing">Processing</option>
-                                        <option value="Shipped">Shipped</option>
-                                        <option value="Delivered">Delivered</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <h4 style="color: green;">Delivered</h4>
                                 </div>
-                            </form>
-                            <%}else{%>
-                                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                    <h4 style="color: red;">Cancelled</h4>
-                                </div>
-                                <%} %>
+                                <%}else if (order.orderStatus === "Failed"){%>
+                                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                        <h4 style="color: red;">Failed</h4>
+                                    </div>
+                                    <%}else{%>
+                                        <form id="statusChange">
+                                            <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                                <select id="orderStatus"  class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                                                    <option value="">Change status</option>
+                                                    <option value="Processing">Processing</option>
+                                                    <option value="Shipped">Shipped</option>
+                                                    <option value="Delivered">Delivered</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+                                        <%} %>
                         
                        
                     </div>
@@ -213,14 +221,23 @@
                                                 <td>
                                                     <a class="itemside" href="#">
                                                         <div class="left">
-                                                            <img src="/uploads/re-image/<%= product.productId.image[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                            <img src="<%= product.productId.image[0] %>" width="40" height="40" class="img-xs" alt="Item">
                                                         </div>
                                                         <div class="info"> <%= product.productId.name %> </div>
                                                     </a>
                                                 </td>
-                                                <td> ₹ <%= product.offerPrice %> </td>
+                                                <% if(product.offerId){%>
+                                                    <td> ₹ <%= product.price - product.offerPrice %> </td>
+                                                    <%}else{%>
+                                                        <td> ₹ <%= product.price %> </td>
+                                                        <%} %>  
                                                 <td> <%= product.quantity %> </td>
-                                                <td class="text-end"> ₹ <%= product.offerPrice * product.quantity %> </td>
+                                                <% if(product.offerId){%>
+                                                    <td class="text-end"> ₹ <%= (product.price - product.offerPrice) * product.quantity %> </td>
+                                                    <%}else{%>
+                                                        <td class="text-end"> ₹ <%= product.price  * product.quantity %> </td>
+                                                        <%} %>  
+                                                
                                             </tr>
                                             <%}) %>
                                         
@@ -230,10 +247,6 @@
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
                                                         <dd>₹ <%= order.totalPrice %></dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt>Shipping cost:</dt>
-                                                        <dd>₹ 0.00</dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
@@ -257,7 +270,10 @@
                             <div class="box shadow-sm bg-light">
                                 <h6 class="mb-15">Payment info</h6>
                                 <p>
-                                    <%= order.paymentMethod %>
+                                    Method :  <%= order.paymentMethod %>
+                                </p>
+                                <p>
+                                   Status :  <%= order.paymentStatus %>
                                 </p>
                             </div>
                         </div> <!-- col// -->

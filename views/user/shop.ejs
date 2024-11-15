@@ -263,7 +263,7 @@
 										<a href="/product_details/<%= product._id %>">
 											<div class="product">
 												<div class="product-img">
-													<img src="/uploads/re-image/<%= product.image[0] %>" alt="">
+													<img src="<%= product.image[0] %>" alt="">
 													<% if(product.offerId){%>
 														<div class="product-label">
 															<span class="sale">Offer Available!</span>
@@ -598,7 +598,10 @@
                     				    <a href="/product_details/${product._id}">
                     				        <div class="product">
                     				            <div class="product-img">
-                    				                <img src="/uploads/re-image/${product.image[0]}" alt="">
+                    				                <img src="${product.image[0]}" alt="">
+													${product.offerId ? 
+													`<div class="product-label"><span class="sale">Offer Available!</span></div>`: ``}
+														
                     				            </div>
                     				            <div class="product-body">
                     				                <h6 class="product-available" style="color: ${product.stock <= 0 ? 'red' : 'green'};">

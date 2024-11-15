@@ -199,9 +199,7 @@
                                     <div class="col-md-3">
                                         <h6>4. Media</h6>
                                     </div>
-                                   
-                                            <!-- <label class="form-label">Images</label>
-                                            <input id="productImages" name="productImages" accept="image/*" class="form-control" type="file" multiple> -->
+
                                             <div class="card-body align-items-center" style="margin-bottom: 20px;">
                                                 <img src="" alt="" id="imgView1">
                                                                             <input class="form-control" type="file" name="images" id="input1"
@@ -257,6 +255,8 @@
                                         <input class="form-control" type="file" name="images" id="input4"
                                             accept="image/png, image/jpeg, image/jpg"
                                             onchange="viewImage4(event),viewImage(event, 4)">
+                                            <span class="error" style="color: red;"></span>
+
                                     </div>
                                     <div class="image-cropper d-flex align-items-center"
                                         style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
@@ -442,7 +442,7 @@ function viewImage(event, index) {
         isValid = false;
     }
 
-    const images = ["input1", "input2", "input3"];
+    const images = ["input1", "input2", "input3","input4"];
     images.forEach((inputId, index) => {
         const imageInput = document.getElementById(inputId);
         if (imageInput.files.length === 0) {

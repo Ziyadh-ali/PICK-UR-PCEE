@@ -8,6 +8,7 @@ const Product = require("../model/productModel");
 const Cart = require("../model/cartModel");
 const Address = require("../model/addressModel");
 const Order = require("../model/orderModel");
+const Offer = require("../model/offerModel")
 const PDFDocument = require('pdfkit');
 const crypto = require('crypto');
 const fs = require('fs');
@@ -116,7 +117,6 @@ const userInsert = async (req, res) => {
                 charset: "numeric"
             });
             req.session.otp = otp
-            console.log(otp);
             req.session.timeLimit = Date.now() + 120000;
             transporter.sendMail({
                 to: req.body.email,
@@ -133,10 +133,8 @@ const userInsert = async (req, res) => {
 
 const resendOtp = async (req, res) => {
     try {
-        console.log("Resend OTP called");  // Add this to check if the endpoint is triggered
         const user = req.session.tempUser;
         if (!user) {
-            console.log("No user session found");
             return res.status(400).json({ success: false, message: "No user session found" });
         }
 
@@ -145,15 +143,13 @@ const resendOtp = async (req, res) => {
             charset: "numeric"
         });
         req.session.otp = otp;
-        req.session.timeLimit = Date.now() + 120000;  // Update the time limit
+        req.session.timeLimit = Date.now() + 120000;
 
-        // Send the new OTP via email
         await transporter.sendMail({
-            to: user.email,  // Ensure this email is correct
+            to: user.email, 
             subject: "Resend OTP",
             text: `Your new OTP is: ${otp}`
         });
-        console.log(`OTP resent successfully: ${otp}`);
         return res.status(200).json({ success: true, message: "OTP resent successfully" });
     } catch (error) {
         console.error("Error resending OTP:", error);
@@ -311,7 +307,6 @@ const loadShop = async (req, res) => {
     try {
         const user = req.session.userLogin;
         const wishlist = await Wishlist.findOne({ userId: user });
-        // console.log(wishlist)
         const page = 1
 
         const limit = 6;
@@ -381,10 +376,10 @@ const getSortFilterSearchData = async (req, res) => {
     const sortBy = {};
     switch (sortOption) {
         case "priceLowHigh":
-            sortBy.offerPrice = 1;
+            sortBy.price = 1;
             break;
         case "priceHighLow":
-            sortBy.offerPrice = -1;
+            sortBy.price = -1;
             break;
         case "a-z":
             sortBy.name = 1;
@@ -427,7 +422,7 @@ const productDetails = async (req, res) => {
         const user = req.session.userLogin
         const wishlist = await Wishlist.findOne({ userId: user });
         const id = req.params.id;
-        const Products = await Product.findById(id).populate("category").populate("brands");
+        const Products = await Product.findById(id).populate("category").populate("brands").populate("offerId");
         const relatedProducts = await Product.find({ category: Products.category }).populate("category").populate("brands").limit(8);
         res.render("productsDetails", ({
             Products,
@@ -529,7 +524,7 @@ const deleteCart = async (req, res) => {
             return res.status(200).json({ success: false });
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const updateQuantity = async (req, res) => {
@@ -568,7 +563,7 @@ const updateQuantity = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -740,7 +735,6 @@ const loadEditAdd = async (req, res) => {
         const name = req.params.name
         const user = req.session.userLogin
         const from = req.query.from
-        // console.log(from);
         const userAddress = await Address.findOne(
             { userId: user, "addresses.fullName": name },
             { "addresses.$": 1 }
@@ -938,8 +932,10 @@ const removeCoupon = async (req, res) => {
 const loadOrderSuccces = async (req, res) => {
     try {
         const userId = req.session.userLogin;
+        const order = await Order.findOne({userId})
         res.render("orderSuccess", ({
-            user: userId
+            user: userId,
+            order
         }))
     } catch (error) {
         console.error(error)

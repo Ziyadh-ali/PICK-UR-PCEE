@@ -339,7 +339,7 @@
                 <% order.products.forEach(product => { %>
                     <div class="row product-details"></div>
                     <div class="col-md-2">
-                        <img width="100px" src="/uploads/re-image/<%= product.productId.image[0] %>" alt="Product 1" class="img-responsive">
+                        <img width="100px" src="<%= product.productId.image[0] %>" alt="Product 1" class="img-responsive">
                     </div>
                     <div class="col-md-6">
                         <h4><%= product.productId.name %></h4>

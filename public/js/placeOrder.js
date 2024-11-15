@@ -27,7 +27,15 @@ form.addEventListener('submit', function(event) {
                 };
     }
     
-   
+    if(!selectedAddress){
+        return Toastify({
+            text: "Please select a address",
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#dc3545",
+          }).showToast();
+    }
     let paymentElement = document.querySelector('input[name="payment"]:checked');
     let selectedPaymentMethod = paymentElement ? paymentElement.value : null;
     const totalPriceText = document.getElementById("totalPrice").innerHTML;

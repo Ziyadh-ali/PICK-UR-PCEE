@@ -201,7 +201,7 @@
             <div id="product-main-img">
               <% Products.image.forEach(image =>{%>
               <div class="product-preview">
-                <img src="/uploads/re-image/<%= image %>" alt="" />
+                <img src="<%= image %>" alt="" />
               </div>
               <%}) %>
             </div>
@@ -213,7 +213,7 @@
             <div id="product-imgs">
               <% Products.image.forEach(image =>{%>
               <div class="product-preview">
-                <img src="/uploads/re-image/<%= image %>" alt="" />
+                <img src="<%= image %>" alt="" />
               </div>
               <%}) %>
             </div>
@@ -227,11 +227,11 @@
 
               <div>
                 <% if(Products.offerId){%>
+
                   <h3 class="product-price">
-                    ₹<%= Products.price-Products.offerPrice %><del class="product-old-price"
-                      >₹<%= Products.price %></del
-                    >
+                    ₹<%= Products.price - Products.offerPrice %><del class="product-old-price">₹<%= Products.price %></del>
                   </h3>
+                  <h6 style="color: green;"><%= Products.offerId.offerName %></h6>
                   <%}else{%>
                     <h3 class="product-price">
                       ₹<%= Products.price %>
@@ -363,7 +363,7 @@
             <a href="/product_details/<%= item._id %>">
               <div class="product">
                 <div class="product-img">
-                  <img src="/uploads/re-image/<%= item.image[0] %>" alt="" />
+                  <img src="<%= item.image[0] %>" alt="" />
                   <!-- <div class="product-label">
                                         <span class="sale">-30%</span>
                                     </div> -->
@@ -376,8 +376,13 @@
                     >
                   </h3>
                   <h4 class="product-price">
-                    ₹<%= item.offerPrice %>
-                    <del class="product-old-price">₹<%= item.price %></del>
+                    <% if(item.offerId){%>
+                      ₹<%= item.price - item.offerPrice %>
+                      <del class="product-old-price">₹<%= item.price %></del>
+                      <%}else{%>
+                        ₹<%= item.price %>
+                        <%} %>
+                    
                   </h4>
                   <div class="product-rating"></div>
                   <div class="product-btns">

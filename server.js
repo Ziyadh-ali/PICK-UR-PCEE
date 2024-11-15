@@ -4,26 +4,17 @@ const path = require("path");
 const PORT = process.env.PORT;
 const app = express();
 const mongoose = require("mongoose");
+const offerCheck = require("./middleware/cron")
 
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB);
-        console.log("Connected to MongoDB Atlas");
     } catch (error) {
         console.error("MongoDB not connected:", error.message);
     }
 };
 connectDB()
-// const connectDB = async () => {
-//     try {
-//         await mongoose.connect("mongodb://localhost:27017/PICK_UR_PCEE");
-//         console.log("Connected to MongoDB Atlas");
-//     } catch (error) {
-//         console.error("MongoDB not connected:", error.message);
-//     }
-// };
-// connectDB()
-
+offerCheck()
 
 //middlewares//
 
@@ -33,10 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-//connec to MongoDB//
-// mongoose.connect("mongodb://localhost:27017/PICK_UR_PCEE");
-
 
 //routes//
 

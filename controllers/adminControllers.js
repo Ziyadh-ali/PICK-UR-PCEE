@@ -11,13 +11,19 @@ const Order = require("../model/orderModel");
 const Coupon = require("../model/couponModel");
 const Offer = require("../model/offerModel");
 const { returnOrder } = require("./userControllers");
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_KEY,
+    api_secret: process.env.CLOUD_SECRET,
+  });
 
 
 const adminLogin = async (req, res) => {
     try {
         res.render("adminLogin");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const verifyAdmin = async (req, res) => {
@@ -53,7 +59,7 @@ const verifyAdmin = async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const loadDashboard = async (req, res) => {
@@ -68,7 +74,7 @@ const loadDashboard = async (req, res) => {
             totalRevenue
         });
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -85,7 +91,7 @@ const loadProducts = async (req, res) => {
             Products
         }));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const loadAddProduct = async (req, res) => {
@@ -94,7 +100,7 @@ const loadAddProduct = async (req, res) => {
         const Categories = await Category.find({status : true});
         res.render("addProduct", ({ Categories , Brands }));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const addProduct = async (req, res) => {
@@ -107,7 +113,6 @@ const addProduct = async (req, res) => {
 
         if(!productExists){
             const images = [];
-
             if(req.files && req.files.length>0){
                 for(let i=0;i<req.files.length;i++){
                    
@@ -151,7 +156,7 @@ const editProduct = async (req, res) => {
         const images = [];
         if(req.files && req.files.length >0){
             for(let i=0;i<req.files.length;i++){
-                images.push(req.files[i].filename);
+                images.push(req.files[i].path);
             }
         }
 
@@ -167,12 +172,9 @@ const editProduct = async (req, res) => {
         if(req.files.length>0){
             updateFields.$push = {image: {$each:images}};
         }
-
         const productSave = await Product.findByIdAndUpdate(id,updateFields);
         if(productSave){
             res.redirect("/admin/products");
-        }else{
-            console.log("not edited")
         }
         
     } catch (error) {
@@ -183,14 +185,10 @@ const editProduct = async (req, res) => {
 const removeProduct = async (req, res) => {
     try {
       const {imageNameToServer,productIdToServer} = req.body;
-      const product = await Product.findByIdAndUpdate(productIdToServer,{$pull:{image : imageNameToServer}});
-      const imagePath = path.join("public","uploads","re-image",imageNameToServer);
-      if(fs.existsSync(imagePath)){
-        await fs.unlinkSync(imagePath);
-        console.log(`Image ${imageNameToServer} deleted succesfully`);
-      }else{
-        console.log(`Image ${imageNameToServer} not found`);
-      }
+      const imagePath = imageNameToServer
+      const product = await Product.findByIdAndUpdate(productIdToServer,{$pull:{image : imagePath}});
+      await cloudinary.uploader.destroy(imagePath)
+
       res.send({status : true});
     } catch (error) {
       console.error('Error deleting image:', error);
@@ -202,7 +200,7 @@ const unlistProduct = async (req, res) => {
         const list = await Product.findByIdAndUpdate(id, { isActive : false });
         res.redirect("/admin/products");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const listProduct = async (req, res) => {
@@ -211,7 +209,7 @@ const listProduct = async (req, res) => {
         const list = await Product.findByIdAndUpdate(id, { isActive : true });
         res.redirect("/admin/products");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const loadEditProduct = async (req, res) => {
@@ -223,7 +221,7 @@ const loadEditProduct = async (req, res) => {
     
         res.render('editProduct', { product, Brands,Categories, right_message: req.flash('right_message'), err_message: req.flash('err_message') });
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -247,7 +245,7 @@ const addCategory = async (req, res) => {
             res.redirect("/admin/categories");
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
         req.flash("err_message", "An error occurred while adding the category");
         res.redirect("/admin/categories");
     }
@@ -257,7 +255,7 @@ const loadCategory = async (req, res) => {
         const Categories = await Category.find({});
         res.render("categories", ({ Categories }));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const listCategory = async (req, res) => {
@@ -266,7 +264,7 @@ const listCategory = async (req, res) => {
         const list = await Category.findByIdAndUpdate(id, { status: true });
         res.redirect("/admin/categories");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const unlistCategory = async (req, res) => {
@@ -275,7 +273,7 @@ const unlistCategory = async (req, res) => {
         const list = await Category.findByIdAndUpdate(id, { status: false });
         res.redirect("/admin/categories");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const loadEditCategory = async (req, res) => {
@@ -284,7 +282,7 @@ const loadEditCategory = async (req, res) => {
         const Categories = await Category.findById(id);
         res.render("editCategories", ({ Categories }));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const editCategory = async (req, res) => {
@@ -316,7 +314,7 @@ const editCategory = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -327,7 +325,7 @@ const loadBrands = async (req, res) => {
         const Brands = await Brand.find({});
         res.render("brands",({Brands}));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const addBrands = async (req, res) => {
@@ -348,7 +346,7 @@ const addBrands = async (req, res) => {
             res.redirect("/admin/brands");
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const unlistBrand = async (req, res) => {
@@ -357,7 +355,7 @@ const unlistBrand = async (req, res) => {
         const list = await Brand.findByIdAndUpdate(id, { status: false });
         res.redirect("/admin/brands");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const listBrand = async (req, res) => {
@@ -366,7 +364,7 @@ const listBrand = async (req, res) => {
         const list = await Brand.findByIdAndUpdate(id, { status: true });
         res.redirect("/admin/brands");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const loadEditBrands = async (req, res) => {
@@ -375,7 +373,7 @@ const loadEditBrands = async (req, res) => {
         const Brands = await Brand.findById(id);
         res.render("editBrands", ({ Brands }));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const editBrand = async (req, res) => {
@@ -407,7 +405,7 @@ const editBrand = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -418,7 +416,7 @@ const loadUserList = async (req, res) => {
         const users = await User.find({});
         res.render("user", ({ users }));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const unBlockUser = async (req, res) => {
@@ -427,7 +425,7 @@ const unBlockUser = async (req, res) => {
         const list = await User.findByIdAndUpdate(id, { isBlocked: false });
         res.redirect("/admin/userList");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const blockUser = async (req, res) => {
@@ -436,7 +434,7 @@ const blockUser = async (req, res) => {
         const list = await User.findByIdAndUpdate(id, { isBlocked: true });
         res.redirect("/admin/userList");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 const orderList = async (req, res) => {
@@ -512,7 +510,7 @@ const statusChange = async (req,res)=>{
         
         
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 const loadCoupon = async (req,res)=>{
@@ -702,7 +700,6 @@ const loadSalesReport = async (req,res)=>{
 const generateRreport =  async (req, res) => {
     try {
     const { startDate, endDate, reportType } = req.body;
-    console.log(req.body)
 
     let start, end ;
 
