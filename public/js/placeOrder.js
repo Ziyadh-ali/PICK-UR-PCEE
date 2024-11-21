@@ -12,7 +12,6 @@ form.addEventListener('submit', function(event) {
         
         let addressPanel = selectedAddressElement.closest('.address-panel');
         
-                // Extract the full address details from the panel
                 selectedAddress = {
                     fullName: addressPanel.querySelector('strong').innerText,
                     addressType: addressPanel.querySelector('span').innerText,
@@ -61,7 +60,11 @@ form.addEventListener('submit', function(event) {
             contentType: 'application/json',
             data: JSON.stringify(orderData),
             success: function(response) {
+              if(response.success){
                 window.location.href = '/orderSuccess';
+              }else{
+                showToast(response.message,"error");
+              }
             },
             error: function(error) {
                 showToast('An error occurred: ' + error,"error");
@@ -95,5 +98,23 @@ form.addEventListener('submit', function(event) {
               }).showToast();
             },
           });
-        }
+        }else if (selectedPaymentMethod === "Wallet"){
+          $.ajax({
+            url: '/checkout/payWithWallet',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(orderData),
+            success: function(response) {
+              if(response.success){
+                window.location.href = '/orderSuccess';
+              }else{
+                showToast(response.message,"error");
+              }
+                
+            },
+            error: function(error) {
+                showToast('An error occurred: ' + error,"error");
+            }
+        });
+          }
 });

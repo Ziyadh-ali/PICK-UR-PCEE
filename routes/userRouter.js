@@ -61,17 +61,14 @@ uRouter.get("/product_details/:id",userControllers.productDetails);
 
 //cart routes
 uRouter.get("/cart", auth.isLogin,userControllers.loadCart);
-uRouter.post("/cart",auth.isLogin, userControllers.addToCart);
+uRouter.post("/cart", userControllers.addToCart);
 uRouter.delete("/cartRemove/:id",auth.isLogin, userControllers.deleteCart);
 uRouter.post("/cart/updateQuantity",auth.isLogin, userControllers.updateQuantity);
 
 //wishlist routes
 uRouter.get("/wishlist", auth.isLogin,userControllers.loadWishlist);
-uRouter.post("/wishlist",auth.isLogin, userControllers.addWishlist);
+uRouter.post("/wishlist", userControllers.addWishlist);
 uRouter.delete("/wishlistRemove/:id",auth.isLogin, userControllers.deleteWishlist);
-
-
-
 
 //Account 
 uRouter.get("/account", auth.isLogin,userControllers.loadAccount);
@@ -82,8 +79,9 @@ uRouter.patch("/editAddress/:name",auth.isLogin,userControllers.editAddress);
 uRouter.get("/editAddress/:name", auth.isLogin,userControllers.loadEditAdd);
 
 // checkout
-uRouter.get("/checkout", auth.isLogin,userControllers.loadChechout);
+uRouter.get("/checkout", auth.isLogin,userControllers.loadCheckout);
 uRouter.post("/checkout/placeOrder", auth.isLogin,userControllers.placeOrder);
+uRouter.post("/checkout/payWithWallet", auth.isLogin,userControllers.placeOrderWithWallet);
 uRouter.post("/checkout/payWithPaypal", auth.isLogin,paymentController.payWithPaypal);
 uRouter.get("/checkout/paymentSuccess", auth.isLogin, paymentController.paymentSuccess);
 uRouter.get("/checkout/paymentFailed", auth.isLogin, paymentController.paymentCancel);

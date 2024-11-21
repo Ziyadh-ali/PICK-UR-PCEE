@@ -19,10 +19,10 @@ function addWishlist(productId){
                 }, 1000);
             } else {
                 Swal.fire({
-                    title: "error",
+                    title: response.message,
                     icon: "error",
                     showConfirmButton : false,
-                    timer : 3000
+                    timer : 2000
                 });
             }
         },

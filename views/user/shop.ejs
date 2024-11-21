@@ -688,6 +688,7 @@
 							quantity: 1
 						},
 						success: function (response) {
+							alert(response.message)
 							if (response.success) {
 								Swal.fire({
 									html: 'Go to <a href="/cart" >cart</a>',
@@ -699,14 +700,11 @@
 									}
 								});
 							} else {
+								alert(response.message)
 								Swal.fire({
-									title: "Already in cart",
-									html: 'Go to <a href="/cart" >cart</a>',
+									title: response.message,
 									icon: "error",
-									confirmButtonText: "Ok, got it!",
-									customClass: {
-										confirmButton: "btn btn-danger"
-									}
+									showConfirmButton : false
 								});
 							}
 						}

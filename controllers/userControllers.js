@@ -315,7 +315,7 @@ const loadShop = async (req, res) => {
         const totalProductCount = await Product.countDocuments();
         const totalPages = Math.ceil(totalProductCount / limit);
 
-        const productDetails = await Product.find()
+        const productDetails = await Product.find({isActive : true})
             .populate('category')
             .skip(skip)
             .limit(limit)
@@ -349,7 +349,7 @@ const getSortFilterSearchData = async (req, res) => {
     const limit = 6;
     const skip = (page - 1) * limit;
 
-    const filter = {};
+    const filter = {isActive : true};
 
     if (Array.isArray(selectedBrands) && selectedBrands.length > 0) {
         const brandIds = await Brand.find({
@@ -370,7 +370,7 @@ const getSortFilterSearchData = async (req, res) => {
     }
 
 
-    const totalProductCount = await Product.countDocuments(filter);
+    const totalProductCount = await Product.countDocuments({filter});
     const totalPages = Math.ceil(totalProductCount / limit);
 
     const sortBy = {};
@@ -422,8 +422,8 @@ const productDetails = async (req, res) => {
         const user = req.session.userLogin
         const wishlist = await Wishlist.findOne({ userId: user });
         const id = req.params.id;
-        const Products = await Product.findById(id).populate("category").populate("brands").populate("offerId");
-        const relatedProducts = await Product.find({ category: Products.category }).populate("category").populate("brands").limit(8);
+        const Products = await Product.findOne({_id : id , isActive : true}).populate("category").populate("brands").populate("offerId");
+        const relatedProducts = await Product.find({ isActive : true,category: Products.category }).populate("category").populate("brands").limit(8);
         res.render("productsDetails", ({
             Products,
             user,
@@ -439,54 +439,81 @@ const productDetails = async (req, res) => {
 //CART//
 const loadCart = async (req, res) => {
     try {
-        const user = req.session.userLogin
-        const userCheck = await User.findById(user);
-        let subTotal;  
-        const cart = await Cart.findOne({ userId: user }).populate({ path: "products.productId", populate: { path: "category" } });
-        if (cart) {
-            subTotal = cart.products.reduce((acc, product) => {
-                if(product.productId.offerId){
-                     return acc + ((product.price-product.productId.offerPrice) * product.quantity);
-                }else{
-                     return acc + (product.price * product.quantity);
-                }
-            }, 0);
-            cart.totalPrice = subTotal
-            cart.save();
+        const user = req.session.userLogin;
+
+        if (!user) {
+            req.flash("error_message", "You are not logged in! Please login");
+            return res.redirect("/login");
         }
 
-        if (user) {
-            if (userCheck.isBlocked == false) {
-                res.render("cart", ({
-                    user,
-                    cart,
-                }));
-            } else {
-                req.session.userLogin = null
-                req.flash("error_message", "You are blocked by the admin");
-                res.redirect("/login");
+        const userCheck = await User.findById(user);
+        if (userCheck.isBlocked) {
+            req.session.userLogin = null;
+            req.flash("error_message", "You are blocked by the admin");
+            return res.redirect("/login");
+        }
+
+        let cart = await Cart.findOne({ userId: user }).populate({
+            path: "products.productId",
+            populate: { path: "category" },
+        });
+
+        if (cart) {
+            let subTotal = 0;
+            const updatedProducts = [];
+
+            for (const product of cart.products) {
+                const productData = product.productId;
+
+                if (!productData || productData.isActive === false || productData.stock <= 0) {
+                    await Cart.updateOne(
+                        { userId: user },
+                        { $pull: { products: { productId: productData?._id } } }
+                    );
+                    continue;
+                }
+
+                if (product.quantity > productData.stock) {
+                    product.quantity = productData.stock;
+                }
+
+                const productPrice = productData.offerId
+                    ? (product.price-productData.offerPrice)
+                    : product.price;
+
+                subTotal += productPrice * product.quantity;
+                updatedProducts.push(product);
             }
 
-        } else {
-            req.flash("error_message", "You are not logged in ! please login");
-            res.redirect("/login");
+            cart.products = updatedProducts;
+            cart.totalPrice = subTotal;
+            await cart.save();
         }
 
+        res.render("cart", {
+            user,
+            cart,
+        });
     } catch (error) {
         console.error(error);
+        res.status(500).send("Internal Server Error");
     }
-}
+};
+
 const addToCart = async (req, res) => {
     try {
+        const userId = req.session.userLogin;
         const { productId, quantity } = req.body;
         const product = await Product.findById(productId);
-        const userId = req.session.userLogin;
         let cart = await Cart.findOne({ userId: userId });
+        if(!userId){
+            return res.status(200).json({ success: false , message: "Please login"});
+        }
         if (cart) {
             let itemIndex = cart.products.findIndex(product => product.productId == productId);
 
             if (itemIndex > -1) {
-                return res.status(200).json({ success: false });
+                return res.status(200).json({ success: false , message : "item already in cart"});
             } else {
                 cart.products.push({
                     productId: productId,
@@ -570,37 +597,58 @@ const updateQuantity = async (req, res) => {
 //wishlist
 const loadWishlist = async (req, res) => {
     try {
-        const user = req.session.userLogin
-        const userCheck = await User.findById(user);
-        const wishlist = await Wishlist.findOne({ userId: user }).populate({ path: "products.productId", populate: { path: "category" } });
-
-        if (user) {
-            if (userCheck.isBlocked == false) {
-                res.render("wishlist", ({
-                    user,
-                    wishlist
-                }));
-            } else {
-                req.session.userLogin = null
-                req.flash("error_message", "You are blocked by the admin");
-                res.redirect("/login");
-            }
-
-        } else {
-            req.flash("error_message", "You are not logged in ! please login");
-            res.redirect("/login");
+        const user = req.session.userLogin;
+        if (!user) {
+            req.flash("error_message", "You are not logged in! Please login");
+            return res.redirect("/login");
         }
 
+        const userCheck = await User.findById(user);
+        if (userCheck.isBlocked) {
+            req.session.userLogin = null;
+            req.flash("error_message", "You are blocked by the admin");
+            return res.redirect("/login");
+        }
+
+        // Load the wishlist
+        let wishlist = await Wishlist.findOne({ userId: user }).populate({ 
+            path: "products.productId", 
+            populate: { path: "category" } 
+        });
+
+        if (wishlist && wishlist.products) {
+            wishlist.products = wishlist.products.filter(product => {
+                if (product.productId && product.productId.isActive === false) {
+                    Wishlist.updateOne(
+                        { userId: user },
+                        { $pull: { products: { productId: product.productId._id } } }
+                    ).catch(err => console.error("Failed to remove blocked product:", err));
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        res.render("wishlist", {
+            user,
+            wishlist
+        });
     } catch (error) {
         console.error(error);
+        res.status(500).send("Internal Server Error");
     }
-}
+};
+
 const addWishlist = async (req, res) => {
     try {
         const { productId } = req.body;
         const userId = req.session.userLogin;
         let wishlist = await Wishlist.findOne({ userId: userId })
+        if(!userId){
+            return res.status(200).json({ success: false , message: "Please login"});
+        }
         if (wishlist) {
+            
             wishlist.products.push({
                 productId: productId,
             });
@@ -776,55 +824,133 @@ const editAddress = async (req, res) => {
     }
 }
 
-const loadChechout = async (req, res) => {
+const loadCheckout = async (req, res) => {
     try {
         const userId = req.session.userLogin;
         const coupon = req.session.coupon || false;
-        const cart = await Cart.findOne({ userId: userId }).populate({ path: "products.productId", populate: { path: "category" } });
+
+        const cart = await Cart.findOne({ userId }).populate({
+            path: "products.productId",
+            populate: { path: "category" },
+        });
+
+        // Validate cart products
+        if (cart && cart.products.length > 0) {
+            let updatedProducts = [];
+            let productsRemoved = false;
+
+            for (const product of cart.products) {
+                const productData = product.productId;
+
+                if (!productData || productData.isActive === false || productData.stock <= 0) {
+                    
+                    await Cart.updateOne(
+                        { userId },
+                        { $pull: { products: { productId: productData?._id } } }
+                    );
+                    res.status(200).json({success: false,message: "Some products were removed from your cart as they are either blocked or out of stock.",});
+                    productsRemoved = true;
+                } else {
+                    updatedProducts.push(product);
+                }
+            }
+
+            cart.products = updatedProducts;
+            await cart.save();
+
+            if (productsRemoved) {
+                res.status(200).json({success: false,message: "Some products were removed from your cart as they are either blocked or out of stock.",});
+                setTimeout(() => {
+                    return res.redirect("/cart");
+                }, 2000);
+            }
+        }
+
         const address = await Address.findOne({ userId });
         const coupons = await Coupon.find({ expiryDate: { $gt: Date.now() } });
-        if (cart.products.length < 1) {
+
+        if (!cart || cart.products.length < 1) {
             return res.redirect("/cart");
         }
-        res.render("checkout", ({
+
+        res.render("checkout", {
             user: userId,
             cart,
             address,
             coupon,
             coupons,
-        }));
+        });
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
-}
+};
+
 
 const placeOrder = async (req, res) => {
     try {
-        const address = req.body.address
+        const address = req.body.address;
         const paymentMethod = req.body.paymentMethod;
-        const userId = req.session.userLogin
+        const userId = req.session.userLogin;
         const coupon = req.session.coupon;
-        
+
         const cart = await Cart.findOne({ userId }).populate("products.productId");
-        let totalPrice = 0;
-        cart.products.forEach(item => {
-            let productPrice
-            if(item.productId.offerPrice){
-                 productPrice = item.productId.offerPrice;
-            }else{
-                 productPrice = item.productId.price;
-            }
-            
-            const quantity = item.quantity;
-            totalPrice += productPrice * quantity;
-        });
-        if (coupon) {
-            var coupons = await Coupon.findById(coupon._id)
-            couponCode = coupon.code;
-            discountValue = totalPrice - cart.totalPrice;
+
+        if (!cart || cart.products.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: "Your cart is empty or contains invalid products.",
+            });
         }
+
+        let totalPrice = 0;
+        const validProducts = [];
+
+        for (const product of cart.products) {
+            const productData = product.productId;
+
+            if (!productData || productData.isActive === false || productData.stock <= 0) {
+                await Cart.updateOne(
+                    { userId },
+                    { $pull: { products: { productId: productData?._id } } }
+                );
+                continue;
+            }
+
+            if (product.quantity > productData.stock) {
+                product.quantity = productData.stock;
+            }
+
+            const productPrice = productData.offerPrice || productData.price;
+            totalPrice += productPrice * product.quantity;
+
+            validProducts.push(product);
+        }
+
+        if (validProducts.length === 0) {
+            res.status(200).json({
+                success: false,
+                message: "Your cart contains blocked or out-of-stock products. Please update your cart.",
+            });
+            setTimeout(() => {
+                return res.redirect("/cart");
+            }, 2000);
+        }
+
+        cart.products = validProducts;
+        await cart.save();
+
+        let discountValue = 0;
+        let couponCode = null;
+        if (coupon) {
+            const couponData = await Coupon.findById(coupon._id);
+            if (couponData) {
+                discountValue = totalPrice - cart.totalPrice;
+                couponCode = coupon.code;
+            }
+        }
+
         const orderData = new Order({
-            userId: userId,
+            userId,
             selectedAddress: {
                 fullName: address.fullName,
                 addressType: address.addressType,
@@ -833,35 +959,163 @@ const placeOrder = async (req, res) => {
                 state: address.state,
                 mobile: address.mobile,
                 pincode: address.pincode,
-                altMobile: address.altMobile
+                altMobile: address.altMobile,
             },
             ...(coupon ? { couponCode, discountValue } : {}),
-            products: cart.products,
+            products: validProducts,
             totalPrice: cart.totalPrice,
-            paymentMethod: paymentMethod,
+            paymentMethod,
             orderStatus: "Processing",
         });
 
-        const saveOrder = orderData.save();
+        const saveOrder = await orderData.save();
         if (saveOrder) {
-            await Cart.findByIdAndDelete({ _id: cart._id });
-            for (const product of cart.products) {
+            await Cart.findByIdAndDelete(cart._id);
+
+            for (const product of validProducts) {
                 await Product.updateOne(
                     { _id: product.productId._id },
                     { $inc: { stock: -(product.quantity) } }
                 );
-                if (coupon) {
-                    coupons.usedCount += 1
-                    coupons.save();
-                }
-                req.session.coupon = ""
             }
+
+            if (coupon) {
+                const couponData = await Coupon.findById(coupon._id);
+                couponData.usedCount += 1;
+                await couponData.save();
+                req.session.coupon = null;
+            }
+
             return res.status(200).json({ success: true });
         }
     } catch (error) {
         console.error(error);
     }
-}
+};
+const placeOrderWithWallet = async (req, res) => {
+    try {
+        const address = req.body.address;
+        const userId = req.session.userLogin;
+        const coupon = req.session.coupon;
+
+        const cart = await Cart.findOne({ userId }).populate("products.productId");
+        const wallet = await Wallet.findOne({ userId });
+
+        if (!cart || cart.products.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: "Your cart is empty or contains invalid products.",
+            });
+        }
+
+        let totalPrice = 0;
+        const validProducts = [];
+
+        for (const product of cart.products) {
+            const productData = product.productId;
+
+            if (!productData || productData.isActive == false || productData.stock <= 0) {
+                await Cart.updateOne(
+                    { userId },
+                    { $pull: { products: { productId: productData?._id } } }
+                );
+                continue;
+            }
+
+            if (product.quantity > productData.stock) {
+                product.quantity = productData.stock;
+            }
+
+            const productPrice = productData.offerPrice || productData.price;
+            totalPrice += productPrice * product.quantity;
+
+            validProducts.push(product);
+        }
+
+        if (validProducts.length === 0) {
+            res.status(200).json({
+                success: false,
+                message: "Your cart contains blocked or out-of-stock products. Please update your cart.",
+            });
+            setTimeout(() => {
+                return res.redirect("/cart");
+            }, 2000);
+        }
+
+        cart.products = validProducts;
+        await cart.save();
+
+        let discountValue = 0;
+        let couponCode = null;
+        if (coupon) {
+            const couponData = await Coupon.findById(coupon._id);
+            if (couponData) {
+                discountValue = totalPrice - cart.totalPrice;
+                couponCode = coupon.code;
+            }
+        }
+
+        totalPrice = cart.totalPrice;
+
+        if (wallet.balance < totalPrice) {
+            return res.status(200).json({success: false,message: "Insufficient wallet balance. Please recharge your wallet or choose another payment method.",})
+        }
+
+        wallet.balance -= totalPrice;
+        wallet.walletHistory.push({
+            transactionType: "debit",
+            amount: totalPrice,
+            description: "Purchase",
+        });
+        await wallet.save();
+
+        const orderData = new Order({
+            userId,
+            selectedAddress: {
+                fullName: address.fullName,
+                addressType: address.addressType,
+                address: address.address,
+                city: address.city,
+                state: address.state,
+                mobile: address.mobile,
+                pincode: address.pincode,
+                altMobile: address.altMobile,
+            },
+            ...(coupon ? { couponCode, discountValue } : {}),
+            products: validProducts,
+            totalPrice: cart.totalPrice,
+            paymentMethod: "Wallet",
+            paymentStatus : "Completed",
+            orderStatus: "Processing",
+        });
+
+        const saveOrder = await orderData.save();
+        if (saveOrder) {
+            await Cart.findByIdAndDelete(cart._id);
+
+            for (const product of validProducts) {
+                await Product.updateOne(
+                    { _id: product.productId._id },
+                    { $inc: { stock: -(product.quantity) } }
+                );
+            }
+
+            if (coupon) {
+                const couponData = await Coupon.findById(coupon._id);
+                couponData.usedCount += 1;
+                await couponData.save();
+                req.session.coupon = null;
+            }
+
+            return res.status(200).json({ success: true });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+
 const verifyCoupon = async (req, res) => {
     try {
         const { couponCode } = req.body;
@@ -1151,9 +1405,10 @@ module.exports = {
     deleteAddress,
     editAddress,
     loadEditAdd,
-    loadChechout,
+    loadCheckout,
     loadOrderSuccces,
     placeOrder,
+    placeOrderWithWallet,
     loadOrderDetails,
     cancelOrder,
     returnOrder,

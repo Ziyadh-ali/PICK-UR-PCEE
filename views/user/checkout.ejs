@@ -380,7 +380,15 @@
                         <div class="modal-body">
                           <% coupons.forEach(item=>{%>
                               <% if(item.expiryDate > Date.now()){%>
-                                <p><%= item.code %></p>
+                                <div class="coupon-item" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                  <p style="margin: 0;"><%= item.code %></p>
+                                  <button
+                                    class="btn btn-primary btn-sm copy-btn"
+                                    onclick="copyToClipboard('<%= item.code %>')"
+                                  >
+                                    Copy
+                                  </button>
+                                </div>
                                 <%} %>
                             <%}) %>
                         </div>
@@ -690,6 +698,23 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
+    function copyToClipboard(text) {
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(`Coupon code "${text}" copied to clipboard!`,"success")
+    }).catch(err => {
+      const tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast(`Coupon code "${text}" copied to clipboard!`,"success")
+    });
+  } catch (err) {
+    alert("Failed to copy. Please try again.");
+  }
+}
     $(document).ready(function () {
       $('.address-panel').on('click', function (event) {
         if (!$(event.target).closest('a').length) {
