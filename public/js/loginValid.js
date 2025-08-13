@@ -45,7 +45,7 @@
         event.preventDefault(); 
 
         if (validateInputs()) {
-            const formData = $(this).serialize(); 
+            const formData = $(this).serialize();
             $.ajax({
                 url: '/login',
                 type: 'POST',

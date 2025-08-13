@@ -116,6 +116,7 @@ const userInsert = async (req, res) => {
                 length: 6,
                 charset: "numeric"
             });
+            console.log("otp" , otp)
             req.session.otp = otp
             req.session.timeLimit = Date.now() + 120000;
             transporter.sendMail({

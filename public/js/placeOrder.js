@@ -3,118 +3,184 @@
 let form = document.getElementById('orderDetails');
 
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    let selectedAddressElement = document.querySelector('.address-radio:checked');
-    let selectedAddress = null;
-    
-    if (selectedAddressElement) {
-        
-        let addressPanel = selectedAddressElement.closest('.address-panel');
-        
-                selectedAddress = {
-                    fullName: addressPanel.querySelector('strong').innerText,
-                    addressType: addressPanel.querySelector('span').innerText,
-                    address: addressPanel.querySelector('.address').innerText,
-                    city: addressPanel.querySelector('.city').innerText,
-                    state: addressPanel.querySelector('.state').innerText,
-                    mobile: addressPanel.querySelector('.mobile').innerText,
-                    pincode: addressPanel.querySelector('.pincode').innerText,
-                    altMobile: addressPanel.querySelector('.altMobile') 
-                        ? addressPanel.querySelector('.altMobile').innerText 
-                        : null
-                };
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
+  let selectedAddressElement = document.querySelector('.address-radio:checked');
+  let selectedAddress = null;
+
+  if (selectedAddressElement) {
+
+    let addressPanel = selectedAddressElement.closest('.address-panel');
+
+    selectedAddress = {
+      fullName: addressPanel.querySelector('strong').innerText,
+      addressType: addressPanel.querySelector('span').innerText,
+      address: addressPanel.querySelector('.address').innerText,
+      city: addressPanel.querySelector('.city').innerText,
+      state: addressPanel.querySelector('.state').innerText,
+      mobile: addressPanel.querySelector('.mobile').innerText,
+      pincode: addressPanel.querySelector('.pincode').innerText,
+      altMobile: addressPanel.querySelector('.altMobile')
+        ? addressPanel.querySelector('.altMobile').innerText
+        : null
+    };
+  }
+
+  if (!selectedAddress) {
+    return Toastify({
+      text: "Please select a address",
+      duration: 3000,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "#dc3545",
+    }).showToast();
+  }
+  let paymentElement = document.querySelector('input[name="payment"]:checked');
+  let selectedPaymentMethod = paymentElement ? paymentElement.value : null;
+  const totalPriceText = document.getElementById("totalPrice").innerHTML;
+  const totalPrice = totalPriceText.replace(/[^\d.-]/g, '');
+
+
+
+
+
+  let orderData = {
+    totalPrice,
+    address: selectedAddress,
+    paymentMethod: selectedPaymentMethod,
+  };
+
+  if (selectedPaymentMethod === "Cash on Delivery") {
+    if (totalPrice >= 1000) {
+      return showToast("order above 1000 should'nt order cash on delivery", "error");
     }
-    
-    if(!selectedAddress){
-        return Toastify({
-            text: "Please select a address",
+    $.ajax({
+      url: '/checkout/placeOrder',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(orderData),
+      success: function (response) {
+        if (response.success) {
+          window.location.href = '/orderSuccess';
+        } else {
+          showToast(response.message, "error");
+        }
+      },
+      error: function (error) {
+        showToast('An error occurred: ' + error, "error");
+      }
+    });
+  } else if (selectedPaymentMethod === "Paypal") {
+    $.ajax({
+      url: "/checkout/payWithPaypal",
+      type: "POST",
+      data: orderData,
+      success: function (response) {
+        if (response.success && response.redirectUrl) {
+          window.location.href = response.redirectUrl;
+        } else {
+          Toastify({
+            text: "Payment error",
             duration: 3000,
             gravity: "top",
             position: "right",
             backgroundColor: "#dc3545",
           }).showToast();
-    }
-    let paymentElement = document.querySelector('input[name="payment"]:checked');
-    let selectedPaymentMethod = paymentElement ? paymentElement.value : null;
-    const totalPriceText = document.getElementById("totalPrice").innerHTML;
-    const totalPrice = totalPriceText.replace(/[^\d.-]/g, '');
-
-    
-   
-
-    
-    let orderData = {
-        totalPrice,
-        address: selectedAddress,
-        paymentMethod: selectedPaymentMethod,
-    };
-
-    if(selectedPaymentMethod === "Cash on Delivery"){
-        if(totalPrice >= 1000){
-            return showToast("order above 1000 should'nt order cash on delivery","error");
         }
-        $.ajax({
-            url: '/checkout/placeOrder',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(orderData),
-            success: function(response) {
-              if(response.success){
-                window.location.href = '/orderSuccess';
-              }else{
-                showToast(response.message,"error");
-              }
-            },
-            error: function(error) {
-                showToast('An error occurred: ' + error,"error");
-            }
+      },
+      error: function () {
+        Toastify({
+          text: "An error occurred",
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#dc3545",
+        }).showToast();
+      },
+    });
+  } else if (selectedPaymentMethod === "Razorpay") {
+    (async () => {
+      try {
+        const res = await fetch("/checkout/payWithRazorpay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            totalPrice: totalPrice, // already from JS above
+            paymentMethod: "Razorpay",
+            address: selectedAddress
+          })
         });
-    }else if (selectedPaymentMethod === "Paypal"){
-        $.ajax({
-            url: "/checkout/payWithPaypal",
-            type: "POST",
-            data:  orderData,
-            success: function (response) {
-              if (response.success && response.redirectUrl) {
-                window.location.href = response.redirectUrl;
-              } else {
-                Toastify({
-                  text: "Payment error",
-                  duration: 3000,
-                  gravity: "top",
-                  position: "right",
-                  backgroundColor: "#dc3545",
-                }).showToast();
+
+        const data = await res.json();
+
+        if (data.success) {
+          const options = {
+            key: data.key,
+            amount: data.amount,
+            currency: data.currency,
+            name: "My Store",
+            description: "Order Payment",
+            order_id: data.orderId,
+            handler: function (response) {
+              fetch("/checkout/verifyRazorpayPayment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(response)
+              }).then(res => {
+                if (res.ok) window.location.href = "/orderSuccess";
+              });
+            },
+            theme: { color: "#3399cc" }
+          };
+
+          const rzp = new Razorpay(options);
+
+          // 💡 Handle payment failure here
+          rzp.on("payment.failed", function (response) {
+            fetch("/checkout/paymentFailed", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                paymentMethod: "Razorpay",
+                address: selectedAddress,
+                paymentStatus: "Failed",
+                error: response.error // You can store this for debugging
+              })
+            }).then(res => {
+              if (res.ok) {
+                window.location.href = "/orderSuccess";
               }
-            },
-            error: function () {
-              Toastify({
-                text: "An error occurred",
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "#dc3545",
-              }).showToast();
-            },
+            }).catch(err => {
+              console.error("Failed to handle Razorpay failure:", err);
+            });
           });
-        }else if (selectedPaymentMethod === "Wallet"){
-          $.ajax({
-            url: '/checkout/payWithWallet',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(orderData),
-            success: function(response) {
-              if(response.success){
-                window.location.href = '/orderSuccess';
-              }else{
-                showToast(response.message,"error");
-              }
-                
-            },
-            error: function(error) {
-                showToast('An error occurred: ' + error,"error");
-            }
-        });
-          }
+
+          rzp.open();
+        } else {
+          showToast("Failed to initiate Razorpay payment", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Error connecting to Razorpay", "error");
+      }
+    })();
+  } else if (selectedPaymentMethod === "Wallet") {
+    $.ajax({
+      url: '/checkout/payWithWallet',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(orderData),
+      success: function (response) {
+        if (response.success) {
+          window.location.href = '/orderSuccess';
+        } else {
+          showToast(response.message, "error");
+        }
+
+      },
+      error: function (error) {
+        showToast('An error occurred: ' + error, "error");
+      }
+    });
+  }
 });

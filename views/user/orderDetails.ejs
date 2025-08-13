@@ -1,687 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Electro - HTML Ecommerce Template</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Google font -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- Toastify CSS and JS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <title>Electro - HTML Ecommerce Template</title>
 
-    <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="/css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="/css/slick-theme.css" />
+  <!-- Toastify CSS and JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-    <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="/css/nouislider.min.css" />
+  <!-- Bootstrap -->
+  <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
 
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+  <!-- Slick -->
+  <link type="text/css" rel="stylesheet" href="/css/slick.css" />
+  <link type="text/css" rel="stylesheet" href="/css/slick-theme.css" />
 
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="/css/UserHome.css" />
-    <!-- Sweet alert -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-    />
+  <!-- nouislider -->
+  <link type="text/css" rel="stylesheet" href="/css/nouislider.min.css" />
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" />
+  <!-- Font Awesome Icon -->
+  <link rel="stylesheet" href="/css/font-awesome.min.css" />
 
-    <style>
-        .order-summary {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 5px;
-        }
-        .order-summary .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .order-summary .section-content {
-            margin-bottom: 15px;
-        }
-        .order-actions {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .order-actions .btn {
-            margin: 5px;
-            width: 140px;
-        }
-        .panel-title {
-            font-size: 20px;
-        }
-        .product-details {
-            margin-bottom: 20px;
-        }
-        .product-details img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-        }
-        #bar-progress {
-    width: 100%;
-    display: inline-flex;
-}
+  <!-- Custom stlylesheet -->
+  <link type="text/css" rel="stylesheet" href="/css/UserHome.css" />
+  <!-- Sweet alert -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 
-#bar-progress .step {
-    display: inline-block;
-}
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" />
 
-#bar-progress .step .number-container {
-    display: inline-block;
-    border: solid 1px #000;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-}
+  <style>
+    .order-summary {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
 
-#bar-progress .step.step-active .number-container {
-    background-color: black;
-}
-#bar-progress .step.step-active-cancelled .number-container {
-    background-color: red;
-}
+    .order-summary .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
 
-#bar-progress .step .number-container .number {
-    font-weight: 700;
-    font-size: .8em;
-    line-height: 1.75em;
-    display: block;
-    text-align: center;
-}
+    .order-summary .section-content {
+      margin-bottom: 15px;
+    }
 
-#bar-progress .step.step-active .number-container .number {
-    color: white;
-}
+    .order-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
 
-#bar-progress .step h5 {
-    display: inline;
-    font-weight: 100;
-    font-size: .8em;
-    margin-left: 10px;
-    text-transform: uppercase;
-}
+    .order-actions .btn {
+      margin: 5px;
+      width: 140px;
+    }
 
-#bar-progress .seperator {
-    display: block;
-    width: 20px;
-    height: 1px;
-    background-color: rgba(0, 0, 0, .2);
-    margin: auto 20px;
-}
-    </style>
-  </head>
-  <body>
-    <header>
-      <!-- TOP HEADER -->
-      <div id="top-header">
-        <div class="container">
-          <ul class="header-links pull-left">
-            <li>
-              <a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a>
-            </li>
-            <li>
-              <a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a>
-            </li>
-            <li>
-              <a href="#"
-                ><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a
-              >
-            </li>
-          </ul>
-          <ul class="header-links pull-right">
-            <% if(user){%>
+    .panel-title {
+      font-size: 20px;
+    }
+
+    .product-details {
+      margin-bottom: 20px;
+    }
+
+    .product-details img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+    }
+
+    #bar-progress {
+      width: 100%;
+      display: inline-flex;
+    }
+
+    #bar-progress .step {
+      display: inline-block;
+    }
+
+    #bar-progress .step .number-container {
+      display: inline-block;
+      border: solid 1px #000;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+    }
+
+    #bar-progress .step.step-active .number-container {
+      background-color: black;
+    }
+
+    #bar-progress .step.step-active-cancelled .number-container {
+      background-color: red;
+    }
+
+    #bar-progress .step .number-container .number {
+      font-weight: 700;
+      font-size: .8em;
+      line-height: 1.75em;
+      display: block;
+      text-align: center;
+    }
+
+    #bar-progress .step.step-active .number-container .number {
+      color: white;
+    }
+
+    #bar-progress .step h5 {
+      display: inline;
+      font-weight: 100;
+      font-size: .8em;
+      margin-left: 10px;
+      text-transform: uppercase;
+    }
+
+    #bar-progress .seperator {
+      display: block;
+      width: 20px;
+      height: 1px;
+      background-color: rgba(0, 0, 0, .2);
+      margin: auto 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+      <div class="container">
+        <ul class="header-links pull-left">
+          <li>
+            <a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a>
+          </li>
+        </ul>
+        <ul class="header-links pull-right">
+          <% if(user){%>
             <li><a href="/logout">Logout</a></li>
             <li>
               <a href="#"><i class="fa fa-user-o"></i> My Account</a>
             </li>
 
             <%}else{%>
-            <li><a href="/login">Login</a></li>
-            <%} %>
-          </ul>
-        </div>
+              <li><a href="/login">Login</a></li>
+              <%} %>
+        </ul>
       </div>
-      <!-- /TOP HEADER -->
+    </div>
+    <!-- /TOP HEADER -->
 
-      <!-- MAIN HEADER -->
-      <div id="header">
-        <!-- container -->
-        <div class="container">
-          <!-- row -->
-          <div class="row">
-            <!-- LOGO -->
-            <div class="col-md-3">
-              <div class="header-logo">
-                <div class="header-logo">
-                  <h2 style="margin-top: 20px">
-                    <a href="/" class="logo">PICK UR PCEE</a>
-                  </h2>
-                </div>
-              </div>
-            </div>
-            <!-- /LOGO -->
-
-            <!-- SEARCH BAR -->
-            <div class="col-md-6">
-              <div class="header-search">
-                <form>
-                  <select class="input-select">
-                    <option value="0">All Categories</option>
-                    <option value="1">Category 01</option>
-                    <option value="1">Category 02</option>
-                  </select>
-                  <input class="input" placeholder="Search here" />
-                  <button class="search-btn">Search</button>
-                </form>
-              </div>
-            </div>
-            <!-- /SEARCH BAR -->
-
-            <!-- ACCOUNT -->
-            <div class="col-md-3 clearfix">
-              <div class="header-ctn">
-                <!-- Wishlist -->
-                <div>
-                  <a href="/wishlist">
-                    <i class="fa fa-heart-o"></i>
-                    <span>Your Wishlist</span>
-                  </a>
-                </div>
-                <!-- /Wishlist -->
-
-                <!-- Cart -->
-                <div>
-                  <a href="/cart">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span>Your Cart</span>
-                    <!-- <div class="qty">3</div> -->
-                  </a>
-                </div>
-                <!-- /Cart -->
-
-                <!-- Menu Toogle -->
-                <div class="menu-toggle">
-                  <a href="#">
-                    <i class="fa fa-bars"></i>
-                    <span>Menu</span>
-                  </a>
-                </div>
-                <!-- /Menu Toogle -->
-              </div>
-            </div>
-            <!-- /ACCOUNT -->
-          </div>
-          <!-- row -->
-        </div>
-        <!-- container -->
-      </div>
-      <!-- /MAIN HEADER -->
-    </header>
-    <!-- BREADCRUMB -->
-    <div id="breadcrumb" class="section">
+    <!-- MAIN HEADER -->
+    <div id="header">
       <!-- container -->
       <div class="container">
         <!-- row -->
         <div class="row">
-          <div class="col-md-12">
-            <ul class="breadcrumb-tree">
-              <li><a href="/">Home</a></li>
-              <li>
-                <a href="/account">Account</a>
-              </li>
-              <!-- <li><a href="#">Accessories</a></li>
+          <!-- LOGO -->
+          <div class="col-md-3">
+            <div class="header-logo">
+              <div class="header-logo">
+                <h2 style="margin-top: 20px">
+                  <a href="/" class="logo">PICK UR PCEE</a>
+                </h2>
+              </div>
+            </div>
+          </div>
+          <!-- /LOGO -->
+
+          <!-- SEARCH BAR -->
+          <div class="col-md-6">
+            <div class="header-search">
+              <form>
+                <select class="input-select">
+                  <option value="0">All Categories</option>
+                  <option value="1">Category 01</option>
+                  <option value="1">Category 02</option>
+                </select>
+                <input class="input" placeholder="Search here" />
+                <button class="search-btn">Search</button>
+              </form>
+            </div>
+          </div>
+          <!-- /SEARCH BAR -->
+
+          <!-- ACCOUNT -->
+          <div class="col-md-3 clearfix">
+            <div class="header-ctn">
+              <!-- Wishlist -->
+              <div>
+                <a href="/wishlist">
+                  <i class="fa fa-heart-o"></i>
+                  <span>Your Wishlist</span>
+                </a>
+              </div>
+              <!-- /Wishlist -->
+
+              <!-- Cart -->
+              <div>
+                <a href="/cart">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>Your Cart</span>
+                  <!-- <div class="qty">3</div> -->
+                </a>
+              </div>
+              <!-- /Cart -->
+
+              <!-- Menu Toogle -->
+              <div class="menu-toggle">
+                <a href="#">
+                  <i class="fa fa-bars"></i>
+                  <span>Menu</span>
+                </a>
+              </div>
+              <!-- /Menu Toogle -->
+            </div>
+          </div>
+          <!-- /ACCOUNT -->
+        </div>
+        <!-- row -->
+      </div>
+      <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+  </header>
+  <!-- BREADCRUMB -->
+  <div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+      <!-- row -->
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="breadcrumb-tree">
+            <li><a href="/">Home</a></li>
+            <li>
+              <a href="/account">Account</a>
+            </li>
+            <!-- <li><a href="#">Accessories</a></li>
                               <li><a href="#">Headphones</a></li>
                               <li class="active">Product name goes here</li>   -->
-            </ul>
+          </ul>
+        </div>
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /BREADCRUMB -->
+  <div class="container">
+    <h2 class="text-center">Order Details</h2>
+
+    <!-- Order Information Panel -->
+    <div class="order-summary">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-title">Order ID: <%= order._id %>
+          </div>
+          <div class="section-content">Order Date: <%= new Date(order.orderedAt).toDateString() %>
+          </div>
+          <% if(order.couponCode){%>
+            <div class="section-content">Coupon Code: <%= order.couponCode %>
+            </div>
+
+            <div class="section-content">Discount: ₹<%= order.discountValue %>
+            </div>
+            <%} %>
+              <div class="section-content">Payment Method: <%= order.paymentMethod %>
+              </div>
+              <% if(order.paymentMethod !=="Cash on Delivery" ){%>
+                <div class="section-content">Payment Status: <%= order.paymentStatus %>
+                </div>
+                <%} %>
+
+                  <% if(order.paymentStatus==="Failed" && order.orderStatus !=="Cancelled" ){%>
+                    <button onclick="payWithRazorpay('<%= order._id %>')" style=" color: #0c2755;"
+                      class="btn btn-warning btn-sm" id="cancelOrderBtn">Razorpay</button>
+                    <%} %>
+        </div>
+        <div class="col-md-6">
+          <div class="section-title">Total Amount: ₹ <%= order.totalPrice %>
+          </div>
+          <div id="bar-progress" class="section-content">
+            <% if(order.orderStatus !=="Failed" ){%>
+              <div
+                class="step <%= order.orderStatus === 'Processing' || order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned' ? 'step-active' : '' %>">
+                <span class="number-container">
+                  <span class="number">1</span>
+                </span>
+                <h5>Processing</h5>
+              </div>
+              <div class="seperator"></div>
+              <div
+                class="step <%= order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned' ? 'step-active' : '' %>">
+                <span class="number-container">
+                  <span class="number">2</span>
+                </span>
+                <h5>Shipped</h5>
+              </div>
+              <div class="seperator"></div>
+              <div
+                class="step <%= order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned'  ? 'step-active' : '' %>">
+                <span class="number-container">
+                  <span class="number">3</span>
+                </span>
+                <h5>
+                  <%= order.orderStatus==='Cancelled' ? 'Cancelled' : order.orderStatus==='Returned' ? 'Returned'
+                    : 'Delivered' %>
+                </h5>
+              </div>
+              <%}else{%>
+                <div>
+                  <p style="color: red;">Order Failed</p>
+                  <p style="color: red;">Complete the Payment to Process the delivery</p>
+                </div>
+                <%} %>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Items in your Order</h3>
+      </div>
+      <div class="panel-body">
+        <% order.products.forEach(product=> { %>
+          <div class="row product-details"></div>
+          <div class="col-md-2">
+            <img width="100px" src="<%= product.productId.image[0] %>" alt="Product 1" class="img-responsive">
+          </div>
+          <div class="col-md-6">
+            <h4>
+              <%= product.productId.name %>
+            </h4>
+            <p>Quantity: <%= product.quantity %>
+            </p>
+
+            <% if(product.productId.offerId){%>
+              <p>Price: ₹ <%= product.price - product.productId.offerPrice %>
+              </p>
+              <p>Sub Total: ₹ <%= (product.price - product.productId.offerPrice) * product.quantity %>
+              </p>
+              <%}else{%>
+                <p>Price: ₹ <%= product.price %>
+                </p>
+                <p>Sub Total: ₹ <%= product.price * product.quantity %>
+                </p>
+                <%} %>
+
+          </div>
+          <div class="col-md-4 text-right">
+            <p></p>
+          </div>
+
+          <% }) %>
+      </div>
+    </div>
+
+    <!-- Order Actions (Cancel & Return Buttons) -->
+    <div class="order-actions">
+      <% if (order.orderStatus !=="Cancelled" && order.orderStatus !=="Delivered" && order.orderStatus !=="Returned" ) {
+        %>
+        <button onclick="cancelOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Cancel
+          Order</button>
+        <% } %>
+          <% if(order.orderStatus !=="Returned" && order.orderStatus==="Delivered" ){ %>
+            <button onclick="returnOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Return
+              Order</button>
+            <% } %>
+
+              <button class="btn btn-grey btn-sm" id="invoice" onclick="downloadInvoice('<%= order._id %>')">Download
+                Invoice</button>
+
+    </div>
+
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div id="newsletter" class="section"></div>
+  <!-- /NEWSLETTER -->
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <!-- top footer -->
+    <div class="section">
+      <!-- container -->
+      <div class="container">
+        <!-- row -->
+        <div class="row">
+          <div class="col-md-3 col-xs-6">
+            <div class="footer">
+              <h3 class="footer-title">About Us</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                do eiusmod tempor incididunt ut.
+              </p>
+              <ul class="footer-links">
+                <li>
+                  <a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-xs-6">
+            <div class="footer">
+              <h3 class="footer-title">Categories</h3>
+              <ul class="footer-links">
+                <li><a href="#">Hot deals</a></li>
+                <li><a href="#">Laptops</a></li>
+                <li><a href="#">Smartphones</a></li>
+                <li><a href="#">Cameras</a></li>
+                <li><a href="#">Accessories</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="clearfix visible-xs"></div>
+
+          <div class="col-md-3 col-xs-6">
+            <div class="footer">
+              <h3 class="footer-title">Information</h3>
+              <ul class="footer-links">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Orders and Returns</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-xs-6">
+            <div class="footer">
+              <h3 class="footer-title">Service</h3>
+              <ul class="footer-links">
+                <li><a href="#">My Account</a></li>
+                <li><a href="#">View Cart</a></li>
+                <li><a href="#">Wishlist</a></li>
+                <li><a href="#">Track My Order</a></li>
+                <li><a href="#">Help</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <!-- /row -->
       </div>
       <!-- /container -->
     </div>
-    <!-- /BREADCRUMB -->
-    <div class="container">
-        <h2 class="text-center">Order Details</h2>
-    
-        <!-- Order Information Panel -->
-        <div class="order-summary">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="section-title">Order ID: <%= order._id %></div>
-                    <div class="section-content">Order Date: <%= new Date(order.orderedAt).toDateString() %></div>
-                    <% if(order.couponCode){%>
-                      <div class="section-content">Coupon Code: <%= order.couponCode %></div>
-                    
-                      <div class="section-content">Discount: ₹<%= order.discountValue %></div>
-                      <%} %>
-                    <div class="section-content">Payment Method: <%= order.paymentMethod %></div>
-                    <% if(order.paymentMethod !== "Cash on Delivery"){%>
-                      <div class="section-content">Payment Status: <%= order.paymentStatus %></div>
-                  <%} %>
-                    
-                    <% if(order.paymentStatus === "Failed" && order.orderStatus !== "Cancelled"){%>
-                          <button onclick="payWithPaypal('<%= order._id %>')" style=" color: #0c2755;" class="btn btn-warning btn-sm" id="cancelOrderBtn"><i class="fa-brands fa-paypal" style="font-size: 20px; color: #0c2755;"></i> PayPal</button>
-                      <%} %>
-                </div>
-                <div class="col-md-6">
-                    <div class="section-title">Total Amount: ₹ <%= order.totalPrice %></div>
-                    <div id="bar-progress" class="section-content">
-                        <% if(order.orderStatus !== "Failed"){%>
-                          <div class="step <%= order.orderStatus === 'Processing' || order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned' ? 'step-active' : '' %>">
-                            <span class="number-container">
-                                <span class="number">1</span>
-                            </span>
-                            <h5>Processing</h5>
-                        </div>
-                        <div class="seperator"></div>
-                        <div class="step <%= order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned' ? 'step-active' : '' %>">
-                            <span class="number-container">
-                                <span class="number">2</span>
-                            </span>
-                            <h5>Shipped</h5>
-                        </div>
-                        <div class="seperator"></div>
-                        <div class="step <%= order.orderStatus === 'Delivered' || order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned'  ? 'step-active' : '' %>">
-                            <span class="number-container">
-                                <span class="number">3</span>
-                            </span>
-                            <h5>
-                              <%= order.orderStatus === 'Cancelled' 
-                                  ? 'Cancelled' 
-                                  : order.orderStatus === 'Returned' 
-                                  ? 'Returned' 
-                                  : 'Delivered' %>
-                            </h5>
-                          </div>
-                          <%}else{%>
-                            <div>
-                              <p style="color: red;">Order Failed</p>
-                              <p style="color: red;">Complete the Payment to Process the delivery</p>
-                          </div>
-                            <%} %>
-                        
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Product List -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Items in your Order</h3>
-            </div>
-            <div class="panel-body">
-                <% order.products.forEach(product => { %>
-                    <div class="row product-details"></div>
-                    <div class="col-md-2">
-                        <img width="100px" src="<%= product.productId.image[0] %>" alt="Product 1" class="img-responsive">
-                    </div>
-                    <div class="col-md-6">
-                        <h4><%= product.productId.name %></h4>
-                        <p>Quantity: <%= product.quantity %></p>
-                        
-                        <% if(product.productId.offerId){%>
-                          <p>Price: ₹ <%= product.price - product.productId.offerPrice %></p>
-                          <p>Sub Total: ₹ <%= (product.price - product.productId.offerPrice) * product.quantity %></p>
-                          <%}else{%>
-                            <p>Price: ₹ <%= product.price %></p>
-                            <p>Sub Total: ₹ <%= product.price  * product.quantity %></p>
-                            <%} %>
-                        
-                    </div>
-                    <div class="col-md-4 text-right">
-                        <p></p>
-                    </div>
-                  
-                <% }) %>
-            </div>
-        </div>
-        
-        <!-- Order Actions (Cancel & Return Buttons) -->
-        <div class="order-actions">
-          <% if (order.orderStatus !== "Cancelled" && order.orderStatus !== "Delivered" && order.orderStatus !== "Returned") { %> 
-            <button onclick="cancelOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Cancel Order</button>
-          <% } %><% if(order.orderStatus !== "Returned" && order.orderStatus === "Delivered"){ %> 
-              <button onclick="returnOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Return Order</button>
-          <% } %>
+    <!-- /top footer -->
 
-          <button class="btn btn-grey btn-sm" id="invoice" onclick="downloadInvoice('<%= order._id %>')">Download Invoice</button>
-
+    <!-- bottom footer -->
+    <div id="bottom-footer" class="section">
+      <div class="container">
+        <!-- row -->
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <ul class="footer-payments">
+              <li>
+                <a href="#"><i class="fa fa-cc-visa"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-credit-card"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-cc-paypal"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-cc-mastercard"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-cc-discover"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-cc-amex"></i></a>
+              </li>
+            </ul>
+            <span class="copyright">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              All rights reserved | This template is made with
+              <i class="fa fa-heart-o" aria-hidden="true"></i> by
+              <a href="https://colorlib.com" target="_blank">Colorlib</a>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </span>
+          </div>
         </div>
-        
+        <!-- /row -->
+      </div>
+      <!-- /container -->
     </div>
-    
-    <!-- NEWSLETTER -->
-    <div id="newsletter" class="section"></div>
-    <!-- /NEWSLETTER -->
+    <!-- /bottom footer -->
+  </footer>
+  <!-- /FOOTER -->
 
-    <!-- FOOTER -->
-    <footer id="footer">
-      <!-- top footer -->
-      <div class="section">
-        <!-- container -->
-        <div class="container">
-          <!-- row -->
-          <div class="row">
-            <div class="col-md-3 col-xs-6">
-              <div class="footer">
-                <h3 class="footer-title">About Us</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut.
-                </p>
-                <ul class="footer-links">
-                  <li>
-                    <a href="#"
-                      ><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><i class="fa fa-envelope-o"></i>email@email.com</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
+  <!-- jQuery Plugins -->
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/slick.min.js"></script>
+  <script src="/js/nouislider.min.js"></script>
+  <script src="/js/jquery.zoom.min.js"></script>
+  <script src="/js/main.js"></script>
+  <!-- <script src="js/userAddressEdit.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            <div class="col-md-3 col-xs-6">
-              <div class="footer">
-                <h3 class="footer-title">Categories</h3>
-                <ul class="footer-links">
-                  <li><a href="#">Hot deals</a></li>
-                  <li><a href="#">Laptops</a></li>
-                  <li><a href="#">Smartphones</a></li>
-                  <li><a href="#">Cameras</a></li>
-                  <li><a href="#">Accessories</a></li>
-                </ul>
-              </div>
-            </div>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    async function payWithRazorpay(orderId) {
+      try {
+        const res = await fetch("/order/payWithRazorpay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId })
+        });
 
-            <div class="clearfix visible-xs"></div>
+        const data = await res.json();
 
-            <div class="col-md-3 col-xs-6">
-              <div class="footer">
-                <h3 class="footer-title">Information</h3>
-                <ul class="footer-links">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Orders and Returns</a></li>
-                  <li><a href="#">Terms & Conditions</a></li>
-                </ul>
-              </div>
-            </div>
+        if (!data.success) {
+          alert("Failed to start payment");
+          return;
+        }
+        const options = {
+          key: data.key,
+          amount: data.amount,
+          currency: data.currency,
+          name: "My Store",
+          description: "Order Payment",
+          order_id: data.razorpayOrderId,
+          handler: async function (response) {
 
-            <div class="col-md-3 col-xs-6">
-              <div class="footer">
-                <h3 class="footer-title">Service</h3>
-                <ul class="footer-links">
-                  <li><a href="#">My Account</a></li>
-                  <li><a href="#">View Cart</a></li>
-                  <li><a href="#">Wishlist</a></li>
-                  <li><a href="#">Track My Order</a></li>
-                  <li><a href="#">Help</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- /row -->
-        </div>
-        <!-- /container -->
-      </div>
-      <!-- /top footer -->
+            const verifyRes = await fetch("/order/verifyRazorpayPayment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                orderId: orderId
+              })
+            });
 
-      <!-- bottom footer -->
-      <div id="bottom-footer" class="section">
-        <div class="container">
-          <!-- row -->
-          <div class="row">
-            <div class="col-md-12 text-center">
-              <ul class="footer-payments">
-                <li>
-                  <a href="#"><i class="fa fa-cc-visa"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-credit-card"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-cc-paypal"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-cc-mastercard"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-cc-discover"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-cc-amex"></i></a>
-                </li>
-              </ul>
-              <span class="copyright">
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                All rights reserved | This template is made with
-                <i class="fa fa-heart-o" aria-hidden="true"></i> by
-                <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              </span>
-            </div>
-          </div>
-          <!-- /row -->
-        </div>
-        <!-- /container -->
-      </div>
-      <!-- /bottom footer -->
-    </footer>
-    <!-- /FOOTER -->
-
-    <!-- jQuery Plugins -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/slick.min.js"></script>
-    <script src="/js/nouislider.min.js"></script>
-    <script src="/js/jquery.zoom.min.js"></script>
-    <script src="/js/main.js"></script>
-    <!-- <script src="js/userAddressEdit.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-    function payWithPaypal(orderId){
-      $.ajax({
-            url: "/order/payWithPaypal",
-            type: "POST",
-            data: {orderId},
-            success: function (response) {
-              if (response.success && response.redirectUrl) {
-                window.location.href = response.redirectUrl;
+            if (verifyRes.redirected) {
+              window.location.href = verifyRes.url;
+            } else {
+              const verifyData = await verifyRes.json();
+              if (verifyData.success) {
+                window.location.href = "/orderSuccess";
               } else {
-                Swal.fire({
-                    text: "Error in paying",
-                    icon: "error",
-                    timer: 1000,
-                    showConfirmButton: false,
-                  });
+                alert("Payment verification failed");
               }
-            },
-            error: function () {
-              Swal.fire({
-                    text: "Error",
-                    icon: "error",
-                    timer: 1000,
-                    showConfirmButton: false,
-                  });
-            },
-          });
+            }
+          },
+          theme: { color: "#3399cc" }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+      } catch (err) {
+        console.error("Payment init error:", err);
+        alert("Something went wrong");
+      }
     }
     function downloadInvoice(orderId) {
-        window.location.href = `/download-invoice/${orderId}`;
+      window.location.href = `/download-invoice/${orderId}`;
     }
 
-function returnOrder(orderId){
-            Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "No, cancel!",
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-danger",
-            cancelButton: "btn btn-secondary",
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-              url: `/returnOrder`,
-              type: "POST",
-              data : {
-                orderId,
-              },
-              success: function (response) {
-                if (response.success) {
-                  
-                  Swal.fire({
-                    text: "Your order is Cancelled",
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                    customClass: {
-                    confirmButton: "btn btn-primary",
-                    }
-                  }).then((result)=>{
-                     if(result.isConfirmed){
-                        window.location.href = `/order/orderDetails/${orderId}`;
-                     }
-                  })
-                } else {
-                  Swal.fire({
-                    text: "Error in cancelling",
-                    icon: "error",
-                    timer: 1000,
-                    showConfirmButton: false,
-                  });
-                }
-              },
-              error: function (xhr, status, error) {
+    function returnOrder(orderId) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/returnOrder`,
+            type: "POST",
+            data: {
+              orderId,
+            },
+            success: function (response) {
+              if (response.success) {
+
                 Swal.fire({
-                  text: "Error deleting item! Try again later.",
-                  icon: "error",
+                  text: "Your order is Cancelled",
+                  icon: "success",
                   confirmButtonText: "Ok",
-                  buttonsStyling: false,
                   customClass: {
                     confirmButton: "btn btn-primary",
-                  },
-                });
-              },
-            });
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire({
-              text: "Your order is safe!",
-              icon: "info",
-              timer: 1000,
-              showConfirmButton: false,
-            });
-          }
-        })
-        }
-        
-        function cancelOrder(orderId){
-            Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "No, cancel!",
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-danger",
-            cancelButton: "btn btn-secondary",
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-              url: `/cancelOrder/${orderId}`,
-              type: "POST",
-              success: function (response) {
-                if (response.success) {
-                  
-                  Swal.fire({
-                    text: "Your order is Cancelled",
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                    customClass: {
-                    confirmButton: "btn btn-primary",
-                    }
-                  }).then((result)=>{
-                     if(result.isConfirmed){
-                        window.location.href = `/order/orderDetails/${orderId}`;
-                     }
-                  })
-                } else {
-                  Swal.fire({
-                    text: response.message,
-                    icon: "error",
-                    timer: 1000,
-                    showConfirmButton: false,
-                  });
-                  window.location.href = `/order/orderDetails/${orderId}`;
-                }
-              },
-              error: function (xhr, status, error) {
+                  }
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = `/order/orderDetails/${orderId}`;
+                  }
+                })
+              } else {
                 Swal.fire({
-                  text: "Error deleting item! Try again later.",
+                  text: "Error in cancelling",
                   icon: "error",
+                  timer: 1000,
+                  showConfirmButton: false,
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              Swal.fire({
+                text: "Error deleting item! Try again later.",
+                icon: "error",
+                confirmButtonText: "Ok",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-primary",
+                },
+              });
+            },
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            text: "Your order is safe!",
+            icon: "info",
+            timer: 1000,
+            showConfirmButton: false,
+          });
+        }
+      })
+    }
+
+    function cancelOrder(orderId) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/cancelOrder/${orderId}`,
+            type: "POST",
+            success: function (response) {
+              if (response.success) {
+
+                Swal.fire({
+                  text: "Your order is Cancelled",
+                  icon: "success",
                   confirmButtonText: "Ok",
-                  buttonsStyling: false,
                   customClass: {
                     confirmButton: "btn btn-primary",
-                  },
+                  }
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = `/order/orderDetails/${orderId}`;
+                  }
+                })
+              } else {
+                Swal.fire({
+                  text: response.message,
+                  icon: "error",
+                  timer: 1000,
+                  showConfirmButton: false,
                 });
-              },
-            });
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire({
-              text: "Your order is safe!",
-              icon: "info",
-              timer: 1000,
-              showConfirmButton: false,
-            });
-          }
-        })
+                window.location.href = `/order/orderDetails/${orderId}`;
+              }
+            },
+            error: function (xhr, status, error) {
+              Swal.fire({
+                text: "Error deleting item! Try again later.",
+                icon: "error",
+                confirmButtonText: "Ok",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-primary",
+                },
+              });
+            },
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            text: "Your order is safe!",
+            icon: "info",
+            timer: 1000,
+            showConfirmButton: false,
+          });
         }
-    </script>
-        
-  </body>
+      })
+    }
+  </script>
+
+</body>
+
 </html>

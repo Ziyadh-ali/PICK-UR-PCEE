@@ -9,9 +9,18 @@ const offerCheck = require("./middleware/cron")
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB);
+        console.log("✅ MongoDB connected successfully");
     } catch (error) {
-        console.error("MongoDB not connected:", error.message);
+        console.error("❌ Initial connection error:", error.message);
     }
+
+    mongoose.connection.on("error", (err) => {
+        console.error("❌ Mongoose connection error:", err.message);
+    });
+
+    mongoose.connection.on("disconnected", () => {
+        console.warn("⚠️ Mongoose disconnected from MongoDB");
+    });
 };
 connectDB()
 offerCheck()
