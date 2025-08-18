@@ -36,7 +36,7 @@ const payWithRazorpay = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Razorpay order creation error:", error.message);
+        console.error("Razorpay order creation error:", error);
         res.status(500).json({ success: false, message: "Payment creation failed" });
     }
 };
