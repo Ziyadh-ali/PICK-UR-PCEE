@@ -83,12 +83,9 @@ uRouter.get("/editAddress/:name", auth.isLogin,userControllers.loadEditAdd);
 uRouter.get("/checkout", auth.isLogin,userControllers.loadCheckout);
 uRouter.post("/checkout/placeOrder", auth.isLogin,userControllers.placeOrder);
 uRouter.post("/checkout/payWithWallet", auth.isLogin,userControllers.placeOrderWithWallet);
-// uRouter.post("/checkout/payWithPaypal", auth.isLogin,paymentController.payWithPaypal);
-// uRouter.post("/checkout/payWithRazorpay", auth.isLogin,payWithRazorpay);
+uRouter.post("/checkout/payWithRazorpay", auth.isLogin,payWithRazorpay);
 uRouter.post("/checkout/paymentFailed", auth.isLogin,paymentFailedHandler);
 uRouter.post("/checkout/verifyRazorpayPayment", auth.isLogin,verifyRazorpayPayment);
-// uRouter.get("/checkout/paymentSuccess", auth.isLogin, paymentController.paymentSuccess);
-// uRouter.get("/checkout/paymentFailed", auth.isLogin, paymentController.paymentCancel);
 uRouter.post("/applyCoupon", auth.isLogin,userControllers.verifyCoupon);
 uRouter.post("/removeCoupon", auth.isLogin,userControllers.removeCoupon);
 
@@ -98,8 +95,6 @@ uRouter.post("/cancelOrder/:id", auth.isLogin,userControllers.cancelOrder);
 uRouter.post("/returnOrder", auth.isLogin,userControllers.returnOrder);
 uRouter.post("/order/payWithRazorpay", auth.isLogin,payWithRazorpayExistingOrder);
 uRouter.post("/order/verifyRazorpayPayment", auth.isLogin,verifyRazorpayExistingOrderPayment);
-// uRouter.get("/order/paymentSuccess", auth.isLogin, paymentController.orderPaymentSuccess);
-// uRouter.get("/order/paymentFailed", auth.isLogin, paymentController.orderPaymentCancel);
 //invoice
 uRouter.get("/download-invoice/:orderId", auth.isLogin,userControllers.invoiceDownload)
 

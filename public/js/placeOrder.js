@@ -110,7 +110,6 @@ form.addEventListener('submit', function (event) {
             address: selectedAddress
           })
         });
-
         const data = await res.json();
 
         if (data.success) {
