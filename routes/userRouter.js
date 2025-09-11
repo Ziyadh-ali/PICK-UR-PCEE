@@ -3,109 +3,197 @@ const uRouter = express();
 const path = require("path");
 const session = require("express-session");
 const nocache = require("nocache");
-const userControllers = require("../controllers/userControllers");
+const userControllers = require("../controllers/userController");
 const flash = require("connect-flash");
 const passport = require("passport");
-const passportAuth = require("../config/passport")
+const passportAuth = require("../config/passport");
 const auth = require("../middleware/userAuth");
 const User = require("../model/userModel");
-const paymentController = require("../controllers/paymentController");
-const { payWithRazorpay, verifyRazorpayPayment, paymentFailedHandler, payWithRazorpayExistingOrder, verifyRazorpayExistingOrderPayment } = require("../controllers/razorpayController");
-
+const {
+  payWithRazorpay,
+  verifyRazorpayPayment,
+  paymentFailedHandler,
+  payWithRazorpayExistingOrder,
+  verifyRazorpayExistingOrderPayment,
+} = require("../controllers/razorpayController");
+const {
+    loginPage,
+    signupPage,
+    verifyLogin,
+    userInsert,
+    loadOtp,
+    verifyOtp,
+    resendOtp,
+    loadForgotPass,
+    forgetPassword,
+    loadResetPassword,
+    resetPassword
+} = require("../controllers/userControllers/userAuth");
+const {
+    userHome,
+    loadShop,
+    getSortFilterSearchData,
+    productDetails,
+} = require("../controllers/userControllers/userShop");
+const {
+    loadAccount,
+    accUpdate,
+    addAddress,
+    deleteAddress,
+    editAddress,
+    loadEditAdd,
+} = require("../controllers/userControllers/userAccount");
+const {
+    addWishlist,
+    deleteWishlist,
+    loadWishlist,
+} = require("../controllers/userControllers/userWishlist");
+const {
+    addToCart,
+    deleteCart,
+    loadCart,
+    updateQuantity,
+} = require("../controllers/userControllers/userCart");
+const {
+    cancelOrder,
+    loadCheckout,
+    loadOrderDetails,
+    loadOrderSuccces,
+    placeOrder,
+    placeOrderWithWallet,
+    removeCoupon,
+    returnOrder,
+    verifyCoupon,
+} = require("../controllers/userControllers/userCheckout");
 uRouter.use(nocache());
 uRouter.set("views", path.join(__dirname, "../views/user"));
-uRouter.use(session({
+uRouter.use(
+  session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie : {secure:false}
-}));
+    cookie: { secure: false },
+  })
+);
 uRouter.use(flash());
-uRouter.use(function(req, res, next){
-    res.locals.success_message = req.flash("success_message");
-    res.locals.error_message = req.flash("error_message");
+uRouter.use(function (req, res, next) {
+  res.locals.success_message = req.flash("success_message");
+  res.locals.error_message = req.flash("error_message");
 
-    next();
+  next();
 });
 
 uRouter.use(passportAuth.initialize());
 uRouter.use(passportAuth.session());
 
-uRouter.get("/", userControllers.userHome);
-uRouter.get("/login",auth.isLogout, userControllers.loginPage);
-uRouter.post("/login",auth.isLogout, userControllers.verifyLogin);
-uRouter.get("/register",auth.isLogout, userControllers.signupPage);
-uRouter.get("/otp",auth.isLogout, userControllers.loadOtp);
-uRouter.post("/otp",auth.isLogout, userControllers.verifyOtp);
-uRouter.post("/resendOtp",auth.isLogout, userControllers.resendOtp);
-uRouter.post("/register",auth.isLogout, userControllers.userInsert);
-uRouter.get("/resetPassword",auth.isLogout, userControllers.loadResetPassword);
-uRouter.post("/resetPassword",auth.isLogout, userControllers.resetPassword);
-uRouter.get("/forgotPassword",auth.isLogout, userControllers.loadForgotPass)
-uRouter.post("/forgotPassword",auth.isLogout,userControllers.forgetPassword);
-uRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-uRouter.get("/google/callback", passport.authenticate("google", { failureRedirect: "/register"}),async (req,res)=>{
-    const userCheck = await User.findOne({email:req.user.email});
-    if(!userCheck.isBlocked){
-        req.session.userLogin = req.user.id;
-        res.redirect("/");
-    }else{
-        req.logOut(()=>{
-            req.flash("error_message","You have been blocked by the admin");
-            res.redirect("/login")
-        })
+uRouter.get("/", userHome);
+uRouter.get("/login", auth.isLogout, loginPage);
+uRouter.post("/login", auth.isLogout, verifyLogin);
+uRouter.get("/register", auth.isLogout, signupPage);
+uRouter.get("/otp", auth.isLogout, loadOtp);
+uRouter.post("/otp", auth.isLogout, verifyOtp);
+uRouter.post("/resendOtp", auth.isLogout, resendOtp);
+uRouter.post("/register", auth.isLogout, userInsert);
+uRouter.get("/resetPassword", auth.isLogout, loadResetPassword);
+uRouter.post("/resetPassword", auth.isLogout, resetPassword);
+uRouter.get("/forgotPassword", auth.isLogout, loadForgotPass);
+uRouter.post("/forgotPassword", auth.isLogout, forgetPassword);
+uRouter.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+uRouter.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/register" }),
+  async (req, res) => {
+    const userCheck = await User.findOne({ email: req.user.email });
+    if (!userCheck.isBlocked) {
+      req.session.userLogin = req.user.id;
+      res.redirect("/");
+    } else {
+      req.logOut(() => {
+        req.flash("error_message", "You have been blocked by the admin");
+        res.redirect("/login");
+      });
     }
-})
-uRouter.get("/shop", userControllers.loadShop);
-uRouter.get('/shop_data', userControllers.getSortFilterSearchData)
-uRouter.get("/product_details/:id",userControllers.productDetails);
+  }
+);
+
+
+uRouter.get("/shop", loadShop);
+uRouter.get("/shop_data", getSortFilterSearchData);
+uRouter.get("/product_details/:id", productDetails);
 
 //cart routes
-uRouter.get("/cart", auth.isLogin,userControllers.loadCart);
-uRouter.post("/cart", userControllers.addToCart);
-uRouter.delete("/cartRemove/:id",auth.isLogin, userControllers.deleteCart);
-uRouter.post("/cart/updateQuantity",auth.isLogin, userControllers.updateQuantity);
+uRouter.get("/cart", auth.isLogin, loadCart);
+uRouter.post("/cart", addToCart);
+uRouter.delete("/cartRemove/:id", auth.isLogin, deleteCart);
+uRouter.post(
+  "/cart/updateQuantity",
+  auth.isLogin,
+  updateQuantity
+);
 
 //wishlist routes
-uRouter.get("/wishlist", auth.isLogin,userControllers.loadWishlist);
-uRouter.post("/wishlist", userControllers.addWishlist);
-uRouter.delete("/wishlistRemove/:id",auth.isLogin, userControllers.deleteWishlist);
+uRouter.get("/wishlist", auth.isLogin, loadWishlist);
+uRouter.post("/wishlist", auth.isLogin ,addWishlist);
+uRouter.delete(
+  "/wishlistRemove/:id",
+  auth.isLogin,
+  deleteWishlist
+);
 
-//Account 
-uRouter.get("/account", auth.isLogin,userControllers.loadAccount);
-uRouter.patch("/updateAcc", auth.isLogin,userControllers.accUpdate);
-uRouter.post("/addAddress",auth.isLogin,userControllers.addAddress);
-uRouter.delete("/addressDelete",auth.isLogin,userControllers.deleteAddress);
-uRouter.patch("/editAddress/:name",auth.isLogin,userControllers.editAddress);
-uRouter.get("/editAddress/:name", auth.isLogin,userControllers.loadEditAdd);
+//Account
+uRouter.get("/account", auth.isLogin, loadAccount);
+uRouter.patch("/updateAcc", auth.isLogin, accUpdate);
+uRouter.post("/addAddress", auth.isLogin, addAddress);
+uRouter.delete("/addressDelete", auth.isLogin, deleteAddress);
+uRouter.patch("/editAddress/:name", auth.isLogin, editAddress);
+uRouter.get("/editAddress/:name", auth.isLogin, loadEditAdd);
 
 // checkout
-uRouter.get("/checkout", auth.isLogin,userControllers.loadCheckout);
-uRouter.post("/checkout/placeOrder", auth.isLogin,userControllers.placeOrder);
-uRouter.post("/checkout/payWithWallet", auth.isLogin,userControllers.placeOrderWithWallet);
-uRouter.post("/checkout/payWithRazorpay", auth.isLogin,payWithRazorpay);
-uRouter.post("/checkout/paymentFailed", auth.isLogin,paymentFailedHandler);
-uRouter.post("/checkout/verifyRazorpayPayment", auth.isLogin,verifyRazorpayPayment);
-uRouter.post("/applyCoupon", auth.isLogin,userControllers.verifyCoupon);
-uRouter.post("/removeCoupon", auth.isLogin,userControllers.removeCoupon);
+uRouter.get("/checkout", auth.isLogin, loadCheckout);
+uRouter.post("/checkout/placeOrder", auth.isLogin, placeOrder);
+uRouter.post(
+  "/checkout/payWithWallet",
+  auth.isLogin,
+  placeOrderWithWallet
+);
+uRouter.post("/checkout/payWithRazorpay", auth.isLogin, payWithRazorpay);
+uRouter.post("/checkout/paymentFailed", auth.isLogin, paymentFailedHandler);
+uRouter.post(
+  "/checkout/verifyRazorpayPayment",
+  auth.isLogin,
+  verifyRazorpayPayment
+);
+uRouter.post("/applyCoupon", auth.isLogin, verifyCoupon);
+uRouter.post("/removeCoupon", auth.isLogin, removeCoupon);
 
-uRouter.get("/orderSuccess", auth.isLogin,userControllers.loadOrderSuccces);
-uRouter.get("/order/orderDetails/:id", auth.isLogin,userControllers.loadOrderDetails);
-uRouter.post("/cancelOrder/:id", auth.isLogin,userControllers.cancelOrder);
-uRouter.post("/returnOrder", auth.isLogin,userControllers.returnOrder);
-uRouter.post("/order/payWithRazorpay", auth.isLogin,payWithRazorpayExistingOrder);
-uRouter.post("/order/verifyRazorpayPayment", auth.isLogin,verifyRazorpayExistingOrderPayment);
+uRouter.get("/orderSuccess", auth.isLogin, loadOrderSuccces);
+uRouter.get(
+  "/order/orderDetails/:id",
+  auth.isLogin,
+  loadOrderDetails
+);
+uRouter.post("/cancelOrder/:id", auth.isLogin, cancelOrder);
+uRouter.post("/returnOrder", auth.isLogin, returnOrder);
+uRouter.post(
+  "/order/payWithRazorpay",
+  auth.isLogin,
+  payWithRazorpayExistingOrder
+);
+uRouter.post(
+  "/order/verifyRazorpayPayment",
+  auth.isLogin,
+  verifyRazorpayExistingOrderPayment
+);
 //invoice
-uRouter.get("/download-invoice/:orderId", auth.isLogin,userControllers.invoiceDownload)
+uRouter.get(
+  "/download-invoice/:orderId",
+  auth.isLogin,
+  userControllers.invoiceDownload
+);
 
+uRouter.get("/logout", userControllers.logout);
 
-
-
-
-
-
-
-uRouter.get("/logout",userControllers.logout)
-
-
-module.exports = uRouter
+module.exports = uRouter;

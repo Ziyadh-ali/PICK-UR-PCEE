@@ -3,7 +3,57 @@ const aRouter = express();
 const path = require("path");
 const session = require("express-session");
 const nocache = require("nocache");
-const adminController = require("../controllers/adminControllers");
+const adminController = require("../controllers/adminController");
+const {
+    adminLogin,
+    verifyAdmin
+} = require("../controllers/adminControllers/adminLogin");
+const {
+    addProduct,
+    editProduct,
+    removeProduct,
+    loadAddProduct,
+    loadEditProduct,
+    listProduct,
+    unlistProduct,
+    loadProducts,
+} = require("../controllers/adminControllers/adminProduct");
+const {
+    addCategory,
+    loadCategory,
+    listCategory,
+    unlistCategory,
+    loadEditCategory,
+    editCategory,
+} = require("../controllers/adminControllers/adminCategory");
+const {
+    addBrands,
+    loadBrands,
+    listBrand,
+    unlistBrand,
+    loadEditBrands,
+    editBrand
+} = require("../controllers/adminControllers/adminBrand");
+const {
+    blockUser,
+    loadUserList,
+    unBlockUser,
+} = require("../controllers/adminControllers/adminUser");
+const {
+    orderList,
+    orderDetails,
+    statusChange,
+} = require("../controllers/adminControllers/adminOrder");
+const {
+    addCoupons,
+    loadCoupon,
+    couponRemove,
+} = require("../controllers/adminControllers/adminCoupon");
+const {
+    addOffer,
+    loadOffer,
+    offerRemove,
+} = require("../controllers/adminControllers/adminOffer");
 const flash = require("connect-flash");
 const storage = require("../middleware/upload");
 const multer = require("multer");
@@ -27,50 +77,50 @@ aRouter.use(function (req, res, next) {
 });
 
 
-aRouter.get("/", auth.isLogout, adminController.adminLogin);
-aRouter.post("/", auth.isLogout, adminController.verifyAdmin);
+aRouter.get("/", auth.isLogout, adminLogin);
+aRouter.post("/", auth.isLogout, verifyAdmin);
 
 // Home Route
 aRouter.get("/dashboard", auth.isLogin, adminController.loadDashboard);
 //Product Routes
-aRouter.get("/products", auth.isLogin, adminController.loadProducts);
-aRouter.get("/addProduct", auth.isLogin, adminController.loadAddProduct);
-aRouter.post("/addProduct", auth.isLogin, uploads.array('images', 4), adminController.addProduct);
-aRouter.get("/products/unlist/:id", auth.isLogin, adminController.unlistProduct);
-aRouter.get("/products/list/:id", auth.isLogin, adminController.listProduct);
-aRouter.get("/products/edit", auth.isLogin, adminController.loadEditProduct);
-aRouter.post("/products/edit/:id", auth.isLogin, uploads.array("images", 4), adminController.editProduct);
-aRouter.post("/products/deleteImage", auth.isLogin, adminController.removeProduct)
+aRouter.get("/products", auth.isLogin, loadProducts);
+aRouter.get("/addProduct", auth.isLogin, loadAddProduct);
+aRouter.post("/addProduct", auth.isLogin, uploads.array('images', 4), addProduct);
+aRouter.get("/products/unlist/:id", auth.isLogin, unlistProduct);
+aRouter.get("/products/list/:id", auth.isLogin, listProduct);
+aRouter.get("/products/edit", auth.isLogin, loadEditProduct);
+aRouter.post("/products/edit/:id", auth.isLogin, uploads.array("images", 4), editProduct);
+aRouter.post("/products/deleteImage", auth.isLogin, removeProduct)
 // Category Routes
-aRouter.get("/categories", auth.isLogin, adminController.loadCategory);
-aRouter.post("/categories", auth.isLogin, adminController.addCategory);
-aRouter.get("/categories/unlist/:id", auth.isLogin, adminController.unlistCategory);
-aRouter.get("/categories/list/:id", auth.isLogin, adminController.listCategory);
-aRouter.get("/categories/edit/:id", auth.isLogin, adminController.loadEditCategory);
-aRouter.post("/categories/edit/:id", auth.isLogin, adminController.editCategory);
+aRouter.get("/categories", auth.isLogin, loadCategory);
+aRouter.post("/categories", auth.isLogin, addCategory);
+aRouter.get("/categories/unlist/:id", auth.isLogin, unlistCategory);
+aRouter.get("/categories/list/:id", auth.isLogin, listCategory);
+aRouter.get("/categories/edit/:id", auth.isLogin, loadEditCategory);
+aRouter.post("/categories/edit/:id", auth.isLogin, editCategory);
 // Brand Routes
-aRouter.get("/brands", auth.isLogin, adminController.loadBrands);
-aRouter.post("/brands", auth.isLogin, adminController.addBrands);
-aRouter.get("/brands/unlist/:id", auth.isLogin, adminController.unlistBrand);
-aRouter.get("/brands/list/:id", auth.isLogin, adminController.listBrand);
-aRouter.get("/brands/edit/:id", auth.isLogin, adminController.loadEditBrands);
-aRouter.post("/brands/edit/:id", auth.isLogin, adminController.editBrand);
+aRouter.get("/brands", auth.isLogin, loadBrands);
+aRouter.post("/brands", auth.isLogin, addBrands);
+aRouter.get("/brands/unlist/:id", auth.isLogin, unlistBrand);
+aRouter.get("/brands/list/:id", auth.isLogin, listBrand);
+aRouter.get("/brands/edit/:id", auth.isLogin, loadEditBrands);
+aRouter.post("/brands/edit/:id", auth.isLogin, editBrand);
 // User List Routes
-aRouter.get("/userList", auth.isLogin, adminController.loadUserList);
-aRouter.get("/user/block/:id", auth.isLogin, adminController.blockUser);
-aRouter.get("/user/unblock/:id", auth.isLogin, adminController.unBlockUser);
+aRouter.get("/userList", auth.isLogin, loadUserList);
+aRouter.get("/user/block/:id", auth.isLogin, blockUser);
+aRouter.get("/user/unblock/:id", auth.isLogin, unBlockUser);
 // Order 
-aRouter.get("/orderlist", auth.isLogin, adminController.orderList);
-aRouter.get("/orderDetails/:id", auth.isLogin, adminController.orderDetails);
-aRouter.patch("/orderStatus", auth.isLogin, adminController.statusChange);
+aRouter.get("/orderlist", auth.isLogin, orderList);
+aRouter.get("/orderDetails/:id", auth.isLogin, orderDetails);
+aRouter.patch("/orderStatus", auth.isLogin, statusChange);
 // Coupon 
-aRouter.get("/coupons", auth.isLogin, adminController.loadCoupon);
-aRouter.post("/coupons", auth.isLogin, adminController.addCoupons);
-aRouter.delete("/couponRemove/:id", auth.isLogin, adminController.couponRemove);
+aRouter.get("/coupons", auth.isLogin, loadCoupon);
+aRouter.post("/coupons", auth.isLogin, addCoupons);
+aRouter.delete("/couponRemove/:id", auth.isLogin, couponRemove);
 //offer 
-aRouter.get("/offers", auth.isLogin, adminController.loadOffer);
-aRouter.post("/offers", auth.isLogin, adminController.addOffer);
-aRouter.patch("/offerRemove/:id", auth.isLogin, adminController.offerRemove);
+aRouter.get("/offers", auth.isLogin, loadOffer);
+aRouter.post("/offers", auth.isLogin, addOffer);
+aRouter.patch("/offerRemove/:id", auth.isLogin, offerRemove);
 //sales report 
 aRouter.get("/salesReport", auth.isLogin, adminController.loadSalesReport);
 aRouter.post("/generateReport", auth.isLogin, adminController.generateRreport);
