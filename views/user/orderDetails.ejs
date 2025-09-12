@@ -616,7 +616,7 @@
         if (result.isConfirmed) {
           $.ajax({
             url: `/returnOrder`,
-            type: "POST",
+            type: "PATCH",
             data: {
               orderId,
             },
@@ -684,7 +684,7 @@
         if (result.isConfirmed) {
           $.ajax({
             url: `/cancelOrder/${orderId}`,
-            type: "POST",
+            type: "PATCH",
             success: function (response) {
               if (response.success) {
 

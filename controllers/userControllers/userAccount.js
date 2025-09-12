@@ -1,6 +1,7 @@
 const Address = require("../../model/addressModel");
 const Order = require("../../model/orderModel");
 const Wallet = require("../../model/walletModel");
+const User = require("../../model/userModel");
 
 const loadAccount = async (req, res) => {
     try {

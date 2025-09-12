@@ -84,18 +84,18 @@ aRouter.post("/", auth.isLogout, verifyAdmin);
 aRouter.get("/dashboard", auth.isLogin, adminController.loadDashboard);
 //Product Routes
 aRouter.get("/products", auth.isLogin, loadProducts);
-aRouter.get("/addProduct", auth.isLogin, loadAddProduct);
-aRouter.post("/addProduct", auth.isLogin, uploads.array('images', 4), addProduct);
-aRouter.get("/products/unlist/:id", auth.isLogin, unlistProduct);
-aRouter.get("/products/list/:id", auth.isLogin, listProduct);
+aRouter.get("/products", auth.isLogin, loadAddProduct);
+aRouter.post("/products", auth.isLogin, uploads.array('images', 4), addProduct);
+aRouter.patch("/products/unlist/:id", auth.isLogin, unlistProduct);
+aRouter.patch("/products/list/:id", auth.isLogin, listProduct);
 aRouter.get("/products/edit", auth.isLogin, loadEditProduct);
 aRouter.post("/products/edit/:id", auth.isLogin, uploads.array("images", 4), editProduct);
 aRouter.post("/products/deleteImage", auth.isLogin, removeProduct)
 // Category Routes
 aRouter.get("/categories", auth.isLogin, loadCategory);
 aRouter.post("/categories", auth.isLogin, addCategory);
-aRouter.get("/categories/unlist/:id", auth.isLogin, unlistCategory);
-aRouter.get("/categories/list/:id", auth.isLogin, listCategory);
+aRouter.patch("/categories/unlist/:id", auth.isLogin, unlistCategory);
+aRouter.patch("/categories/list/:id", auth.isLogin, listCategory);
 aRouter.get("/categories/edit/:id", auth.isLogin, loadEditCategory);
 aRouter.post("/categories/edit/:id", auth.isLogin, editCategory);
 // Brand Routes

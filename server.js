@@ -4,7 +4,8 @@ const path = require("path");
 const PORT = process.env.PORT;
 const app = express();
 const mongoose = require("mongoose");
-const offerCheck = require("./middleware/cron")
+const offerCheck = require("./middleware/cron");
+const morgan = require("morgan");
 
 const connectDB = async () => {
     try {
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(morgan("dev"));
 
 //routes//
 

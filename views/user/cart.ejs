@@ -544,7 +544,7 @@
       function updateQuantity(productId, quantityInc) {
         $.ajax({
           url: "/cart/updateQuantity",
-          method: "POST",
+          method: "PATCH",
           data: {
             productId,
             quantityInc,

@@ -441,7 +441,7 @@
                           </p>
                         </div>
                         <div class="address-actions" style="position: relative;left: 90%;bottom: 65px;">
-                          <a href="/editAddress/<%= address.fullName %>?from=checkout"
+                          <a href="/address/<%= address.fullName %>?from=checkout"
                             class="btn btn-warning btn-sm mb-2">Edit</a>
                           <input type="radio" checked name="selectedAddress" class="address-radio">
                         </div>
@@ -754,7 +754,7 @@
         return showToast("coupon cannot be empty", "error");
       }
       $.ajax({
-        type: 'POST',
+        type: 'PATCH',
         url: '/applyCoupon',
         data: { couponCode },
         success: function (response) {
@@ -857,7 +857,7 @@
         if (validateInputs()) {
           const formData = $(event.currentTarget).serialize();
           $.ajax({
-            url: "/addAddress",
+            url: "/address",
             method: "POST",
             data: formData,
             success: (response) => {

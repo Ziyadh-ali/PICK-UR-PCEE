@@ -46,7 +46,7 @@
           const firstName = document.getElementById("firstName").value;
           const mobile = document.getElementById("mobile").value;
           $.ajax({
-            url: "/updateAcc",
+            url: "/account",
             type: "PATCH",
             data: {
                 lastName,

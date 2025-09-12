@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
 const crypto = require('crypto');
+const User = require("../../model/userModel");
 
 const hashPassword = async (password) => {
     try {

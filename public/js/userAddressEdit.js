@@ -82,7 +82,7 @@ const setError = (input, message) => {
       const submitButton = event.submitter; 
       const name = $(submitButton).data("fullname");
       $.ajax({
-        url: `/editAddress/${name}`,
+        url: `/address/${name}`,
         method: "PATCH",
         data: formData,
         success: (response) => {

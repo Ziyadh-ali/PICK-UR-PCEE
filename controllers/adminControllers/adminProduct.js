@@ -66,13 +66,13 @@ const addProduct = async (req, res) => {
       });
       await newProduct.save();
       req.flash("right_message", "Product Added Successfully");
-      res.redirect("/admin/addProduct");
+      res.redirect("/admin/products");
     } else {
       req.flash(
         "err_message",
         "Failed to Add Product - Product Already Exists"
       );
-      res.redirect("/admin/addProduct");
+      res.redirect("/admin/products");
     }
   } catch (error) {
     console.error(error);

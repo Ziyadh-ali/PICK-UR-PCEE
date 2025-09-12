@@ -312,7 +312,7 @@
 
                         <p class="card-text">
                           <strong>Status:</strong> 
-                          <span style='<%= statusColor %>'>
+                          <span style="<%= getStatusColor(order.orderStatus) %>">
                             <%= order.orderStatus %>
                           </span>
                         </p>
@@ -459,7 +459,7 @@
                                     <%} %>
                               </p>
                               <div class="address-actions">
-                                <a href="/editAddress/<%= address.fullName %>?from=account">
+                                <a href="/address/<%= address.fullName %>?from=account">
                                 <button class="btn btn-warning btn-sm">Edit</button>
                                 </a>
                                 <button class="btn btn-danger btn-sm" onclick="deleteAddress('<%= address.fullName %>')">Delete</button>
@@ -698,7 +698,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: `/addressDelete`,
+              url: `/address`,
               type: "DELETE",
               data : {
                 name
@@ -820,7 +820,7 @@
           if (validateInputs()) {
             const formData = $(event.currentTarget).serialize();
             $.ajax({
-              url: "/addAddress",
+              url: "/address",
               method: "POST",
               data: formData, 
               success: (response) => {

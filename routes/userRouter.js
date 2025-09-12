@@ -128,7 +128,7 @@ uRouter.get("/product_details/:id", productDetails);
 uRouter.get("/cart", auth.isLogin, loadCart);
 uRouter.post("/cart", addToCart);
 uRouter.delete("/cartRemove/:id", auth.isLogin, deleteCart);
-uRouter.post(
+uRouter.patch(
   "/cart/updateQuantity",
   auth.isLogin,
   updateQuantity
@@ -145,11 +145,11 @@ uRouter.delete(
 
 //Account
 uRouter.get("/account", auth.isLogin, loadAccount);
-uRouter.patch("/updateAcc", auth.isLogin, accUpdate);
-uRouter.post("/addAddress", auth.isLogin, addAddress);
-uRouter.delete("/addressDelete", auth.isLogin, deleteAddress);
-uRouter.patch("/editAddress/:name", auth.isLogin, editAddress);
-uRouter.get("/editAddress/:name", auth.isLogin, loadEditAdd);
+uRouter.patch("/account", auth.isLogin, accUpdate);
+uRouter.post("/address", auth.isLogin, addAddress);
+uRouter.delete("/address", auth.isLogin, deleteAddress);
+uRouter.patch("/address/:name", auth.isLogin, editAddress);
+uRouter.get("/address/:name", auth.isLogin, loadEditAdd);
 
 // checkout
 uRouter.get("/checkout", auth.isLogin, loadCheckout);
@@ -166,7 +166,7 @@ uRouter.post(
   auth.isLogin,
   verifyRazorpayPayment
 );
-uRouter.post("/applyCoupon", auth.isLogin, verifyCoupon);
+uRouter.patch("/applyCoupon", auth.isLogin, verifyCoupon);
 uRouter.post("/removeCoupon", auth.isLogin, removeCoupon);
 
 uRouter.get("/orderSuccess", auth.isLogin, loadOrderSuccces);
@@ -175,8 +175,8 @@ uRouter.get(
   auth.isLogin,
   loadOrderDetails
 );
-uRouter.post("/cancelOrder/:id", auth.isLogin, cancelOrder);
-uRouter.post("/returnOrder", auth.isLogin, returnOrder);
+uRouter.patch("/cancelOrder/:id", auth.isLogin, cancelOrder);
+uRouter.patch("/returnOrder", auth.isLogin, returnOrder);
 uRouter.post(
   "/order/payWithRazorpay",
   auth.isLogin,
