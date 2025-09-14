@@ -12,16 +12,48 @@ const loadProducts = async (req, res) => {
   try {
     const Categories = await Category.find({ status: true });
     const Brands = await Brand.find({ status: true });
-    const Products = await Product.find({});
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5;
+    const skip = (page - 1) * limit;
+
+    let filter = {};
+
+    if (req.query.category && req.query.category !== "all") {
+      filter.category = req.query.category;
+    }
+    if (req.query.brand && req.query.brand !== "all") {
+      filter.brands = req.query.brand;
+    }
+    if (req.query.status && req.query.status !== "all") {
+      filter.isActive = req.query.status === "active";
+    }
+
+
+    const Products = await Product.find(filter)
+      .skip(skip)
+      .limit(limit);
+
+    const totalProducts = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(totalProducts / limit);
+
     res.render("products", {
       Categories,
       Brands,
       Products,
+      currentPage: page,
+      totalPages,
+      selectedFilters: {
+        category: req.query.category || "all",
+        brand: req.query.brand || "all",
+        status: req.query.status || "all",
+      },
     });
   } catch (error) {
     console.error(error);
   }
 };
+
 const loadAddProduct = async (req, res) => {
   try {
     const Brands = await Brand.find({ status: true });
@@ -115,7 +147,7 @@ const editProduct = async (req, res) => {
     if (productSave) {
       res.redirect("/admin/products");
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const removeProduct = async (req, res) => {

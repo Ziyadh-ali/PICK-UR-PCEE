@@ -4,63 +4,75 @@ const Product = require("../../model/productModel");
 const Offer = require("../../model/offerModel");
 
 
-const loadOffer = async (req,res)=>{
+const loadOffer = async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 2;
+        const skip = (page - 1) * limit;
+
+        const totalOffers = await Offer.countDocuments();
+
         const offers = await Offer.find().populate('brands').populate('categories')
-        const Brands = await Brand.find({status : true});
-        const Categories = await Category.find({status : true})
-        res.render("offers",({
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 });
+        const totalPages = Math.ceil(totalOffers / limit)
+        const Brands = await Brand.find({ status: true });
+        const Categories = await Category.find({ status: true })
+        res.render("offers", ({
             offers,
             Brands,
             Categories,
+            currentPage: page,
+            totalPages
         }));
     } catch (error) {
         console.error(error);
     }
 }
-const addOffer = async (req,res)=>{
+const addOffer = async (req, res) => {
     try {
         const data = req.body
         const offer = new Offer({
-            offerName : data.offerName,
-            discountType : data.discountType,
-            discountValue : data.discountValue,
-            minPurchaseValue : data.minSpend,
-            maxPurchaseValue : data.maxDiscount,
-            expiryDate : data.expiryDate,
-            brands : data.brand ? data.brand : null,
-            categories : data.category ? data.category : null,
+            offerName: data.offerName,
+            discountType: data.discountType,
+            discountValue: data.discountValue,
+            minPurchaseValue: data.minSpend,
+            maxPurchaseValue: data.maxDiscount,
+            expiryDate: data.expiryDate,
+            brands: data.brand ? data.brand : null,
+            categories: data.category ? data.category : null,
         })
 
         const save = await offer.save();
-        if(save){
+        if (save) {
             let query = {}
-            if(data.brand && data.category ){
-                query = {brands : data.brand , categories : data.category}
-            }else if (data.brand){
-                query = {brands : data.brand}
-            }else if (data.category){
-                query = {category : data.category}
+            if (data.brand && data.category) {
+                query = { brands: data.brand, categories: data.category }
+            } else if (data.brand) {
+                query = { brands: data.brand }
+            } else if (data.category) {
+                query = { category: data.category }
             }
             const products = await Product.find(query);
             const currentDate = new Date();
-            for(let product of products){
+            for (let product of products) {
                 let skipUpdate = false;
-                if(product.offerId){
+                if (product.offerId) {
                     const existingOffer = await Offer.findById(product.offerId);
-                    if(existingOffer){
-                        const timeDifference = (new Date(existingOffer.expiryDate)-currentDate) / (1000 * 60 * 60 * 24);
-                        
-                        if(timeDifference >= 5) {
+                    if (existingOffer) {
+                        const timeDifference = (new Date(existingOffer.expiryDate) - currentDate) / (1000 * 60 * 60 * 24);
+
+                        if (timeDifference >= 5) {
                             skipUpdate = true
                         }
                     }
                 }
-                if(!skipUpdate){
+                if (!skipUpdate) {
                     let newOfferPrice = 0;
-                    if(offer.discountType === "percentage"){
-                         newOfferPrice = (product.price * offer.discountValue / 100)
-                    }else if (offer.discountType === "fixed"){
+                    if (offer.discountType === "percentage") {
+                        newOfferPrice = (product.price * offer.discountValue / 100)
+                    } else if (offer.discountType === "fixed") {
                         newOfferPrice = offer.discountValue
                     }
 
@@ -69,29 +81,39 @@ const addOffer = async (req,res)=>{
                     await product.save();
                 }
             }
-            res.status(200).json({success : true});
-        }else{
-            res.status(200).json({success : false});
+            res.status(200).json({ success: true });
+        } else {
+            res.status(200).json({ success: false });
         }
-        
+
     } catch (error) {
         console.error(error);
     }
 }
-const offerRemove = async (req,res)=>{
+const editOffer = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
+        await Offer.findByIdAndUpdate(id, req.body, { new: true });
+        res.status(200).json({ success: true, message: "Offer edited", });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+const offerRemove = async (req, res) => {
+    try {
+        const { id } = req.params;
         const productsWithOffer = await Product.find({ offerId: id });
-        for(let product of productsWithOffer){
+        for (let product of productsWithOffer) {
             product.offerId = null
             product.offerPrice = null
             await product.save()
         }
-        if(productsWithOffer){
-            const remove = await Offer.findByIdAndUpdate(id,{isActive : false});
-            res.status(200).json({success : true});
-        }else{
-            res.status(200).json({success : false});
+        if (productsWithOffer) {
+            const remove = await Offer.findByIdAndUpdate(id, { isActive: false });
+            res.status(200).json({ success: true });
+        } else {
+            res.status(200).json({ success: false });
         }
     } catch (error) {
         console.error(error)
@@ -102,4 +124,5 @@ module.exports = {
     loadOffer,
     addOffer,
     offerRemove,
+    editOffer
 }

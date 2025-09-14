@@ -39,6 +39,7 @@ const loadBrands = async (req, res) => {
             Brands,
             search,
             status,
+            limit,
             currentPage: page,
             totalPages
         });

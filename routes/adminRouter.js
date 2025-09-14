@@ -48,11 +48,13 @@ const {
     addCoupons,
     loadCoupon,
     couponRemove,
+    editCoupon,
 } = require("../controllers/adminControllers/adminCoupon");
 const {
     addOffer,
     loadOffer,
     offerRemove,
+    editOffer,
 } = require("../controllers/adminControllers/adminOffer");
 const flash = require("connect-flash");
 const storage = require("../middleware/upload");
@@ -84,7 +86,7 @@ aRouter.post("/", auth.isLogout, verifyAdmin);
 aRouter.get("/dashboard", auth.isLogin, adminController.loadDashboard);
 //Product Routes
 aRouter.get("/products", auth.isLogin, loadProducts);
-aRouter.get("/products", auth.isLogin, loadAddProduct);
+aRouter.get("/products/add", auth.isLogin, loadAddProduct);
 aRouter.post("/products", auth.isLogin, uploads.array('images', 4), addProduct);
 aRouter.patch("/products/unlist/:id", auth.isLogin, unlistProduct);
 aRouter.patch("/products/list/:id", auth.isLogin, listProduct);
@@ -104,7 +106,7 @@ aRouter.post("/brands", auth.isLogin, addBrands);
 aRouter.patch("/brands/unlist/:id", auth.isLogin, unlistBrand);
 aRouter.patch("/brands/list/:id", auth.isLogin, listBrand);
 aRouter.get("/brands/edit/:id", auth.isLogin, loadEditBrands);
-aRouter.post("/brands/edit/:id", auth.isLogin, editBrand);
+aRouter.patch("/brands/edit/:id", auth.isLogin, editBrand);
 // User List Routes
 aRouter.get("/userList", auth.isLogin, loadUserList);
 aRouter.get("/user/block/:id", auth.isLogin, blockUser);
@@ -116,11 +118,13 @@ aRouter.patch("/orderStatus", auth.isLogin, statusChange);
 // Coupon 
 aRouter.get("/coupons", auth.isLogin, loadCoupon);
 aRouter.post("/coupons", auth.isLogin, addCoupons);
-aRouter.delete("/couponRemove/:id", auth.isLogin, couponRemove);
+aRouter.patch("/coupons/:id", auth.isLogin, editCoupon);
+aRouter.delete("/coupons/:id", auth.isLogin, couponRemove);
 //offer 
 aRouter.get("/offers", auth.isLogin, loadOffer);
 aRouter.post("/offers", auth.isLogin, addOffer);
-aRouter.patch("/offerRemove/:id", auth.isLogin, offerRemove);
+aRouter.patch("/offers/:id", auth.isLogin, editOffer);
+aRouter.delete("/offers/:id", auth.isLogin, offerRemove);
 //sales report 
 aRouter.get("/salesReport", auth.isLogin, adminController.loadSalesReport);
 aRouter.post("/generateReport", auth.isLogin, adminController.generateRreport);

@@ -28,7 +28,7 @@ const addCategory = async (req, res) => {
 
 const loadCategory = async (req, res) => {
     try {
-        const perPage = 5;
+        const limit = 5;
         const page = parseInt(req.query.page) || 1;
         const search = req.query.search || "";
         const statusFilter = req.query.status || "all";
@@ -44,13 +44,14 @@ const loadCategory = async (req, res) => {
         const totalCategories = await Category.countDocuments(query);
 
         const Categories = await Category.find(query)
-            .skip((page - 1) * perPage)
-            .limit(perPage);
+            .skip((page - 1) * limit)
+            .limit(limit);
 
         res.render("categories", {
             Categories,
             currentPage: page,
-            totalPages: Math.ceil(totalCategories / perPage),
+            limit,
+            totalPages: Math.ceil(totalCategories / limit),
             search,
             statusFilter,
         });

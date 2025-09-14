@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-add_box"></i>
+                    <a class="menu-link" href="/admin/products/add"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
                     </a>
                 </li>
@@ -117,36 +117,40 @@
             </div>
             <div class="card mb-4">
                 <header class="card-header">
-                    <div class="row align-items-center">
+                    <form method="GET" action="/admin/products" class="row align-items-center">
                         <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                            <select class="form-select">
-                                <option selected>All Category</option>
-                                <% Categories.forEach(category=>{%>
-                                    <option value="<%= category._id %>">
+                            <select class="form-select" name="category" onchange="this.form.submit()">
+                                <option value="all">All Categories</option>
+                                <% Categories.forEach(category=> { %>
+                                    <option value="<%= category._id %>" <%=selectedFilters.category==category._id
+                                        ? "selected" : "" %>>
                                         <%= category.name %>
                                     </option>
-                                    <%}) %>
+                                    <% }) %>
                             </select>
                         </div>
                         <div class="col-md-2 col-6">
-                            <select class="form-select">
-                                <option selected>All Brands</option>
-                                <% Brands.forEach(brand=>{%>
-                                    <option value="<%= brand._id %>">
+                            <select class="form-select" name="brand" onchange="this.form.submit()">
+                                <option value="all">All Brands</option>
+                                <% Brands.forEach(brand=> { %>
+                                    <option value="<%= brand._id %>" <%=selectedFilters.brand==brand._id ? "selected"
+                                        : "" %>>
                                         <%= brand.name %>
                                     </option>
-                                    <%}) %>
+                                    <% }) %>
                             </select>
                         </div>
                         <div class="col-md-2 col-6">
-                            <select class="form-select">
-                                <option selected>Status</option>
-                                <option>Active</option>
-                                <option>Disabled</option>
-                                <option>Show all</option>
+                            <select class="form-select" name="status" onchange="this.form.submit()">
+                                <option value="all" <%=selectedFilters.status=="all" ? "selected" : "" %>>Show All
+                                </option>
+                                <option value="active" <%=selectedFilters.status=="active" ? "selected" : "" %>>Active
+                                </option>
+                                <option value="inactive" <%=selectedFilters.status=="inactive" ? "selected" : "" %>
+                                    >Inactive</option>
                             </select>
                         </div>
-                    </div>
+                    </form>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
                     <% Products.forEach(product=> { %>
@@ -199,8 +203,8 @@
                                         <i class="material-icons md-edit"></i> Edit
                                     </a>
                                     <% if (product.isActive) { %>
-                                        <form action="/admin/products/unlist/<%= product._id %>?_method=PATCH" method="POST"
-                                            style="display:inline;">
+                                        <form action="/admin/products/unlist/<%= product._id %>?_method=PATCH"
+                                            method="POST" style="display:inline;">
                                             <button type="submit" class="btn btn-sm font-sm btn-danger rounded">
                                                 Unlist
                                             </button>
@@ -221,18 +225,39 @@
                 </div>
                 <!-- card-body end// -->
             </div> <!-- card end// -->
-            <!-- <div class="pagination-area mt-30 mb-50">
+            <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                        <% if (currentPage> 1) { %>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page=<%= currentPage - 1 %>&category=<%= selectedFilters.category %>&brand=<%= selectedFilters.brand %>&status=<%= selectedFilters.status %>">
+                                    <i class="material-icons md-chevron_left"></i>
+                                </a>
+                            </li>
+                            <% } %>
+
+                                <% for (let i=1; i <=totalPages; i++) { %>
+                                    <li class="page-item <%= currentPage === i ? " active" : "" %>">
+                                        <a class="page-link"
+                                            href="?page=<%= i %>&category=<%= selectedFilters.category %>&brand=<%= selectedFilters.brand %>&status=<%= selectedFilters.status %>">
+                                            <%= ("0" + i).slice(-2) %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+
+                                        <% if (currentPage < totalPages) { %>
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                    href="?page=<%= currentPage + 1 %>&category=<%= selectedFilters.category %>&brand=<%= selectedFilters.brand %>&status=<%= selectedFilters.status %>">
+                                                    <i class="material-icons md-chevron_right"></i>
+                                                </a>
+                                            </li>
+                                            <% } %>
                     </ul>
                 </nav>
-            </div> -->
+            </div>
+
         </section> <!-- content-main end// -->
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
