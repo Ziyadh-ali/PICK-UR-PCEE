@@ -6,6 +6,7 @@ const app = express();
 const mongoose = require("mongoose");
 const offerCheck = require("./middleware/cron");
 const morgan = require("morgan");
+const methodOverride = require("method-override")
 
 const connectDB = async () => {
     try {
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(morgan("dev"));
+app.use(methodOverride("_method"))
 
 //routes//
 

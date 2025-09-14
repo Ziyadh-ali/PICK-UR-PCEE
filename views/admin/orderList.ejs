@@ -25,7 +25,8 @@
                 <h2>PICK UR PCEE</h2>
             </a>
             <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
             </div>
         </div>
         <nav>
@@ -57,10 +58,10 @@
                 </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/salesReport">
-                      <i class="icon material-icons md-monetization_on"></i>
-                      <span class="text">Sales Report</span>
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Sales Report</span>
                     </a>
-                  </li>
+                </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
                         <span class="text">User</span>
@@ -69,7 +70,7 @@
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
                         <span class="text">Offers</span>
-                    </a> 
+                    </a>
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/brands"> <i class="icon material-icons md-stars"></i>
@@ -77,10 +78,10 @@
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" disabled href="/admin/coupons">
-                      <i class="icon material-icons md-pie_chart"></i>
-                      <span class="text">Coupons</span>
+                        <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Coupons</span>
                     </a>
-                  </li>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -89,23 +90,23 @@
             <div class="col-search">
             </div>
             <div class="col-nav">
-              <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
-                <i class="material-icons md-apps"></i>
-              </button>
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link btn-icon darkmode" href="#">
-                    <i class="material-icons md-nights_stay"></i>
-                  </a>
-                </li>
-                <li class="dropdown nav-item">
-                    <a class="dropdown-item text-danger" href="/admin/logout"><i
-                        class="material-icons md-exit_to_app"></i>Logout</a>
-                  
-                </li>
-              </ul>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+                    <i class="material-icons md-apps"></i>
+                </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#">
+                            <i class="material-icons md-nights_stay"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                class="material-icons md-exit_to_app"></i>Logout</a>
+
+                    </li>
+                </ul>
             </div>
-          </header>
+        </header>
         <section class="content-main">
             <div class="content-header">
                 <div>
@@ -139,40 +140,77 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if (orders.length > 0) { %>
-                                    <% orders.forEach(order => { %>
+                                <% if (orders.length> 0) { %>
+                                    <% orders.forEach(order=> { %>
                                         <tr>
                                             <!-- <td>0901</td> -->
-                                            <td><b><%= order.selectedAddress.fullName %></b></td>
-                                            <td><%= order.userId.email %></td>
-                                            <td>₹<%= order.totalPrice %></td>
-                                            <td><span class="badge rounded-pill alert-warning"><%= order.orderStatus %></span></td>
-                                            <td><%= new Date(order.orderedAt).toDateString() %></td>
+                                            <td><b>
+                                                    <%= order.selectedAddress.fullName %>
+                                                </b></td>
+                                            <td>
+                                                <%= order.userId.email %>
+                                            </td>
+                                            <td>₹<%= order.totalPrice %>
+                                            </td>
+                                            <td><span class="badge rounded-pill alert-warning">
+                                                    <%= order.orderStatus %>
+                                                </span></td>
+                                            <td>
+                                                <%= new Date(order.orderedAt).toDateString() %>
+                                            </td>
                                             <td class="text-end">
-                                                <a href="/admin/orderDetails/<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
-                                               
+                                                <a href="/admin/orderDetails/<%= order._id %>"
+                                                    class="btn btn-md rounded font-sm">Detail</a>
+
                                             </td>
                                         </tr>
-                                    <% }) %>
-                                <% } else { %>
-                                    <tr>
-                                        <td colspan="5">No orders found.</td>
-                                    </tr>
-                                <% } %>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5">No orders found.</td>
+                                                </tr>
+                                                <% } %>
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Pagination -->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination" id="paginationLinks">
-                            <% for (let i = 1; i <= totalPages; i++) { %>
-                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                    <a class="page-link" href="/admin/orderList?page=<%= i %>&search=<%= search %>"><%= i %></a>
-                                </li>
-                            <% } %>
-                        </ul>
-                    </nav>
+                    <div class="pagination-area mt-30 mb-50">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+
+                                <!-- Previous -->
+                                <% if (currentPage> 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">
+                                            <i class="material-icons md-chevron_left"></i>
+                                        </a>
+                                    </li>
+                                    <% } %>
+
+                                        <!-- Pages -->
+                                        <% for (let i=1; i <=totalPages; i++) { %>
+                                            <li class="page-item <%= currentPage === i ? 'active' : '' %>"
+                                                <%=currentPage===i ? 'aria-current="page"' : '' %>>
+                                                <a class="page-link" href="?page=<%= i %>&search=<%= search %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+
+                                                <!-- Next -->
+                                                <% if (currentPage < totalPages) { %>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                            href="?page=<%= currentPage + 1 %>&search=<%= search %>">
+                                                            <i class="material-icons md-chevron_right"></i>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div> <!-- card end// -->
         </section> <!-- content-main end// -->
@@ -188,14 +226,14 @@
     <script src="/assets/js/main.js" type="text/javascript"></script>
     <script>
         let timeout;
-        document.getElementById('orderSearch').addEventListener('input', function() {
+        document.getElementById('orderSearch').addEventListener('input', function () {
             clearTimeout(timeout);
             const searchQuery = this.value;
             timeout = setTimeout(() => {
                 const urlParams = new URLSearchParams(window.location.search);
                 urlParams.set('search', searchQuery);
                 window.location.search = urlParams.toString();
-            },500);
+            }, 500);
         });
 
     </script>

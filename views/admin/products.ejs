@@ -25,7 +25,8 @@
                 <h2>PICK UR PCEE</h2>
             </a>
             <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
             </div>
         </div>
         <nav>
@@ -57,10 +58,10 @@
                 </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/salesReport">
-                      <i class="icon material-icons md-monetization_on"></i>
-                      <span class="text">Sales Report</span>
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Sales Report</span>
                     </a>
-                  </li>
+                </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
                         <span class="text">User</span>
@@ -69,7 +70,7 @@
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
                         <span class="text">Offers</span>
-                    </a> 
+                    </a>
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/brands"> <i class="icon material-icons md-stars"></i>
@@ -77,12 +78,12 @@
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" disabled href="/admin/coupons">
-                      <i class="icon material-icons md-pie_chart"></i>
-                      <span class="text">Coupons</span>
+                        <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Coupons</span>
                     </a>
-                  </li>
+                </li>
             </ul>
-            
+
         </nav>
     </aside>
     <main class="main-wrap">
@@ -90,23 +91,23 @@
             <div class="col-search">
             </div>
             <div class="col-nav">
-              <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
-                <i class="material-icons md-apps"></i>
-              </button>
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link btn-icon darkmode" href="#">
-                    <i class="material-icons md-nights_stay"></i>
-                  </a>
-                </li>
-                <li class="dropdown nav-item">
-                    <a class="dropdown-item text-danger" href="/admin/logout"><i
-                        class="material-icons md-exit_to_app"></i>Logout</a>
-                  
-                </li>
-              </ul>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+                    <i class="material-icons md-apps"></i>
+                </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#">
+                            <i class="material-icons md-nights_stay"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                class="material-icons md-exit_to_app"></i>Logout</a>
+
+                    </li>
+                </ul>
             </div>
-          </header>
+        </header>
         <section class="content-main">
             <div class="content-header">
                 <div>
@@ -120,16 +121,20 @@
                         <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                             <select class="form-select">
                                 <option selected>All Category</option>
-                                <% Categories.forEach(category =>{%>
-                                    <option value="<%= category._id %>"> <%= category.name %> </option>
+                                <% Categories.forEach(category=>{%>
+                                    <option value="<%= category._id %>">
+                                        <%= category.name %>
+                                    </option>
                                     <%}) %>
                             </select>
                         </div>
                         <div class="col-md-2 col-6">
                             <select class="form-select">
                                 <option selected>All Brands</option>
-                                <% Brands.forEach(brand =>{%>
-                                    <option value="<%= brand._id %>"> <%= brand.name %> </option>
+                                <% Brands.forEach(brand=>{%>
+                                    <option value="<%= brand._id %>">
+                                        <%= brand.name %>
+                                    </option>
                                     <%}) %>
                             </select>
                         </div>
@@ -144,67 +149,77 @@
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
-                    <% Products.forEach(product => { %>
-                    <article class="itemlist">
-                      <div class="row align-items-center">
-                        <!-- Product Image and Name -->
-                        <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-                          <a class="itemside" href="#">
-                            <div class="left">
-                              <img src="<%= product.image[0]%>" alt="Product Image" class="img-sm img-thumbnail" >
-                            </div>
-                            <div class="info">
-                              <h6 class="mb-0"><%= product.name %></h6>
-                            </div>
-                          </a>
-                        </div>
-                  
-                        <!-- Product Price (Original or Discounted) -->
-                        <div class="col-lg-2 col-sm-2 col-4 col-price text-center">
-                          <span>$<%= product.price %></span>
-                        </div>
-                        
-                        <div class="col-lg-2 col-sm-2 col-4 col-date text-center">
-                            <%if(product.offerId){%>
-                                <span>$<%= product.offerPrice %></span>
-                                <%}else{%>
-                                    <span>No Offer</span>
-                                    <%}%>
-                            
-                          </div>
+                    <% Products.forEach(product=> { %>
+                        <article class="itemlist">
+                            <div class="row align-items-center">
+                                <!-- Product Image and Name -->
+                                <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+                                    <a class="itemside" href="#">
+                                        <div class="left">
+                                            <img src="<%= product.image[0]%>" alt="Product Image"
+                                                class="img-sm img-thumbnail">
+                                        </div>
+                                        <div class="info">
+                                            <h6 class="mb-0">
+                                                <%= product.name %>
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
 
-                        <div class="col-lg-2 col-sm-2 col-4 col-status text-center">
-                          <% if (product.isActive) { %>
-                            <span class="badge rounded-pill alert-success">Active</span>
-                          <% } else { %>
-                            <span class="badge rounded-pill alert-danger">Inactive</span>
-                          <% } %>
-                        </div>
-                  
-                        <!-- Product Date Added or Updated -->
-                       
-                  
-                        <!-- Action Buttons -->
-                        <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                          <a href="/admin/products/edit?id=<%= product._id %>" class="btn btn-sm font-sm rounded btn-brand">
-                            <i class="material-icons md-edit"></i> Edit
-                          </a>
-                          <% if (product.isActive) { %>
-                            <a href="/admin/products/unlist/<%= product._id %>" class="btn btn-sm font-sm btn-danger rounded">
-                               Unlist
-                              </a>
-                        <% } else { %>
-                            <a href="/admin/products/list/<%= product._id %>" class="btn btn-sm font-sm btn-success rounded">
-                                List
-                              </a>
-                        <% } %>
-                          
-                        </div>
-                      </div> <!-- row .// -->
-                    </article> <!-- itemlist .// -->
-                    <% }) %>
-                  </div>
-                  <!-- card-body end// -->
+                                <!-- Product Price (Original or Discounted) -->
+                                <div class="col-lg-2 col-sm-2 col-4 col-price text-center">
+                                    <span>$<%= product.price %></span>
+                                </div>
+
+                                <div class="col-lg-2 col-sm-2 col-4 col-date text-center">
+                                    <%if(product.offerId){%>
+                                        <span>$<%= product.offerPrice %></span>
+                                        <%}else{%>
+                                            <span>No Offer</span>
+                                            <%}%>
+
+                                </div>
+
+                                <div class="col-lg-2 col-sm-2 col-4 col-status text-center">
+                                    <% if (product.isActive) { %>
+                                        <span class="badge rounded-pill alert-success">Active</span>
+                                        <% } else { %>
+                                            <span class="badge rounded-pill alert-danger">Inactive</span>
+                                            <% } %>
+                                </div>
+
+                                <!-- Product Date Added or Updated -->
+
+
+                                <!-- Action Buttons -->
+                                <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+                                    <a href="/admin/products/edit?id=<%= product._id %>"
+                                        class="btn btn-sm font-sm rounded btn-brand">
+                                        <i class="material-icons md-edit"></i> Edit
+                                    </a>
+                                    <% if (product.isActive) { %>
+                                        <form action="/admin/products/unlist/<%= product._id %>?_method=PATCH" method="POST"
+                                            style="display:inline;">
+                                            <button type="submit" class="btn btn-sm font-sm btn-danger rounded">
+                                                Unlist
+                                            </button>
+                                        </form>
+                                        <% } else { %>
+                                            <form action="/admin/products/list/<%= product._id %>?_method=PATCH"
+                                                method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-sm font-sm btn-success rounded">
+                                                    List
+                                                </button>
+                                            </form>
+                                            <% } %>
+
+                                </div>
+                            </div> <!-- row .// -->
+                        </article> <!-- itemlist .// -->
+                        <% }) %>
+                </div>
+                <!-- card-body end// -->
             </div> <!-- card end// -->
             <!-- <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
@@ -223,7 +238,7 @@
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
                     <script>
-                    document.write(new Date().getFullYear())
+                        document.write(new Date().getFullYear())
                     </script> ©, Evara - HTML Ecommerce Template .
                 </div>
                 <div class="col-sm-6">

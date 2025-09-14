@@ -97,12 +97,12 @@ aRouter.post("/categories", auth.isLogin, addCategory);
 aRouter.patch("/categories/unlist/:id", auth.isLogin, unlistCategory);
 aRouter.patch("/categories/list/:id", auth.isLogin, listCategory);
 aRouter.get("/categories/edit/:id", auth.isLogin, loadEditCategory);
-aRouter.post("/categories/edit/:id", auth.isLogin, editCategory);
+aRouter.patch("/categories/edit/:id", auth.isLogin, editCategory);
 // Brand Routes
 aRouter.get("/brands", auth.isLogin, loadBrands);
 aRouter.post("/brands", auth.isLogin, addBrands);
-aRouter.get("/brands/unlist/:id", auth.isLogin, unlistBrand);
-aRouter.get("/brands/list/:id", auth.isLogin, listBrand);
+aRouter.patch("/brands/unlist/:id", auth.isLogin, unlistBrand);
+aRouter.patch("/brands/list/:id", auth.isLogin, listBrand);
 aRouter.get("/brands/edit/:id", auth.isLogin, loadEditBrands);
 aRouter.post("/brands/edit/:id", auth.isLogin, editBrand);
 // User List Routes

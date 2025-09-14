@@ -24,14 +24,42 @@ const addCategory = async (req, res) => {
         res.redirect("/admin/categories");
     }
 };
+
+
 const loadCategory = async (req, res) => {
     try {
-        const Categories = await Category.find({});
-        res.render("categories", ({ Categories }));
+        const perPage = 5;
+        const page = parseInt(req.query.page) || 1;
+        const search = req.query.search || "";
+        const statusFilter = req.query.status || "all";
+
+        let query = {};
+        if (search) {
+            query.name = { $regex: search, $options: "i" };
+        }
+        if (statusFilter !== "all") {
+            query.status = statusFilter === "active";
+        }
+
+        const totalCategories = await Category.countDocuments(query);
+
+        const Categories = await Category.find(query)
+            .skip((page - 1) * perPage)
+            .limit(perPage);
+
+        res.render("categories", {
+            Categories,
+            currentPage: page,
+            totalPages: Math.ceil(totalCategories / perPage),
+            search,
+            statusFilter,
+        });
     } catch (error) {
         console.error(error);
     }
-}
+};
+
+
 const listCategory = async (req, res) => {
     try {
         const id = req.params.id;
@@ -75,12 +103,12 @@ const editCategory = async (req, res) => {
         if (nameChanged) {
             nameExists = await Category.findOne({ name: req.body.name });
             if (nameExists) {
-                return (req.flash("err_message", "Category already exists") ,res.redirect(`/admin/categories/edit/${req.params.id}`))
-        }   
-                
+                return (req.flash("err_message", "Category already exists"), res.redirect(`/admin/categories/edit/${req.params.id}`))
+            }
+
         }
-        if ((nameChanged || descriptionChanged )) { 
-            const edit = await Category.findByIdAndUpdate(id, { name: req.body.name , description:req.body.description});
+        if ((nameChanged || descriptionChanged)) {
+            const edit = await Category.findByIdAndUpdate(id, { name: req.body.name, description: req.body.description });
             req.flash("right_message", "Edit successfull");
             res.redirect("/admin/categories");
         } else {

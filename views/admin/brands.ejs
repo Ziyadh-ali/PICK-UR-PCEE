@@ -1,362 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Evara Dashboard</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/assets/imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
-    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-      <div class="aside-top">
-        <a href="index.html" class="brand-wrap">
-          <h2>PICK UR PCEE</h2>
-        </a>
-        <div>
-          <button class="btn btn-icon btn-aside-minimize">
-            <i class="text-muted material-icons md-menu_open"></i>
-          </button>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Evara Dashboard</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="index.html" class="brand-wrap">
+        <h2>PICK UR PCEE</h2>
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
       </div>
-      <nav>
-        <ul class="menu-aside">
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/dashboard">
-              <i class="icon material-icons md-home"></i>
-              <span class="text">Dashboard</span>
-            </a>
-          </li>
-          <li class="menu-item  ">
-            <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
-                <span class="text">Products</span>
-            </a>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item  ">
+          <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Products</span>
+          </a>
         </li>
         <li class="menu-item ">
-            <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
-                <span class="text">Orders</span>
-            </a>
+          <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
         </li>
         <li class="menu-item ">
-            <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
-                <span class="text">Categories</span>
-            </a>
+          <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
+            <span class="text">Categories</span>
+          </a>
         </li>
         <li class="menu-item">
-            <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-add_box"></i>
-                <span class="text">Add product</span>
-            </a>
+          <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-add_box"></i>
+            <span class="text">Add product</span>
+          </a>
         </li>
         <li class="menu-item ">
-            <a class="menu-link" href="/admin/salesReport">
-              <i class="icon material-icons md-monetization_on"></i>
-              <span class="text">Sales Report</span>
-            </a>
-          </li>
-        <li class="menu-item ">
-            <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
-                <span class="text">User</span>
-            </a>
+          <a class="menu-link" href="/admin/salesReport">
+            <i class="icon material-icons md-monetization_on"></i>
+            <span class="text">Sales Report</span>
+          </a>
         </li>
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
-              <span class="text">Offers</span>
-          </a> 
-          </li>
-          <li class="menu-item active">
-            <a class="menu-link" href="/admin/brands">
-              <i class="icon material-icons md-stars"></i>
-              <span class="text">Brands</span>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
+            <span class="text">User</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
+            <span class="text">Offers</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/brands">
+            <i class="icon material-icons md-stars"></i>
+            <span class="text">Brands</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" disabled href="/admin/coupons">
+            <i class="icon material-icons md-pie_chart"></i>
+            <span class="text">Coupons</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
             </a>
           </li>
-          <li class="menu-item">
-            <a class="menu-link" disabled href="/admin/coupons">
-              <i class="icon material-icons md-pie_chart"></i>
-              <span class="text">Coupons</span>
-            </a>
+          <li class="dropdown nav-item">
+            <a class="dropdown-item text-danger" href="/admin/logout"><i
+                class="material-icons md-exit_to_app"></i>Logout</a>
+
           </li>
         </ul>
-      </nav>
-    </aside>
-    <main class="main-wrap">
-      <header class="main-header navbar">
-        <div class="col-search">
-        </div>
-        <div class="col-nav">
-          <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
-            <i class="material-icons md-apps"></i>
-          </button>
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link btn-icon darkmode" href="#">
-                <i class="material-icons md-nights_stay"></i>
-              </a>
-            </li>
-            <li class="dropdown nav-item">
-                <a class="dropdown-item text-danger" href="/admin/logout"><i
-                    class="material-icons md-exit_to_app"></i>Logout</a>
-              
-            </li>
-          </ul>
-        </div>
-      </header>
-      <section class="content-main">
-        <div class="content-header">
-          <div>
-            <h2 class="content-title card-title">Brand</h2>
-            <p>Brand  management</p>
-            <% if (right_message) { %>
-                <div class="text-success text-center" style="color: green">
-                  <%= right_message %>
-                </div>
-                <% } %> <% if (err_message) { %>
+      </div>
+    </header>
+    <section class="content-main">
+      <div class="content-header">
+        <div>
+          <h2 class="content-title card-title">Brand</h2>
+          <p>Brand management</p>
+          <% if (right_message) { %>
+            <div class="text-success text-center" style="color: green">
+              <%= right_message %>
+            </div>
+            <% } %>
+              <% if (err_message) { %>
                 <div class="text-danger text-center" style="color: red">
                   <%= err_message %>
                 </div>
                 <% } %>
-          </div>
-          <div>
-            <!-- Button trigger modal -->
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              Add New Brand
-            </button>
+        </div>
+        <div>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add New Brand
+          </button>
 
-            <!-- Modal -->
-            <div
-              class="modal fade"
-              id="exampleModal"
-              tabindex="-1"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">
-                      Add Brand
-                    </h1>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="form" action="/admin/brands" method="post">
-                      <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label"
-                          >Brand Name:</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="brand_name"
-                          name="name"
-                        />
-                        <span class="error" style="color: red"></span>
-                        <!-- Error span for name -->
-                      </div>
-                      <div class="mb-3">
-                        <label for="message-text" class="col-form-label"
-                          >Description:</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="brand_description"
-                          name="description"
-                        ></textarea>
-                        <span class="error" style="color: red"></span>
-                        <!-- Error span for description -->
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                          Add
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Add Brand
+                  </h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="form" action="/admin/brands" method="post">
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Brand Name:</label>
+                      <input type="text" class="form-control" id="brand_name" name="name" />
+                      <span class="error" style="color: red"></span>
+                      <!-- Error span for name -->
+                    </div>
+                    <div class="mb-3">
+                      <label for="message-text" class="col-form-label">Description:</label>
+                      <textarea class="form-control" id="brand_description" name="description"></textarea>
+                      <span class="error" style="color: red"></span>
+                      <!-- Error span for description -->
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Add
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="card mb-4">
-          
-          <!-- card-header end// -->
-          <div class="card-body">
-            <div class="row gx-3">
-                    
-                        <div class="table-responsive">
-                          <table class="table table-hover">
-                            <thead>
-                              <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>List/unlist</th>
-                                <th>Edit</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                
-                              <% Brands.forEach(brand =>{ %>
-                                <tr>
-                                <td>1</td>
-                                <td><b><%= brand.name %></b></td>
-                                <td><%= brand.description %></td>
-        
-                                <% if (brand.status) {%>
+      </div>
+      <div class="card mb-4">
+
+        <!-- card-header end// -->
+        <div class="card-body">
+          <div class="row gx-3">
+
+            <div class="table-responsive">
+              <form class="d-flex mb-3" action="/admin/brands" method="GET" style="gap:10px;">
+                <input type="text" name="search" value="<%= search || '' %>" placeholder="Search by name or description"
+                  class="form-control" />
+
+                <select name="status" class="form-select">
+                  <option value="">All</option>
+                  <option value="active" <%=status==="active" ? "selected" : "" %>>Active</option>
+                  <option value="inactive" <%=status==="inactive" ? "selected" : "" %>>Inactive</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary">Filter</button>
+              </form>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>List/unlist</th>
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <% Brands.forEach(brand=>{ %>
+                    <tr>
+                      <td>1</td>
+                      <td><b>
+                          <%= brand.name %>
+                        </b></td>
+                      <td>
+                        <%= brand.description %>
+                      </td>
+
+                      <% if (brand.status) {%>
+                        <td>
+                          <span class="badge rounded-pill alert-success">Active</span>
+                        </td>
+                        <%}else{%>
+                          <td>
+                            <span class="badge rounded-pill alert-danger">Not Active</span>
+                          </td>
+                          <%} %>
+                            <% if (brand.status) { %>
+                              <td>
+                                <form action="/admin/brands/unlist/<%= brand._id %>?_method=PATCH" method="POST"
+                                  style="display:inline;">
+                                  <input type="hidden" name="status" value="false">
+                                  <button type="submit" class="btn btn-sm font-sm rounded btn-danger">
+                                    Unlist
+                                  </button>
+                                </form>
+                              </td>
+                              <% } else { %>
                                 <td>
-                                  <span class="badge rounded-pill alert-success"
-                                    >Active</span
-                                  >
+                                  <form action="/admin/brands/list/<%= brand._id %>?_method=PATCH" method="POST"
+                                    style="display:inline;">
+                                    <input type="hidden" name="status" value="true">
+                                    <button type="submit" class="btn btn-sm font-sm rounded btn-brand">
+                                      List
+                                    </button>
+                                  </form>
                                 </td>
-                                <%}else{%>
-                                <td>
-                                  <span class="badge rounded-pill alert-danger"
-                                    >Not Active</span
-                                  >
-                                </td>
-                                <%} %> <% if (brand.status) {%>
-                                <td>
-                                  <a
-                                    href="/admin/brands/unlist/<%= brand._id %>"
-                                    class="btn btn-sm font-sm rounded btn-danger"
-                                    >Unlist</a
-                                  >
-                                </td>
-                                <%}else{%>
-                                <td>
-                                  <a
-                                    href="/admin/brands/list/<%= brand._id %>"
-                                    class="btn btn-sm font-sm rounded btn-brand"
-                                    >List</a
-                                  >
-                                </td>
-                                <%} %>
-                                <td>
-                                    <a href="/admin/brands/edit/<%= brand._id %>" class="btn btn-sm font-sm rounded btn-brand">
-                                        <i class="material-icons md-edit"></i> Edit
+                                <% } %>
+                                  <td>
+                                    <a href="/admin/brands/edit/<%= brand._id %>"
+                                      class="btn btn-sm font-sm rounded btn-brand">
+                                      <i class="material-icons md-edit"></i> Edit
                                     </a>
-                                </td>
-                                
-                            </tr>
-                                <% }) %>
-                            </tbody>
-                          </table>
-                        </div>
-                     
-                  
-              
-             
-              <!-- col.// -->
+                                  </td>
+
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
             </div>
-            <!-- row.// -->
+            <div class="pagination-area mt-30 mb-50">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+
+                  <!-- Previous -->
+                  <% if (currentPage> 1) { %>
+                    <li class="page-item">
+                      <a class="page-link"
+                        href="?page=<%= currentPage - 1 %>&search=<%= search %>&status=<%= status %>">
+                        <i class="material-icons md-chevron_left"></i>
+                      </a>
+                    </li>
+                    <% } %>
+
+                      <!-- Pages -->
+                      <% for (let i=1; i <=totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>" <%=currentPage===i
+                          ? 'aria-current="page"' : '' %>>
+                          <a class="page-link" href="?page=<%= i %>&search=<%= search %>&status=<%= status %>">
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } %>
+
+                          <!-- Next -->
+                          <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                              <a class="page-link"
+                                href="?page=<%= currentPage + 1 %>&search=<%= search %>&status=<%= status %>">
+                                <i class="material-icons md-chevron_right"></i>
+                              </a>
+                            </li>
+                            <% } %>
+
+                </ul>
+              </nav>
+            </div>
+
+
+
+
+
+            <!-- col.// -->
           </div>
-          <!-- card-body end// -->
+          <!-- row.// -->
         </div>
-        <!-- card end// -->
-      </section>
-      <!-- content-main end// -->
-      <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-          <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            ©, Evara - HTML Ecommerce Template .
-          </div>
-          <div class="col-sm-6">
-            <div class="text-sm-end">All rights reserved</div>
-          </div>
+        <!-- card-body end// -->
+      </div>
+      <!-- card end// -->
+    </section>
+    <!-- content-main end// -->
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          ©, Evara - HTML Ecommerce Template .
         </div>
-      </footer>
-    </main>
-    <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/vendors/select2.min.js"></script>
-    <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
-    <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="/assets/js/main.js" type="text/javascript"></script>
-    <script>
-      const name = document.getElementById("brand_name");
-      const description = document.getElementById("brand_description");
-      const form = document.getElementById("form");
+        <div class="col-sm-6">
+          <div class="text-sm-end">All rights reserved</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/vendors/select2.min.js"></script>
+  <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+  <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
+  <!-- Main Script -->
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+  <script>
+    const name = document.getElementById("brand_name");
+    const description = document.getElementById("brand_description");
+    const form = document.getElementById("form");
 
-      let isValid = true;
+    let isValid = true;
 
-      const setError = (input, message) => {
-        const inputControl = input.parentElement;
-        const errorDisplay = inputControl.querySelector(".error");
-        errorDisplay.innerText = message;
-        input.classList.add("error");
-        input.classList.remove("success");
-        isValid = false;
-      };
+    const setError = (input, message) => {
+      const inputControl = input.parentElement;
+      const errorDisplay = inputControl.querySelector(".error");
+      errorDisplay.innerText = message;
+      input.classList.add("error");
+      input.classList.remove("success");
+      isValid = false;
+    };
 
-      const setSuccess = (input) => {
-        const inputControl = input.parentElement;
-        const errorDisplay = inputControl.querySelector(".error");
-        errorDisplay.innerText = "";
-        input.classList.add("success");
-        input.classList.remove("error");
-      };
+    const setSuccess = (input) => {
+      const inputControl = input.parentElement;
+      const errorDisplay = inputControl.querySelector(".error");
+      errorDisplay.innerText = "";
+      input.classList.add("success");
+      input.classList.remove("error");
+    };
 
-      const validateInputs = () => {
-        isValid = true;
+    const validateInputs = () => {
+      isValid = true;
 
-        const nameValue = name.value.trim();
-        const descriptionValue = description.value.trim();
+      const nameValue = name.value.trim();
+      const descriptionValue = description.value.trim();
 
-        if (nameValue === "") {
-          setError(name, "Brand name is required");
-        } else {
-          setSuccess(name);
-        }
+      if (nameValue === "") {
+        setError(name, "Brand name is required");
+      } else {
+        setSuccess(name);
+      }
 
-        if (descriptionValue === "") {
-          setError(description, "Description is required");
-        } else {
-          setSuccess(description);
-        }
+      if (descriptionValue === "") {
+        setError(description, "Description is required");
+      } else {
+        setSuccess(description);
+      }
 
-        return isValid;
-      };
+      return isValid;
+    };
 
-      form.addEventListener("submit", (event) => {
-        if (!validateInputs()) {
-          event.preventDefault();
-        }
-      });
-    </script>
-  </body>
+    form.addEventListener("submit", (event) => {
+      if (!validateInputs()) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+
 </html>

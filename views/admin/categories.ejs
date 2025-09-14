@@ -1,321 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Evara Dashboard</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/assets/imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
-    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-      <div class="aside-top">
-        <a href="index.html" class="brand-wrap">
-          <h2>PICK UR PCEE</h2>
-        </a>
-        <div>
-          <button class="btn btn-icon btn-aside-minimize">
-            <i class="text-muted material-icons md-menu_open"></i>
-          </button>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Evara Dashboard</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="index.html" class="brand-wrap">
+        <h2>PICK UR PCEE</h2>
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
       </div>
-      <nav>
-        <ul class="menu-aside">
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/dashboard">
-              <i class="icon material-icons md-home"></i>
-              <span class="text">Dashboard</span>
-            </a>
-          </li>
-          <li class="menu-item  ">
-            <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
-                <span class="text">Products</span>
-            </a>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item  ">
+          <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Products</span>
+          </a>
         </li>
         <li class="menu-item ">
-            <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
-                <span class="text">Orders</span>
-            </a>
+          <a class="menu-link" href="/admin/orderList"> <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
         </li>
         <li class="menu-item active">
-            <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
-                <span class="text">Categories</span>
-            </a>
+          <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-store"></i>
+            <span class="text">Categories</span>
+          </a>
         </li>
         <li class="menu-item">
-            <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-add_box"></i>
-                <span class="text">Add product</span>
-            </a>
+          <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-add_box"></i>
+            <span class="text">Add product</span>
+          </a>
         </li>
         <li class="menu-item ">
-            <a class="menu-link" href="/admin/salesReport">
-              <i class="icon material-icons md-monetization_on"></i>
-              <span class="text">Sales Report</span>
-            </a>
-          </li>
-        <li class="menu-item ">
-            <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
-                <span class="text">User</span>
-            </a>
+          <a class="menu-link" href="/admin/salesReport">
+            <i class="icon material-icons md-monetization_on"></i>
+            <span class="text">Sales Report</span>
+          </a>
         </li>
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
-              <span class="text">Offers</span>
-          </a> 
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/brands">
-              <i class="icon material-icons md-stars"></i>
-              <span class="text">Brands</span>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
+            <span class="text">User</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
+            <span class="text">Offers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/brands">
+            <i class="icon material-icons md-stars"></i>
+            <span class="text">Brands</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" disabled href="/admin/coupons">
+            <i class="icon material-icons md-pie_chart"></i>
+            <span class="text">Coupons</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
             </a>
           </li>
-          <li class="menu-item">
-            <a class="menu-link" disabled href="/admin/coupons">
-              <i class="icon material-icons md-pie_chart"></i>
-              <span class="text">Coupons</span>
-            </a>
+          <li class="dropdown nav-item">
+            <a class="dropdown-item text-danger" href="/admin/logout"><i
+                class="material-icons md-exit_to_app"></i>Logout</a>
+
           </li>
         </ul>
-      </nav>
-    </aside>
-    <main class="main-wrap">
-      <header class="main-header navbar">
-        <div class="col-search">
+      </div>
+    </header>
+    <section class="content-main">
+
+      <div class="content-header">
+        <div>
+          <h2 class="content-title card-title">Categories</h2>
+          <p>Add, edit or delete a category</p>
         </div>
-        <div class="col-nav">
-          <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
-            <i class="material-icons md-apps"></i>
-          </button>
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link btn-icon darkmode" href="#">
-                <i class="material-icons md-nights_stay"></i>
-              </a>
-            </li>
-            <li class="dropdown nav-item">
-                <a class="dropdown-item text-danger" href="/admin/logout"><i
-                    class="material-icons md-exit_to_app"></i>Logout</a>
-              
-            </li>
-          </ul>
-        </div>
-      </header>
-      <section class="content-main">
-        <div class="content-header">
-          <div>
-            <h2 class="content-title card-title">Categories</h2>
-            <p>Add, edit or delete a category</p>
+        <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+          Add New Category
+        </button>
+      </div>
+
+      <!-- Add Category Modal -->
+      <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add Category</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addCategoryForm" action="/admin/categories" method="post">
+                <div class="mb-3">
+                  <label class="col-form-label">Category Name:</label>
+                  <input type="text" class="form-control" id="CategoryName" name="name" />
+                  <span class="error" style="color: red"></span>
+                </div>
+                <div class="mb-3">
+                  <label class="col-form-label">Description:</label>
+                  <textarea class="form-control" id="description" name="description"></textarea>
+                  <span class="error" style="color: red"></span>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Create Category</button>
+                </div>
+              </form>
+            </div>
           </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Search Categories"
-              class="form-control bg-white"
-            />
-          </div>
         </div>
+      </div>
+      </div>
+      <div>
+        <!-- Button trigger modal -->
+
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-3">
-                <% if (right_message) { %>
+              <% if (right_message) { %>
                 <div class="text-success text-center" style="color: green">
                   <%= right_message %>
                 </div>
-                <% } %> <% if (err_message) { %>
-                <div class="text-danger text-center" style="color: red">
-                  <%= err_message %>
-                </div>
                 <% } %>
-                <form action="/admin/categories" method="post" id="form">
-                  <div class="mb-4 input-group">
-                    <label for="product_name" class="form-label">Name</label>
-                    <input
-                      type="text"
-                      placeholder="Type here"
-                      class="form-control"
-                      name="name"
-                      id="CategoryName"
-                    />
-                    <div
-                      class="error"
-                      style="position: absolute; top: 40px; left: 35px"
-                    ></div>
-                  </div>
-                  <div class="mb-4 input-group">
-                    <label class="form-label">Description</label>
-                    <textarea
-                      placeholder="Type here"
-                      name="description"
-                      class="form-control"
-                      id="description"
-                    ></textarea>
-                    <div
-                      class="error"
-                      style="position: absolute; top: 100px; left: 66px"
-                    ></div>
-                  </div>
-                  <div class="d-grid">
-                    <button class="btn btn-primary">Create category</button>
-                  </div>
-                </form>
-              </div>
-              <div class="col-md-9">
-                <div class="table-responsive">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>List/unlist</th>
-                        <th>Edit</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        
-                      <% Categories.forEach((category , index) =>{ %>
-                        <tr>
-                        <td><%= index + 1 %></td>
-                        <td><b><%= category.name %></b></td>
-                        <td><%= category.description %></td>
+                  <% if (err_message) { %>
+                    <div class="text-danger text-center" style="color: red">
+                      <%= err_message %>
+                    </div>
+                    <% } %>
+                      <div class="col-md-12">
+                        <div class="table-responsive">
+                          <form method="GET" action="/admin/categories" class="d-flex mb-3">
+                            <input type="text" name="search" value="<%= search %>" placeholder="Search Categories"
+                              class="form-control bg-white" />
 
-                        <% if (category.status) {%>
-                        <td>
-                          <span class="badge rounded-pill alert-success"
-                            >Active</span
-                          >
-                        </td>
-                        <%}else{%>
-                        <td>
-                          <span class="badge rounded-pill alert-danger"
-                            >Not Active</span
-                          >
-                        </td>
-                        <%} %> <% if (category.status) {%>
-                        <td>
-                          <a
-                            href="/admin/categories/unlist/<%= category._id %>"
-                            class="btn btn-sm font-sm rounded btn-danger"
-                            >Unlist</a
-                          >
-                        </td>
-                        <%}else{%>
-                        <td>
-                          <a
-                            href="/admin/categories/list/<%= category._id %>"
-                            class="btn btn-sm font-sm rounded btn-brand"
-                            >List</a
-                          >
-                        </td>
-                        <%} %>
-                        <td>
-                            <a href="/admin/categories/edit/<%= category._id %>" class="btn btn-sm font-sm rounded btn-brand">
-                                <i class="material-icons md-edit"></i> Edit
-                            </a>
-                        </td>
-                        
-                    </tr>
-                        <% }) %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!-- .col// -->
+                            <select name="status" class="form-select">
+                              <option value="all" <%=statusFilter==="all" ? "selected" : "" %>>All</option>
+                              <option value="active" <%=statusFilter==="active" ? "selected" : "" %>>Active</option>
+                              <option value="inactive" <%=statusFilter==="inactive" ? "selected" : "" %>>Inactive
+                              </option>
+                            </select>
+
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                          </form>
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>List/Unlist</th>
+                                <th>Edit</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% Categories.forEach((category, index)=> { %>
+                                <tr>
+                                  <td>
+                                    <%= index + 1 %>
+                                  </td>
+                                  <td><b>
+                                      <%= category.name %>
+                                    </b></td>
+                                  <td>
+                                    <%= category.description %>
+                                  </td>
+
+                                  <td>
+                                    <% if (category.status) { %>
+                                      <span class="badge rounded-pill alert-success">Active</span>
+                                      <% } else { %>
+                                        <span class="badge rounded-pill alert-danger">Not Active</span>
+                                        <% } %>
+                                  </td>
+
+                                  <td>
+                                    <% if (category.status) { %>
+                                      <form action="/admin/categories/unlist/<%= category._id %>?_method=PATCH"
+                                        method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger">Unlist</button>
+                                      </form>
+                                      <% } else { %>
+                                        <form action="/admin/categories/list/<%= category._id %>?_method=PATCH"
+                                          method="POST" style="display:inline;">
+                                          <button type="submit" class="btn btn-sm btn-success">List</button>
+                                        </form>
+                                        <% } %>
+                                  </td>
+
+                                  <td>
+                                    <button type="button" class="btn btn-sm btn-brand editCategoryBtn"
+                                      data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+                                      data-id="<%= category._id %>" data-name="<%= category.name %>"
+                                      data-description="<%= category.description %>">
+                                      <i class="material-icons md-edit"></i> Edit
+                                    </button>
+                                  </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!-- .col// -->
             </div>
             <!-- .row // -->
+            <div class="pagination-area mt-30 mb-50">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+
+                  <!-- Previous -->
+                  <% if (currentPage> 1) { %>
+                    <li class="page-item">
+                      <a class="page-link"
+                        href="?page=<%= currentPage - 1 %>&search=<%= search %>&status=<%= statusFilter %>">
+                        <i class="material-icons md-chevron_left"></i>
+                      </a>
+                    </li>
+                    <% } %>
+
+                      <!-- Pages -->
+                      <% for (let i=1; i <=totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>" <%=currentPage===i
+                          ? 'aria-current="page"' : '' %>>
+                          <a class="page-link" href="?page=<%= i %>&search=<%= search %>&status=<%= statusFilter %>">
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } %>
+
+                          <!-- Next -->
+                          <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                              <a class="page-link"
+                                href="?page=<%= currentPage + 1 %>&search=<%= search %>&status=<%= statusFilter %>">
+                                <i class="material-icons md-chevron_right"></i>
+                              </a>
+                            </li>
+                            <% } %>
+
+                </ul>
+              </nav>
+            </div>
           </div>
           <!-- card body .// -->
         </div>
-        <!-- card .// -->
-      </section>
-      <!-- content-main end// -->
-      <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-          <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            ©, Evara - HTML Ecommerce Template .
-          </div>
-          <div class="col-sm-6">
-            <div class="text-sm-end">All rights reserved</div>
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form id="editCategoryForm" method="POST">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" id="editCategoryId" name="id" />
+
+                  <div class="mb-3">
+                    <label for="editCategoryName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="editCategoryName" name="name" required />
+                    <div class="error text-danger small"></div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="editCategoryDescription" class="form-label">Description</label>
+                    <textarea class="form-control" id="editCategoryDescription" name="description" required></textarea>
+                    <div class="error text-danger small"></div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </footer>
-    </main>
-    <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/vendors/select2.min.js"></script>
-    <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
-    <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="/assets/js/main.js" type="text/javascript"></script>
-    <script>
-     const name = document.getElementById("CategoryName");
-const description = document.getElementById("description");
-const form = document.getElementById("form");
+        <!-- card .// -->
+    </section>
+    <!-- content-main end// -->
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          ©, Evara - HTML Ecommerce Template .
+        </div>
+        <div class="col-sm-6">
+          <div class="text-sm-end">All rights reserved</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/vendors/select2.min.js"></script>
+  <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+  <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
+  <!-- Main Script -->
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+  <script>
+    // Populate Edit Category Modal
+    document.addEventListener("DOMContentLoaded", () => {
+      const editCategoryModal = document.getElementById("editCategoryModal");
+      const editForm = document.getElementById("editCategoryForm");
+      const idInput = document.getElementById("editCategoryId");
+      const nameInput = document.getElementById("editCategoryName");
+      const descInput = document.getElementById("editCategoryDescription");
 
-const setError = (input, message) => {
-  const inputControl = input.parentElement;
-  const errorDisplay = inputControl.querySelector(".error");
-  errorDisplay.innerText = message;
-  inputControl.classList.add("error");
-  inputControl.classList.remove("success");
-};
+      document.querySelectorAll(".editCategoryBtn").forEach(button => {
+        button.addEventListener("click", () => {
+          const id = button.dataset.id;
+          const name = button.dataset.name;
+          const description = button.dataset.description;
 
-const setSuccess = (input) => {
-  const inputControl = input.parentElement;
-  const errorDisplay = inputControl.querySelector(".error");
-  errorDisplay.innerText = "";
-  inputControl.classList.add("success");
-  inputControl.classList.remove("error");
-};
+          // Fill modal fields
+          idInput.value = id;
+          nameInput.value = name;
+          descInput.value = description;
 
-const validateInputs = () => {
-  let isValid = true;
+          // Update form action dynamically
+          editForm.action = `/admin/categories/edit/${id}?_method=PATCH`;
+        });
+      });
+    });
+  </script>
 
-  const nameValue = name.value.trim();
-  const descriptionValue = description.value.trim();
+  <script>
+    // Validation helpers
+    const setError = (input, message) => {
+      const inputControl = input.parentElement;
+      const errorDisplay = inputControl.querySelector(".error");
+      errorDisplay.innerText = message;
+      inputControl.classList.add("error");
+      inputControl.classList.remove("success");
+    };
 
-  if (nameValue === "") {
-    setError(name, "Name is required");
-    isValid = false;
-  } else {
-    setSuccess(name);
-  }
+    const setSuccess = (input) => {
+      const inputControl = input.parentElement;
+      const errorDisplay = inputControl.querySelector(".error");
+      errorDisplay.innerText = "";
+      inputControl.classList.add("success");
+      inputControl.classList.remove("error");
+    };
 
-  if (descriptionValue === "") {
-    setError(description, "Description is required");
-    isValid = false;
-  } else {
-    setSuccess(description);
-  }
+    const validateCategoryForm = (nameInput, descInput) => {
+      let isValid = true;
+      const nameValue = nameInput.value.trim();
+      const descValue = descInput.value.trim();
 
-  return isValid;
-};
+      if (nameValue === "") {
+        setError(nameInput, "Name is required");
+        isValid = false;
+      } else if (!/^[a-zA-Z0-9 _-]+$/.test(nameValue)) {
+        setError(nameInput, "Only letters, numbers, spaces, underscores, and dashes allowed");
+        isValid = false;
+      } else {
+        setSuccess(nameInput);
+      }
 
-form.addEventListener("submit", (event) => {
-  if (!validateInputs()) {
-    event.preventDefault();
-  }
-});
+      if (descValue === "") {
+        setError(descInput, "Description is required");
+        isValid = false;
+      } else {
+        setSuccess(descInput);
+      }
 
-    </script>
-  </body>
+      return isValid;
+    };
+
+    // Add Form Validation
+    const addForm = document.getElementById("addCategoryForm");
+    const addName = document.getElementById("CategoryName");
+    const addDesc = document.getElementById("description");
+
+    addForm.addEventListener("submit", (event) => {
+      if (!validateCategoryForm(addName, addDesc)) {
+        event.preventDefault();
+      }
+    });
+
+    // Edit Form Validation
+    const editForm = document.getElementById("editCategoryForm");
+    const editName = document.getElementById("editCategoryName");
+    const editDesc = document.getElementById("editCategoryDescription");
+
+    editForm.addEventListener("submit", (event) => {
+      if (!validateCategoryForm(editName, editDesc)) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+
 </html>

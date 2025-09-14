@@ -2,12 +2,51 @@ const Brand = require("../../model/brandsModel");
 
 const loadBrands = async (req, res) => {
     try {
-        const Brands = await Brand.find({});
-        res.render("brands",({Brands}));
+        let { search, status, page } = req.query;
+
+        search = search ? search.trim() : "";
+        status = status || "";
+        page = parseInt(page) || 1;
+
+        const limit = 5; // items per page
+        const skip = (page - 1) * limit;
+
+        // Build query
+        const query = {};
+
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } }
+            ];
+        }
+
+        if (status === "active") {
+            query.status = true;
+        } else if (status === "inactive") {
+            query.status = false;
+        }
+
+        const totalBrands = await Brand.countDocuments(query);
+        const Brands = await Brand.find(query)
+            .sort({ name: 1 })
+            .skip(skip)
+            .limit(limit);
+
+        const totalPages = Math.ceil(totalBrands / limit);
+
+        res.render("brands", {
+            Brands,
+            search,
+            status,
+            currentPage: page,
+            totalPages
+        });
     } catch (error) {
         console.error(error);
     }
-}
+};
+
 const addBrands = async (req, res) => {
     try {
         const { name, description } = req.body;
@@ -68,7 +107,7 @@ const editBrand = async (req, res) => {
         if (req.body.description !== Brands.description) {
             descriptionChanged = true
         }
-        
+
         if (nameChanged) {
             const nameExists = await Brand.findOne({ name: req.body.name });
             if (nameExists) {
@@ -77,7 +116,7 @@ const editBrand = async (req, res) => {
             }
         }
         if (nameChanged || descriptionChanged) {
-            const edit = await Brand.findByIdAndUpdate(id, { name: req.body.name , description:req.body.description});
+            const edit = await Brand.findByIdAndUpdate(id, { name: req.body.name, description: req.body.description });
             req.flash("right_message", "Edit successfull");
             res.redirect("/admin/brands");
         } else {
