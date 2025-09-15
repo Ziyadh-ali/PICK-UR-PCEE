@@ -5,7 +5,7 @@ const Wishlist = require("../../model/wishlistModel");
 
 const userHome = async (req, res) => {
     try {
-        const Products = await Product.find({isActive : true}).populate("category");
+        const Products = await Product.find({ isActive: true }).populate("category");
         const user = req.session.userLogin
         const wishlist = await Wishlist.findOne({ userId: user });
 
@@ -23,30 +23,30 @@ const loadShop = async (req, res) => {
     try {
         const user = req.session.userLogin;
         const wishlist = await Wishlist.findOne({ userId: user });
-        const page = 1
-
+        const page = parseInt(req.query.page);
+        // console.log(req.body)
         const limit = 6;
         const skip = (page - 1) * limit;
 
         const totalProductCount = await Product.countDocuments();
         const totalPages = Math.ceil(totalProductCount / limit);
 
-        const productDetails = await Product.find({isActive : true})
+        const productDetails = await Product.find({ isActive: true })
             .populate('category')
             .skip(skip)
             .limit(limit)
+            .sort({ createdAt: -1 })
 
 
 
         const Brands = await Brand.find({ status: true });
         const Categories = await Category.find({ status: true });
-        const currentPage = 1
         res.render("shop", {
             Products: productDetails,
             user,
             Brands,
             Categories,
-            currentPage,
+            currentPage: page,
             totalPages,
             wishlist
         });
@@ -65,7 +65,7 @@ const getSortFilterSearchData = async (req, res) => {
     const limit = 6;
     const skip = (page - 1) * limit;
 
-    const filter = {isActive : true};
+    const filter = { isActive: true };
 
     if (Array.isArray(selectedBrands) && selectedBrands.length > 0) {
         const brandIds = await Brand.find({
@@ -86,7 +86,7 @@ const getSortFilterSearchData = async (req, res) => {
     }
 
 
-    const totalProductCount = await Product.countDocuments({filter});
+    const totalProductCount = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalProductCount / limit);
 
     const sortBy = {};
@@ -113,9 +113,9 @@ const getSortFilterSearchData = async (req, res) => {
 
     const productDetails = await Product.find(filter)
         .populate('category')
-        .sort(sortBy)
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
+        .sort(sortBy)
 
     res.json({
         Products: productDetails,
@@ -138,8 +138,8 @@ const productDetails = async (req, res) => {
         const user = req.session.userLogin
         const wishlist = await Wishlist.findOne({ userId: user });
         const id = req.params.id;
-        const Products = await Product.findOne({_id : id , isActive : true}).populate("category").populate("brands").populate("offerId");
-        const relatedProducts = await Product.find({ isActive : true,category: Products.category }).populate("category").populate("brands").limit(8);
+        const Products = await Product.findOne({ _id: id, isActive: true }).populate("category").populate("brands").populate("offerId");
+        const relatedProducts = await Product.find({ isActive: true, category: Products.category }).populate("category").populate("brands").limit(8);
         res.render("productsDetails", ({
             Products,
             user,
