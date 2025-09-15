@@ -700,34 +700,26 @@
 
   <script>
     function copyToClipboard(text) {
+      // Don't show success message until we know it actually worked
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => {
-          showToast(`Coupon code "${text}" copied to clipboard!`, "success");
+          // Verify it actually copied by reading back
+          return navigator.clipboard.readText();
+        }).then(clipboardText => {
+          if (clipboardText === text) {
+            showToast(`Coupon code "${text}" copied to clipboard!`, "success");
+          } else {
+            // Show manual copy option
+            prompt("Copy this coupon code manually:", text);
+          }
         }).catch(err => {
-          fallbackCopy(text);
+          console.error('Copy failed:', err);
+          prompt("Copy this coupon code manually:", text);
         });
       } else {
-        fallbackCopy(text);
+        // Fallback: just show the code for manual copying
+        prompt("Copy this coupon code manually:", text);
       }
-    }
-
-    function fallbackCopy(text) {
-      const tempInput = document.createElement('input');
-      tempInput.style.position = 'absolute';
-      tempInput.style.left = '-1000px';
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      tempInput.setSelectionRange(0, 99999);
-
-      try {
-        document.execCommand('copy');
-        showToast(`Coupon code "${text}" copied to clipboard!`, "success");
-      } catch (err) {
-        prompt('Copy this coupon code:', text);
-      }
-
-      document.body.removeChild(tempInput);
     }
     $(document).ready(function () {
       $('.address-panel').on('click', function (event) {
