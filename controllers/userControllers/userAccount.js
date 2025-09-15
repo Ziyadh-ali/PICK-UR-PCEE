@@ -9,13 +9,26 @@ const loadAccount = async (req, res) => {
         const userData = await User.findById(user);
         const address = await Address.findOne({ userId: user });
         const orders = await Order.find({ userId: user }).sort({ orderedAt: -1 });
-        const wallet = await Wallet.findOne({ userId: user })
+        const wallet = await Wallet.findOne({ userId: user });
+        const getStatusColor = (status) => {
+            switch (status) {
+                case "Pending":
+                    return "color: orange; font-weight: bold;";
+                case "Completed":
+                    return "color: green; font-weight: bold;";
+                case "Cancelled":
+                    return "color: red; font-weight: bold;";
+                default:
+                    return "color: gray;";
+            }
+        };
         res.render("userAccount", ({
             user,
             userData,
             address,
             orders,
-            wallet
+            wallet,
+            getStatusColor,
         }));
     } catch (error) {
         console.error(error);
@@ -43,7 +56,7 @@ const accUpdate = async (req, res) => {
 const addAddress = async (req, res) => {
     try {
         const { fullName, addMobile, userAddress, city, state, pincode, altMobile, type } = req.body;
-        userId = req.session.userLogin;
+        let userId = req.session.userLogin;
         const address = await Address.findOne({ userId: userId });
         if (address) {
             address.addresses.push({
