@@ -354,17 +354,29 @@ const verifyCoupon = async (req, res) => {
     }
 
     if (coupon.discountType === "fixed") {
-      cart.totalPrice = cart.totalPrice - coupon.discountValue;
-      cart.save();
+      if (coupon.discountValue >= cart.totalPrice) {
+        return res.status(200).json({
+          success: false,
+          message: "Discount cannot be greater than or equal to cart total.",
+        });
+      }
+      cart.totalPrice -= coupon.discountValue;
+      await cart.save();
       req.session.coupon = coupon;
       return res.status(200).json({ success: true });
     } else {
-      discount = Math.floor((coupon.discountValue / 100) * cart.totalPrice);
-      cart.totalPrice = Math.floor(cart.totalPrice - discount);
+      let discount = Math.floor((coupon.discountValue / 100) * cart.totalPrice);
+      if (discount >= cart.totalPrice) {
+        return res.status(200).json({
+          success: false,
+          message: "Discount cannot make total zero or negative.",
+        });
+      }
+      cart.totalPrice -= discount;
+      await cart.save();
       req.session.discount = discount;
-      cart.save();
       req.session.coupon = coupon;
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     }
   } catch (error) {
     console.error(error);
