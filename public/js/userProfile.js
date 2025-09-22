@@ -1,88 +1,90 @@
-      const email = document.getElementById("email");
-      const firstName = document.getElementById("firstName");
-      const mobile = document.getElementById("mobile");
+const email = document.getElementById("email");
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const mobile = document.getElementById("mobile");
 
-      let isValid = true; // Track form validity
+let isValid = true; // Track form validity
 
-      const setError = (input, message) => {
-        const inputControl = input.parentElement;
-        const errorDisplay = inputControl.querySelector(".error");
-        errorDisplay.innerText = message;
-        inputControl.classList.add("error");
-        inputControl.classList.remove("success");
-        isValid = false;
-      };
+const setError = (input, message) => {
+  const inputControl = input.parentElement;
+  const errorDisplay = inputControl.querySelector(".error");
+  errorDisplay.innerText = message;
+  inputControl.classList.add("error");
+  inputControl.classList.remove("success");
+  isValid = false;
+};
 
-      const setSuccess = (input) => {
-        const inputControl = input.parentElement;
-        const errorDisplay = inputControl.querySelector(".error");
-        errorDisplay.innerText = "";
-        inputControl.classList.add("success");
-        inputControl.classList.remove("error");
-      };
-      const validateInputs = () => {
-        isValid = true;
-        
-        const firstNameValue = firstName.value.trim();
-        const mobileValue = mobile.value.trim();
+const setSuccess = (input) => {
+  const inputControl = input.parentElement;
+  const errorDisplay = inputControl.querySelector(".error");
+  errorDisplay.innerText = "";
+  inputControl.classList.add("success");
+  inputControl.classList.remove("error");
+};
 
-        if (firstNameValue === "") {
-          setError(firstName, "First Name is required");
+// ✅ Validation rules
+const validateInputs = () => {
+  isValid = true;
+
+  const firstNameValue = firstName.value.trim();
+  const lastNameValue = lastName.value.trim();
+  const emailValue = email.value.trim();
+  const mobileValue = mobile.value.trim();
+
+  // First name validation
+  if (firstNameValue === "") {
+    setError(firstName, "First name is required");
+  } else if (!/^[A-Za-z]{2,30}$/.test(firstNameValue)) {
+    setError(firstName, "First name must be 2–30 letters only");
+  } else {
+    setSuccess(firstName);
+  }
+
+  // Last name validation (optional but if present must be valid)
+  if (lastNameValue && !/^[A-Za-z]{1,30}$/.test(lastNameValue)) {
+    setError(lastName, "Last name must be letters only (max 30)");
+  } else {
+    setSuccess(lastName);
+  }
+
+
+  // Mobile validation
+  if (mobileValue === "") {
+    setError(mobile, "Mobile number is required");
+  } else if (!/^[0-9]{10}$/.test(mobileValue)) {
+    setError(mobile, "Mobile number must be exactly 10 digits");
+  } else {
+    setSuccess(mobile);
+  }
+
+  return isValid;
+};
+
+// ✅ Submit handler
+document.getElementById("form1").addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (validateInputs()) {
+    const data = {
+      lastName: lastName.value.trim(),
+      firstName: firstName.value.trim(),
+      email: email.value.trim(),
+      mobile: mobile.value.trim(),
+    };
+
+    $.ajax({
+      url: "/account",
+      type: "PATCH",
+      data,
+      success: function (response) {
+        if (response.success) {
+          showToast("Updated successfully", "success");
         } else {
-          setSuccess(firstName);
+          showToast(response.message, "error");
         }
-        if (mobileValue.length >=1 && mobileValue.length !== 10) {
-          setError(mobile, "Mobile Number should'nt be less than 10");
-        } else {
-          setSuccess(mobile);
-        }
-
-        return isValid;
-      };
-      document.getElementById("form1").addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (validateInputs()) {
-          const lastName = document.getElementById("lastName").value;
-          const firstName = document.getElementById("firstName").value;
-          const mobile = document.getElementById("mobile").value;
-          $.ajax({
-            url: "/account",
-            type: "PATCH",
-            data: {
-                lastName,
-                firstName,
-                mobile
-            },
-            success: function (response) {
-              if (response.success) {
-                showToast("Updated successfully", "success");
-              } else {
-                showToast(response.message, "error");
-              }
-            },
-            error: function (error) {
-              showToast("Request failed" + error, "error");
-            },
-          });
-        }
-      });
-    //   function showToast(message, type) {
-    //     let backgroundColor;
-
-    //     if (type === "success") {
-    //       backgroundColor = "green";
-    //     } else if (type === "error") {
-    //       backgroundColor = "red";
-    //     } else {
-    //       backgroundColor = "gray";
-    //     }
-
-    //     Toastify({
-    //       text: message,
-    //       duration: 2000,
-    //       close: true,
-    //       gravity: "top",
-    //       position: "right",
-    //       backgroundColor: backgroundColor,
-    //     }).showToast();
-    //   }
+      },
+      error: function (error) {
+        showToast("Request failed: " + error, "error");
+      },
+    });
+  }
+});

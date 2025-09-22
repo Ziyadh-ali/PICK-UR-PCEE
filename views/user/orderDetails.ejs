@@ -381,7 +381,7 @@
 
     <!-- Order Actions (Cancel & Return Buttons) -->
     <div class="order-actions">
-      <% if (order.orderStatus !=="Cancelled" && order.orderStatus !=="Delivered" && order.orderStatus !=="Returned" ) {
+      <% if (order.orderStatus !=="Cancelled" && order.orderStatus !=="Delivered" && order.orderStatus !=="Returned" && order.paymentStatus !=="Failed"  ) {
         %>
         <button onclick="cancelOrder('<%= order._id %>')" class="btn btn-warning btn-sm" id="cancelOrderBtn">Cancel
           Order</button>

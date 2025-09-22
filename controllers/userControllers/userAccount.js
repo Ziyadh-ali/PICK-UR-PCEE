@@ -5,35 +5,65 @@ const User = require("../../model/userModel");
 
 const loadAccount = async (req, res) => {
     try {
-        const user = req.session.userLogin
+        const user = req.session.userLogin;
         const userData = await User.findById(user);
         const address = await Address.findOne({ userId: user });
-        const orders = await Order.find({ userId: user }).sort({ orderedAt: -1 });
         const wallet = await Wallet.findOne({ userId: user });
+
+        // Pagination parameters
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 1;
+        const skip = (page - 1) * limit;
+
+        // Get active tab from query parameter or default to 'profile'
+        const activeTab = req.query.tab || 'profile';
+
+        // Get orders with pagination
+        const orders = await Order.find({ userId: user })
+            .sort({ orderedAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        // Get total count for pagination
+        const totalOrders = await Order.countDocuments({ userId: user });
+        const totalPages = Math.ceil(totalOrders / limit);
+
         const getStatusColor = (status) => {
             switch (status) {
-                case "Pending":
+                case "Processing":
                     return "color: orange; font-weight: bold;";
-                case "Completed":
+                case "Shipped":
+                    return "color: blue; font-weight: bold;";
+                case "Delivered":
                     return "color: green; font-weight: bold;";
+                case "Returned":
+                    return "color: grey; font-weight: bold;";
+                case "Failed":
                 case "Cancelled":
                     return "color: red; font-weight: bold;";
                 default:
                     return "color: gray;";
             }
         };
-        res.render("userAccount", ({
+
+        res.render("userAccount", {
             user,
             userData,
             address,
             orders,
             wallet,
             getStatusColor,
-        }));
+            currentPage: page,
+            totalPages,
+            limit,
+            activeTab,
+            totalOrders
+        });
     } catch (error) {
         console.error(error);
+        res.status(500).send("Server Error");
     }
-}
+};
 const accUpdate = async (req, res) => {
     try {
         const { firstName, lastName, mobile } = req.body;
