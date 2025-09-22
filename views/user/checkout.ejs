@@ -495,7 +495,7 @@
                       }
                       });
                       %>
-                      <%= discountTotal> 0 ? `-₹${discountTotal}` : 0 %>
+                      <%= discountTotal> 0 ? `₹${discountTotal}` : 0 %>
                   </strong>
                 </div>
               </div>
@@ -507,7 +507,7 @@
                       <% if(coupon.discountType==="fixed" ){%>
                         -₹<%= coupon.discountValue %>
                           <%}else{%>
-                            -₹<%= cart.totalPrice *(coupon.discountValue / 100) %>
+                            ₹<%= discount %>
                               <%} %>
                                 <%}else{%>
                                   0
@@ -741,7 +741,7 @@
         },
         error: function (err) {
           console.error('Error:', err);
-          alert('There was an error applying the coupon. Please try again.');
+          showToast('There was an error applying the coupon. Please try again.' , "error");
         }
       });
     }
@@ -771,7 +771,7 @@
         },
         error: function (err) {
           console.error('Error:', err);
-          alert('There was an error applying the coupon. Please try again.');
+          showToast('There was an error applying the coupon. Please try again.' , "error");
         }
       });
     });

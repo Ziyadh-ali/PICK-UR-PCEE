@@ -103,6 +103,7 @@ const editOffer = async (req, res) => {
 const offerRemove = async (req, res) => {
     try {
         const { id } = req.params;
+        console.log(id)
         const productsWithOffer = await Product.find({ offerId: id });
         for (let product of productsWithOffer) {
             product.offerId = null

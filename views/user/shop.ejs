@@ -692,7 +692,6 @@
 							quantity: 1
 						},
 						success: function (response) {
-							alert(response.message)
 							if (response.success) {
 								Swal.fire({
 									html: 'Go to <a href="/cart" >cart</a>',
@@ -704,7 +703,6 @@
 									}
 								});
 							} else {
-								alert(response.message)
 								Swal.fire({
 									title: response.message,
 									icon: "error",

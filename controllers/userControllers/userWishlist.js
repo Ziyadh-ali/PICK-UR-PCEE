@@ -1,5 +1,6 @@
 
 const Wishlist = require("../../model/wishlistModel");
+const User = require("../../model/userModel")
 
 const loadWishlist = async (req, res) => {
     try {

@@ -9,6 +9,7 @@ const loadCheckout = async (req, res) => {
   try {
     const userId = req.session.userLogin;
     const coupon = req.session.coupon || false;
+    const discount = req.session.discount
 
     const cart = await Cart.findOne({ userId }).populate({
       path: "products.productId",
@@ -60,7 +61,6 @@ const loadCheckout = async (req, res) => {
 
     const address = await Address.findOne({ userId });
     const coupons = await Coupon.find({ expiryDate: { $gt: Date.now() } });
-
     if (!cart || cart.products.length < 1) {
       return res.redirect("/cart");
     }
@@ -71,6 +71,7 @@ const loadCheckout = async (req, res) => {
       address,
       coupon,
       coupons,
+      discount
     });
   } catch (error) {
     console.error(error);
@@ -329,7 +330,7 @@ const verifyCoupon = async (req, res) => {
         .status(200)
         .json({ success: false, message: "Invalid coupon code." });
     }
-    if (!coupon.expiryDate > Date.now()) {
+    if (coupon.expiryDate < Date.now()) {
       return res
         .status(200)
         .json({ success: false, message: "coupon is expired." });
@@ -358,7 +359,7 @@ const verifyCoupon = async (req, res) => {
       req.session.coupon = coupon;
       return res.status(200).json({ success: true });
     } else {
-      discount = (coupon.discountValue / 100) * cart.totalPrice;
+      discount = Math.floor((coupon.discountValue / 100) * cart.totalPrice);
       cart.totalPrice = Math.floor(cart.totalPrice - discount);
       req.session.discount = discount;
       cart.save();

@@ -550,7 +550,7 @@
         const data = await res.json();
 
         if (!data.success) {
-          alert("Failed to start payment");
+          showToast("Failed to start payment" , "error");
           return;
         }
         const options = {
@@ -580,7 +580,7 @@
               if (verifyData.success) {
                 window.location.href = "/orderSuccess";
               } else {
-                alert("Payment verification failed");
+                showToast("Payment verification failed" , "error");
               }
             }
           },
@@ -592,7 +592,7 @@
 
       } catch (err) {
         console.error("Payment init error:", err);
-        alert("Something went wrong");
+        showToast("Something went wrong","error");
       }
     }
     function downloadInvoice(orderId) {
@@ -731,6 +731,27 @@
           });
         }
       })
+    }
+
+    function showToast(message, type) {
+      let backgroundColor;
+
+      if (type === "success") {
+        backgroundColor = "green";
+      } else if (type === "error") {
+        backgroundColor = "red";
+      } else {
+        backgroundColor = "gray";
+      }
+
+      Toastify({
+        text: message,
+        duration: 2000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: backgroundColor,
+      }).showToast();
     }
   </script>
 

@@ -261,6 +261,9 @@
                                                         <div class="mb-3">
                                                             <label class="form-label">Brand name</label>
                                                             <select class="form-select" name="brand">
+                                                                <option value="">
+                                                                    Select Brand
+                                                                </option>
                                                                 <% Brands.forEach(brand=>{ %>
                                                                     <option value="<%= brand._id %>">
                                                                         <%= brand.name %>
@@ -287,6 +290,9 @@
                                                         <h6 class="mb-3 mt-4">3. Category</h6>
                                                         <div class="mb-3">
                                                             <select class="form-select" name="category">
+                                                                <option value="">
+                                                                    Select Category
+                                                                </option>
                                                                 <% Categories.forEach(category=>{ %>
                                                                     <option value="<%= category._id %>">
                                                                         <%= category.name %>
@@ -507,6 +513,13 @@
             const category = document.querySelector("select[name='category']").value;
             if (category === "") {
                 document.querySelector("select[name='category'] + .error").innerText = "Please select a category.";
+                isValid = false;
+            }
+
+            // ✅ Brand validation
+            const brand = document.querySelector("select[name='brand']").value;
+            if (brand === "") {
+                document.querySelector("select[name='brand'] + .error").innerText = "Please select a brand.";
                 isValid = false;
             }
 

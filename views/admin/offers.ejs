@@ -448,7 +448,7 @@
 
     $("#editOfferForm").on("submit", function (e) {
       e.preventDefault();
-
+      if(!validateEditOfferInputs()) return
       const id = $("#editOfferId").val();
       const data = {
         offerName: $("#editOfferName").val(),
@@ -495,7 +495,7 @@
       }).then((result) => {
         if (result.isConfirmed) {
           $.ajax({
-            url: `/admin/offer/${id}`,
+            url: `/admin/offers/${id}`,
             type: "DELETE",
             success: function (response) {
               if (response.success) {
@@ -549,14 +549,10 @@
     const offerForm = document.getElementById('offerForm');
 
 
-    let isValid = true;
-
     const setError = (input, message) => {
       const inputControl = input.parentElement;
       const errorDisplay = inputControl.querySelector(".error");
       errorDisplay.innerText = message;
-      inputControl.classList.add("error");
-      inputControl.classList.remove("success");
       isValid = false;
     };
 
@@ -564,81 +560,140 @@
       const inputControl = input.parentElement;
       const errorDisplay = inputControl.querySelector(".error");
       errorDisplay.innerText = "";
-      inputControl.classList.add("success");
-      inputControl.classList.remove("error");
     };
+
+    // ---------- Add Offer Validation ----------
     const validateOfferInputs = () => {
       isValid = true;
 
       const offerNameValue = offerName.value.trim();
       const discountTypeValue = discountType.value;
-      const discountValueValue = discountValue.value.trim();
-      const minSpendValue = minSpend.value.trim();
-      const maxDiscountValue = maxDiscount.value.trim();
+      const discountValueValue = Number(discountValue.value.trim());
+      const minSpendValue = Number(minSpend.value.trim());
+      const maxDiscountValue = Number(maxDiscount.value.trim());
       const expiryDateValue = expiryDate.value;
       const brandValue = brand.value.trim();
       const categoryValue = category.value.trim();
 
+      // Offer name
+      if (!offerNameValue || offerNameValue.length < 3) {
+        setError(offerName, "Offer name must be at least 3 characters.");
+      } else setSuccess(offerName);
 
-      if (offerNameValue === "") {
-        setError(offerName, "Please enter a coupon code.");
+      // Discount Type
+      if (!discountTypeValue) {
+        setError(discountType, "Please select discount type.");
+      } else setSuccess(discountType);
+
+      // Discount Value
+      if (!discountValueValue || discountValueValue <= 0) {
+        setError(discountValue, "Enter valid discount value.");
+      } else if (discountTypeValue === "percentage" && (discountValueValue <= 0 || discountValueValue > 100)) {
+        setError(discountValue, "Percentage must be between 1–100.");
+      } else setSuccess(discountValue);
+
+      // Min Spend
+      if (isNaN(minSpendValue) || minSpendValue < 0) {
+        setError(minSpend, "Minimum spend must be >= 0.");
+      } else setSuccess(minSpend);
+
+      // Max Discount
+      if (discountTypeValue === "percentage") {
+        if (!maxDiscountValue || maxDiscountValue <= 0) {
+          setError(maxDiscount, "Enter max discount for percentage type.");
+        } else if (maxDiscountValue < discountValueValue) {
+          setError(maxDiscount, "Max discount must be >= discount value.");
+        } else setSuccess(maxDiscount);
       } else {
-        setSuccess(offerName);
+        // For fixed type
+        if (maxDiscountValue && maxDiscountValue < discountValueValue) {
+          setError(maxDiscount, "Max discount must be >= discount value.");
+        } else setSuccess(maxDiscount);
       }
 
-
-      if (discountTypeValue === "") {
-        setError(discountType, "Please select a coupon type.");
-      } else {
-        setSuccess(discountType);
-      }
-
-
-      if (discountValueValue === "") {
-        setError(discountValue, "Please enter a valid discount value greater than 0.");
-      } else {
-        setSuccess(discountValue);
-      }
-
-
-      if (minSpendValue === "") {
-        setError(minSpend, "Please enter a valid minimum spend amount.");
-      } else {
-        setSuccess(minSpend);
-      }
-
-
-      if (maxDiscountValue === "") {
-        setError(maxDiscount, "Please enter a valid maximum discount value.");
-      } else {
-        setSuccess(maxDiscount);
-      }
-
-      if (expiryDateValue === "") {
-        setError(expiryDate, "Please select an expiry date.");
+      // Expiry Date
+      if (!expiryDateValue) {
+        setError(expiryDate, "Please select expiry date.");
       } else {
         const today = new Date();
         const expiry = new Date(expiryDateValue);
         if (expiry <= today) {
           setError(expiryDate, "Expiry date must be in the future.");
-        } else {
-          setSuccess(expiryDate);
-        }
+        } else setSuccess(expiryDate);
       }
 
-
-      if (brandValue.trim() === "" && categoryValue.trim() === "") {
-        setError(brand, "Please select one.");
-        setError(category, "Please select one.");
+      // Brand / Category
+      if (!brandValue && !categoryValue) {
+        setError(brand, "Select at least one: Brand or Category.");
+        setError(category, "Select at least one: Brand or Category.");
       } else {
         setSuccess(brand);
         setSuccess(category);
       }
-      //   if (categoryValue.trim() === "" ) {
-      //     setError(category, "Please Select .");
-      //   } else {
-      //     setSuccess(category);
-      //   }
+
+      return isValid;
+    };
+
+    // ---------- Edit Offer Validation ----------
+    const validateEditOfferInputs = () => {
+      isValid = true;
+
+      const offerNameValue = $("#editOfferName").val().trim();
+      const discountTypeValue = $("#editDiscountType").val();
+      const discountValueValue = Number($("#editDiscountValue").val().trim());
+      const minSpendValue = Number($("#editMinSpend").val().trim());
+      const maxDiscountValue = Number($("#editMaxDiscount").val().trim());
+      const expiryDateValue = $("#editExpiryDate").val();
+      const brandValue = $("#editBrand").val();
+      const categoryValue = $("#editCategory").val();
+
+      if (!offerNameValue || offerNameValue.length < 3) {
+        alert("Offer name must be at least 3 characters.");
+        isValid = false;
+      }
+
+      if (!discountTypeValue) {
+        alert("Select discount type.");
+        isValid = false;
+      }
+
+      if (!discountValueValue || discountValueValue <= 0) {
+        alert("Enter valid discount value.");
+        isValid = false;
+      } else if (discountTypeValue === "percentage" && (discountValueValue <= 0 || discountValueValue > 100)) {
+        alert("Percentage must be between 1–100.");
+        isValid = false;
+      }
+
+      if (isNaN(minSpendValue) || minSpendValue < 0) {
+        alert("Minimum spend must be >= 0.");
+        isValid = false;
+      }
+
+      if (discountTypeValue === "percentage") {
+        if (!maxDiscountValue || maxDiscountValue <= 0) {
+          alert("Enter max discount for percentage type.");
+          isValid = false;
+        } else if (maxDiscountValue < discountValueValue) {
+          alert("Max discount must be >= discount value.");
+          isValid = false;
+        }
+      } else {
+        if (maxDiscountValue && maxDiscountValue < discountValueValue) {
+          alert("Max discount must be >= discount value.");
+          isValid = false;
+        }
+      }
+
+      if (!expiryDateValue || new Date(expiryDateValue) <= new Date()) {
+        alert("Expiry date must be in the future.");
+        isValid = false;
+      }
+
+      if (!brandValue && !categoryValue) {
+        alert("Select at least one: Brand or Category.");
+        isValid = false;
+      }
 
       return isValid;
     };

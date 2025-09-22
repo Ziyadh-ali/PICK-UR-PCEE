@@ -479,47 +479,59 @@
 
       const couponCodeValue = couponCode.value.trim();
       const discountTypeValue = discountType.value;
-      const discountValueValue = discountValue.value.trim();
-      const minSpendValue = minSpend.value.trim();
-      const maxDiscountValue = maxDiscount.value.trim();
+      const discountValueValue = parseFloat(discountValue.value.trim());
+      const minSpendValue = parseFloat(minSpend.value.trim());
+      const maxDiscountValue = parseFloat(maxDiscount.value.trim());
       const expiryDateValue = expiryDate.value;
       const usageLimitValue = usageLimit.value.trim();
 
-
+      // Coupon code check
       if (couponCodeValue === "") {
         setError(couponCode, "Please enter a coupon code.");
       } else {
         setSuccess(couponCode);
       }
 
-
+      // Discount type check
       if (discountTypeValue === "") {
         setError(discountType, "Please select a coupon type.");
       } else {
         setSuccess(discountType);
       }
 
-
-      if (discountValueValue === "") {
-        setError(discountValue, "Please enter a valid discount value greater than 0.");
+      // Discount value validation
+      if (isNaN(discountValueValue) || discountValueValue <= 0) {
+        setError(discountValue, "Enter a valid discount value greater than 0.");
       } else {
-        setSuccess(discountValue);
+        if (discountTypeValue === "percentage" && (discountValueValue > 100)) {
+          setError(discountValue, "Percentage discount cannot exceed 100%.");
+        } else if (discountTypeValue === "fixed" && minSpendValue && discountValueValue > minSpendValue) {
+          setError(discountValue, "Fixed discount cannot be more than minimum spend.");
+        } else {
+          setSuccess(discountValue);
+        }
       }
 
-
-      if (minSpendValue === "") {
+      // Minimum spend validation
+      if (isNaN(minSpendValue) || minSpendValue <= 0) {
         setError(minSpend, "Please enter a valid minimum spend amount.");
       } else {
         setSuccess(minSpend);
       }
 
-
-      if (maxDiscountValue === "") {
-        setError(maxDiscount, "Please enter a valid maximum discount value.");
+      // Max discount validation (only for percentage)
+      if (discountTypeValue === "percentage") {
+        if (isNaN(maxDiscountValue) || maxDiscountValue <= 0) {
+          setError(maxDiscount, "Please enter a valid maximum discount value.");
+        } else {
+          setSuccess(maxDiscount);
+        }
       } else {
+        // Clear validation if fixed
         setSuccess(maxDiscount);
       }
 
+      // Expiry date validation
       if (expiryDateValue === "") {
         setError(expiryDate, "Please select an expiry date.");
       } else {
@@ -532,8 +544,8 @@
         }
       }
 
-
-      if (usageLimitValue.trim() === "") {
+      // Usage limit validation
+      if (isNaN(usageLimitValue) || usageLimitValue <= 0) {
         setError(usageLimit, "Please enter a valid usage limit.");
       } else {
         setSuccess(usageLimit);
@@ -541,6 +553,7 @@
 
       return isValid;
     };
+
 
 
     couponForm.addEventListener("submit", (event) => {
@@ -596,6 +609,98 @@
         backgroundColor: backgroundColor,
       }).showToast();
     }
+    const validateEditCouponInputs = () => {
+      let isValidEdit = true;
+
+      const couponCodeValue = $("#editCouponCode").val().trim();
+      const discountTypeValue = $("#editDiscountType").val();
+      const discountValueValue = parseFloat($("#editDiscountValue").val().trim());
+      const minSpendValue = parseFloat($("#editMinSpend").val().trim());
+      const maxDiscountValue = parseFloat($("#editMaxDiscount").val().trim());
+      const expiryDateValue = $("#editExpiryDate").val();
+      const usageLimitValue = parseInt($("#editUsageLimit").val().trim());
+
+      const setError = (selector, message) => {
+        const inputControl = $(selector).parent();
+        inputControl.find(".error").text(message);
+        inputControl.addClass("error").removeClass("success");
+        isValidEdit = false;
+      };
+
+      const setSuccess = (selector) => {
+        const inputControl = $(selector).parent();
+        inputControl.find(".error").text("");
+        inputControl.addClass("success").removeClass("error");
+      };
+
+      // Coupon code
+      if (couponCodeValue === "") {
+        setError("#editCouponCode", "Please enter a coupon code.");
+      } else {
+        setSuccess("#editCouponCode");
+      }
+
+      // Discount type
+      if (discountTypeValue === "") {
+        setError("#editDiscountType", "Please select a coupon type.");
+      } else {
+        setSuccess("#editDiscountType");
+      }
+
+      // Discount value
+      if (isNaN(discountValueValue) || discountValueValue <= 0) {
+        setError("#editDiscountValue", "Enter a valid discount value greater than 0.");
+      } else {
+        if (discountTypeValue === "percentage" && discountValueValue > 100) {
+          setError("#editDiscountValue", "Percentage discount cannot exceed 100%.");
+        } else if (discountTypeValue === "fixed" && minSpendValue && discountValueValue > minSpendValue) {
+          setError("#editDiscountValue", "Fixed discount cannot be more than minimum spend.");
+        } else {
+          setSuccess("#editDiscountValue");
+        }
+      }
+
+      // Minimum spend
+      if (isNaN(minSpendValue) || minSpendValue <= 0) {
+        setError("#editMinSpend", "Please enter a valid minimum spend amount.");
+      } else {
+        setSuccess("#editMinSpend");
+      }
+
+      // Max discount (only for percentage)
+      if (discountTypeValue === "percentage") {
+        if (isNaN(maxDiscountValue) || maxDiscountValue <= 0) {
+          setError("#editMaxDiscount", "Please enter a valid maximum discount value.");
+        } else {
+          setSuccess("#editMaxDiscount");
+        }
+      } else {
+        setSuccess("#editMaxDiscount");
+      }
+
+      // Expiry date
+      if (expiryDateValue === "") {
+        setError("#editExpiryDate", "Please select an expiry date.");
+      } else {
+        const today = new Date();
+        const expiry = new Date(expiryDateValue);
+        if (expiry <= today) {
+          setError("#editExpiryDate", "Expiry date must be in the future.");
+        } else {
+          setSuccess("#editExpiryDate");
+        }
+      }
+
+      // Usage limit
+      if (isNaN(usageLimitValue) || usageLimitValue <= 0) {
+        setError("#editUsageLimit", "Please enter a valid usage limit.");
+      } else {
+        setSuccess("#editUsageLimit");
+      }
+
+      return isValidEdit;
+    };
+
 
 
     $(document).on("click", ".editBtn", function () {
@@ -621,11 +726,13 @@
         code: $("#editCouponCode").val(),
         discountType: $("#editDiscountType").val(),
         discountValue: $("#editDiscountValue").val(),
-        minSpend: $("#editMinSpend").val(),
-        maxDiscount: $("#editMaxDiscount").val(),
+        minPurchaseValue: $("#editMinSpend").val(),
+        maxPurchaseValue: $("#editMaxDiscount").val(),
         expiryDate: $("#editExpiryDate").val(),
         usageLimit: $("#editUsageLimit").val(),
       };
+
+      if(!validateEditCouponInputs()) return;
 
       $.ajax({
         url: `/admin/coupons/${id}`,
