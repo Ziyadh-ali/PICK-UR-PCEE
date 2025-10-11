@@ -57,6 +57,26 @@
 			border-radius: 4px;
 		}
 
+		.store-pagination li {
+			cursor: pointer;
+			display: inline-block;
+			padding: 8px 12px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			margin: 0 4px;
+			transition: background-color 0.2s;
+		}
+
+		.store-pagination li:hover {
+			background-color: #f2f2f2;
+		}
+
+		.store-pagination li span {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+
 		@media (max-width: 768px) {
 			.input {
 				width: 70%;
@@ -269,11 +289,6 @@
 															<span class="sale">Offer Available!</span>
 														</div>
 														<%}%>
-
-															<!-- <div class="product-label">
-															<span class="sale">-30%</span>
-															<span class="new">NEW</span>
-														</div> -->
 												</div>
 												<div class="product-body">
 													<% if(product.stock<=0){%>
@@ -282,7 +297,6 @@
 														<%}else{%>
 															<h6 class="product-available" style="color: green;">
 																Available</h6>
-
 															<%} %>
 																<p class="product-category">
 																	<%= product.category.name %>
@@ -302,7 +316,6 @@
 																			₹<%= product.price %>
 																		</h3>
 																		<%} %>
-
 																			<div id="product" class="product-btns">
 																				<% const inWishlist=wishlist &&
 																					wishlist.products.some(item=>
@@ -328,7 +341,6 @@
 																			</div>
 												</div>
 												<% if(product.stock <=0){%>
-
 													<%}else{%>
 														<div class="add-to-cart">
 															<button class="add-to-cart-btn"
@@ -344,19 +356,16 @@
 									<% } %>
 										<% } %>
 											<%}) %>
-
-												<!-- /product -->
 					</div>
+					<!-- /store products -->
 					<!-- /store products -->
 
 					<!-- pagination.ejs -->
 					<div id="pagination" class="store-filter clearfix">
 						<ul id="paginationContainer" class="store-pagination">
-							<% if (currentPage > 1) { %>
-								<li onclick="handleSort({page : currentPage - 1})">
-									<span>
-										<i class="fa fa-angle-left"></i>
-									</span>
+							<% if (currentPage> 1) { %>
+								<li onclick="handleSort({page: '<%= currentPage - 1 %>'})">
+									<span><i class="fa fa-angle-left"></i></span>
 								</li>
 								<% } %>
 
@@ -368,11 +377,14 @@
 											</span>
 										</li>
 										<% } %>
+
+											<% if (currentPage < totalPages) { %>
+												<li onclick="handleSort({page: '<%= currentPage + 1 %>'})">
+													<span><i class="fa fa-angle-right"></i></span>
+												</li>
+												<% } %>
 						</ul>
 					</div>
-
-
-
 
 
 				</div>
@@ -529,14 +541,13 @@
 	<script src="js/main.js"></script>
 	<script src="js/addWishlist.js"></script>
 	<script>
-
-
+		let currentPage = '<%= currentPage %>';
+		let totalPages = '<%= totalPages %>';
 
 		const debouncedSearch = debounce(function () {
 			const query = document.getElementById("searchInput").value;
-			handleSort({ query });
+			handleSort({ query, page: 1 }); // Reset to page 1 when searching
 		}, 300);
-
 
 		function debounce(func, delay) {
 			let timeoutId;
@@ -547,142 +558,156 @@
 				}, delay);
 			};
 		}
-		let currentPage = 1;
 
-		const handleSort = (() => {
-			const searchTermMemoize = {};
-			return function ({ query = searchTermMemoize?.searchTerm, page = 1 } = {}) {
-				console.log('funtion called with', query, page)
-				currentPage = page;
+		function handleSort({ query = '', page = 1 } = {}) {
+			console.log('Function called with query:', query, 'page:', page);
+			currentPage = page;
 
-				const sortOption = document.getElementById("sortBy").value;
-				const categoryCheckboxes = document.getElementsByClassName("selectedCategory");
-				const brandCheckboxes = document.getElementsByClassName("selectedBrand");
+			const sortOption = document.getElementById("sortBy").value;
+			const categoryCheckboxes = document.getElementsByClassName("selectedCategory");
+			const brandCheckboxes = document.getElementsByClassName("selectedBrand");
 
-				if (query) {
-					searchTermMemoize.searchTerm = query;
+			let selectedCategories = [];
+			let selectedBrands = [];
+
+			for (let i = 0; i < categoryCheckboxes.length; i++) {
+				if (categoryCheckboxes[i].checked) {
+					selectedCategories.push(categoryCheckboxes[i].value);
 				}
-
-				let selectedCategories = [];
-				let selectedBrands = [];
-
-				for (let i = 0; i < categoryCheckboxes.length; i++) {
-					if (categoryCheckboxes[i].checked) {
-						selectedCategories.push(categoryCheckboxes[i].value);
-					}
+			}
+			for (let i = 0; i < brandCheckboxes.length; i++) {
+				if (brandCheckboxes[i].checked) {
+					selectedBrands.push(brandCheckboxes[i].value);
 				}
-				for (let i = 0; i < brandCheckboxes.length; i++) {
-					if (brandCheckboxes[i].checked) {
-						selectedBrands.push(brandCheckboxes[i].value);
+			}
+
+			console.log('Sending request with:', {
+				selectedCategories,
+				selectedBrands,
+				query,
+				sortOption,
+				page
+			});
+
+			$.ajax({
+				url: "/shop_data",
+				type: "GET",
+				data: {
+					selectedCategories,
+					selectedBrands,
+					searchTerm: query,
+					sortOption,
+					page: currentPage
+				},
+				success: function (response) {
+					console.log('Response received:', response);
+
+					const productContainer = document.getElementById("productContainer");
+					productContainer.innerHTML = '';
+
+					if (response.Products && response.Products.length > 0) {
+						response.Products.forEach(product => {
+							if (product.isActive && product.category.status) {
+								const productCard = `
+                                <div class="col-md-4 col-xs-6">
+                                    <a href="/product_details/${product._id}">
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <img src="${product.image[0]}" alt="">
+                                                ${product.offerId ?
+										`<div class="product-label"><span class="sale">Offer Available!</span></div>` : ``}
+                                            </div>
+                                            <div class="product-body">
+                                                <h6 class="product-available" style="color: ${product.stock <= 0 ? 'red' : 'green'};">
+                                                    ${product.stock <= 0 ? 'Currently unavailable' : 'Available'}
+                                                </h6>
+                                                <p class="product-category">${product.category.name}</p>
+                                                <h3 class="product-name"><a href="/product_details/${product._id}">${product.name}</a></h3>
+                                                ${product.offerId ?
+										`<h4 class="product-price">₹ ${product.price - product.offerPrice}<del class="product-old-price">₹ ${product.price}</del></h4>`
+										: `<h4 class="product-price">₹ ${product.price}</h4>`}
+                                                <div class="product-btns">
+                                                    <button onclick="addWishlist('${product._id}')" class="add-to-wishlist">
+                                                        <i class="fa fa-heart-o"></i>
+                                                        <span class="tooltipp">add to wishlist</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            ${product.stock > 0 ? `
+                                                <div class="add-to-cart">
+                                                    <button class="add-to-cart-btn" data-product-id="${product._id}" data-category="${product.category.name}">
+                                                        <i class="fa fa-shopping-cart"></i> add to cart
+                                                    </button>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </a>
+                                </div>`;
+								productContainer.innerHTML += productCard;
+							}
+						});
+
+						// Update cart event listeners for new products
+						attachCartEventListeners();
+					} else {
+						productContainer.innerHTML = `<div class="col-md-12 text-center"><h4>No products available</h4></div>`;
 					}
+
+					// Update pagination with the response data
+					updatePagination(response.currentPage, response.totalPages);
+				},
+				error: function (xhr, status, error) {
+					console.error('AJAX Error:', error);
 				}
-
-				// console.log(selectedCategories, selectedBrands, searchTermMemoize?.searchTerm, sortOption);
-
-				$.ajax({
-					url: "/shop_data",
-					type: "GET",
-					data: {
-						selectedCategories,
-						selectedBrands,
-						searchTerm: searchTermMemoize?.searchTerm,
-						sortOption,
-						page: currentPage
-					},
-					success: function (response) {
-
-						const productContainer = document.getElementById("productContainer");
-						productContainer.innerHTML = '';
-						if (response.Products.length > 0) {
-							response.Products.forEach(product => {
-								if (product.isActive && product.category.status) {
-									const productCard = `
-                    				<div class="col-md-4 col-xs-6">
-                    				    <a href="/product_details/${product._id}">
-                    				        <div class="product">
-                    				            <div class="product-img">
-                    				                <img src="${product.image[0]}" alt="">
-													${product.offerId ?
-											`<div class="product-label"><span class="sale">Offer Available!</span></div>` : ``}
-														
-                    				            </div>
-                    				            <div class="product-body">
-                    				                <h6 class="product-available" style="color: ${product.stock <= 0 ? 'red' : 'green'};">
-                    				                    ${product.stock <= 0 ? 'Currently unavailable' : 'Available'}
-                    				                </h6>
-                    				                <p class="product-category">${product.category.name}</p>
-                    				                <h3 class="product-name"><a href="/product_details/${product._id}">${product.name}</a></h3>
-													${product.offerId ?
-											`<h4 class="product-price">₹ ${product.price - product.offerPrice}<del class="product-old-price">₹ ${product.price}</del></h4>`
-											: `<h4 class="product-price">₹ ${product.price}</h4>`}
-                    				                
-                    				                <div class="product-btns">
-                    				                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                    				                </div>
-                    				            </div>
-                    				            ${product.stock > 0 ? `
-                    				                <div class="add-to-cart">
-                    				                    <button class="add-to-cart-btn" data-product-id="${product._id}" data-category="${product.category.name}">
-                    				                        <i class="fa fa-shopping-cart"></i> add to cart
-                    				                    </button>
-                    				                </div>
-                    				            ` : ''}
-                    				        </div>
-                    				    </a>
-                    				</div>`;
-									productContainer.innerHTML += productCard;
-									$("#pagination").load("/shop #pagination")
-								}
-							});
-						} else {
-							productContainer.innerHTML += `<h4 class="product-name">No Product available</h4>`
-
-						}
-
-						updatePagination(response.currentPage, response.totalPages);
-					}
-				});
-			};
-		})();
-
+			});
+		}
 
 		function updatePagination(currentPage, totalPages) {
 			const paginationContainer = document.getElementById("paginationContainer");
 			paginationContainer.innerHTML = '';
 
+			console.log('Updating pagination - Current:', currentPage, 'Total:', totalPages);
+
+			if (totalPages <= 1) {
+				// Hide pagination if only one page or less
+				paginationContainer.innerHTML = '';
+				return;
+			}
+
+			// Previous button
 			if (currentPage > 1) {
 				paginationContainer.innerHTML += `
-            <li>
-                <span onclick="handleSort({page: ${currentPage - 1}})">
-                    <i class="fa fa-angle-left"></i>
-                </span>
-            </li>`;
+                <li onclick="handleSort({page: ${currentPage - 1}})">
+  					<span><i class="fa fa-angle-left"></i></span>
+				</li>`;
 			}
 
+			// Page numbers
 			for (let i = 1; i <= totalPages; i++) {
 				paginationContainer.innerHTML += `
-            <li class="${currentPage === i ? 'active' : ''}">
-                <span onclick="handleSort({page: ${i}})">${i}</span>
-            </li>`;
+                <li onclick="handleSort({page: ${i}})">
+  					<span>${i}</span>
+				</li>`;
 			}
 
+			// Next button
 			if (currentPage < totalPages) {
 				paginationContainer.innerHTML += `
-            <li>
-                <span onclick="handleSort({page: ${currentPage + 1}})">
-                    <i class="fa fa-angle-right"></i>
-                </span>
-            </li>`;
+                <li onclick="handleSort({page: ${currentPage + 1}})>
+                    <span">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </li>`;
 			}
 		}
 
-
-
-		document.addEventListener("DOMContentLoaded", () => {
+		function attachCartEventListeners() {
 			document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-				button.addEventListener('click', function () {
+				button.addEventListener('click', function (e) {
+					e.preventDefault();
 					const productId = this.getAttribute('data-product-id');
 					const category = this.getAttribute('data-category');
+
 					$.ajax({
 						url: "/cart",
 						method: "POST",
@@ -710,9 +735,14 @@
 								});
 							}
 						}
-					})
+					});
 				});
 			});
+		}
+
+		// Attach event listeners when page loads
+		document.addEventListener("DOMContentLoaded", function () {
+			attachCartEventListeners();
 		});
 	</script>
 

@@ -12,17 +12,18 @@ const loadAccount = async (req, res) => {
 
         // Pagination parameters
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 1;
+        const limit = parseInt(req.query.limit) || 2;
         const skip = (page - 1) * limit;
 
         // Get active tab from query parameter or default to 'profile'
         const activeTab = req.query.tab || 'profile';
 
         // Get orders with pagination
+        
         const orders = await Order.find({ userId: user })
             .sort({ orderedAt: -1 })
             .skip(skip)
-            .limit(limit);
+            .limit(limit)
 
         // Get total count for pagination
         const totalOrders = await Order.countDocuments({ userId: user });

@@ -1079,32 +1079,38 @@
           e.preventDefault();
           const url = this.getAttribute('href');
 
-          // Show loading indicator
           document.getElementById('orders').innerHTML = '<div class="text-center py-4">Loading orders...</div>';
 
-          // Fetch the next page
           fetch(url)
             .then(response => response.text())
             .then(html => {
-              // Extract the orders section from the response
               const parser = new DOMParser();
               const doc = parser.parseFromString(html, 'text/html');
-              const ordersContent = doc.getElementById('orders').innerHTML;
+              const newOrders = doc.getElementById('orders').innerHTML;
+              document.getElementById('orders').innerHTML = newOrders;
 
-              // Update the content
-              document.getElementById('orders').innerHTML = ordersContent;
-
-              // Update URL without reloading
+              // ✅ Re-run numbering
+              reapplyOrderNumbers();
+              // ✅ Re-attach pagination
+              setupPagination(); 
+              // ✅ Update browser URL
               window.history.pushState({}, '', url);
-
-              // Re-attach event listeners
-              setupPagination();
             })
-            .catch(error => {
-              console.error('Error:', error);
-              document.getElementById('orders').innerHTML = '<div class="alert alert-danger">Error loading orders. Please try again.</div>';
+            .catch(() => {
+              document.getElementById('orders').innerHTML = '<div class="alert alert-danger">Error loading orders.</div>';
             });
         });
+      });
+    }
+
+    function reapplyOrderNumbers() {
+      const orderCards = document.querySelectorAll('.order-list .card');
+      orderCards.forEach((card, index) => {
+        const orderNumber = document.createElement('span');
+        orderNumber.className = 'order-number';
+        orderNumber.textContent = index + 1;
+        card.style.position = 'relative';
+        card.appendChild(orderNumber);
       });
     }
 

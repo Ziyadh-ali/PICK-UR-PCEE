@@ -23,12 +23,12 @@ const loadShop = async (req, res) => {
     try {
         const user = req.session.userLogin;
         const wishlist = await Wishlist.findOne({ userId: user });
-        const page = parseInt(req.query.page);
-        // console.log(req.body)
+        const page = parseInt(req.query.page) || 1;
+
         const limit = 6;
         const skip = (page - 1) * limit;
 
-        const totalProductCount = await Product.countDocuments();
+        const totalProductCount = await Product.countDocuments({ isActive: true });
         const totalPages = Math.ceil(totalProductCount / limit);
 
         const productDetails = await Product.find({ isActive: true })
@@ -37,10 +37,9 @@ const loadShop = async (req, res) => {
             .limit(limit)
             .sort({ createdAt: -1 })
 
-
-
         const Brands = await Brand.find({ status: true });
         const Categories = await Category.find({ status: true });
+
         res.render("shop", {
             Products: productDetails,
             user,
@@ -56,10 +55,9 @@ const loadShop = async (req, res) => {
     }
 }
 
+
 const getSortFilterSearchData = async (req, res) => {
-
     let { page = 1, selectedCategories = [], selectedBrands = [], searchTerm = '', sortOption } = req.query;
-
     page = parseInt(page);
 
     const limit = 6;
@@ -85,9 +83,9 @@ const getSortFilterSearchData = async (req, res) => {
         filter.name = { $regex: new RegExp(`${searchTerm}`, "i") };
     }
 
-
-    const totalProductCount = await Product.countDocuments(filter);
-    const totalPages = Math.ceil(totalProductCount / limit);
+    // FIXED: Use filtered count for pagination
+    const filteredProductCount = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(filteredProductCount / limit);
 
     const sortBy = {};
     switch (sortOption) {

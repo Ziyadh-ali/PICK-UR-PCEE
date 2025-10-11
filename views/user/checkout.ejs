@@ -38,13 +38,14 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" />
 
-  <style>
+  
+<style>
     /* Custom styles */
     .account-section {
       margin-top: 30px;
     }
 
-    .nav-tabs>li.active>a {
+    .nav-tabs > li.active > a {
       background-color: #d10024;
       color: white;
     }
@@ -68,14 +69,157 @@
       height: 13px;
     }
 
-    .form-group.success input {
+    .form-group.success input,
+    .form-group.success select,
+    .form-group.success textarea {
       border-color: #09c372;
     }
 
-    .form-group.error input {
+    .form-group.error input,
+    .form-group.error select,
+    .form-group.error textarea {
       border-color: #ff3860;
     }
+
+    /* Improved styles for better gaps and visuals */
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-title {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .billing-details {
+      padding: 25px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .coupon-item {
+      padding: 12px;
+      border-bottom: 1px solid #eeeeee;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+
+    .panel-default {
+      margin-bottom: 25px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+    }
+
+    .panel-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 25px;
+      cursor: pointer;
+    }
+
+    .address-details {
+      flex: 1;
+    }
+
+    .address-details p {
+      margin: 6px 0;
+      line-height: 1.6;
+      color: #333333;
+    }
+
+    .address-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .address-actions .btn {
+      margin-bottom: 12px;
+      padding: 8px 16px;
+    }
+
+    .order-details {
+      padding: 25px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .order-summary {
+      margin-bottom: 35px;
+    }
+
+    .order-col {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .order-col:last-child {
+      border-bottom: none;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .payment-method {
+      margin-bottom: 35px;
+    }
+
+    .input-radio {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-radio label {
+      margin-left: 10px;
+      font-weight: normal;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 5px;
+      background-color: #d10024;
+      border: none;
+      color: white;
+    }
+
+    .primary-btn:hover {
+      background-color: #b3001e;
+    }
+
+    .row {
+      margin-bottom: 30px;
+    }
+
+    #couponForm {
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
   </style>
+
+
 </head>
 
 <body>
@@ -218,338 +362,354 @@
       <div class="row">
         <div class="container">
           <div class="section-title">
-            <h3 class="title">Shiping address</h3>
+            <h3 class="title">Shipping address</h3>
           </div>
-          <!-- Billing Details -->
-          <div class="billing-details">
-            <button style="margin-bottom: 20px;" type="button" class="btn btn-primary" data-toggle="collapse"
-              data-target="#addAddressForm">
-              + Add New Address
-            </button>
-            <div id="addAddressForm" class="collapse">
-              <form id="addressForm">
-                <!-- Full Name -->
-                <div class="form-group">
-                  <label for="fullName">Full Name:</label>
-                  <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter Full Name">
-                  <span class="error"></span>
-                </div>
-
-                <!-- Mobile Number -->
-                <div class="form-group">
-                  <label for="addMobile">Mobile Number:</label>
-                  <input type="text" class="form-control" id="addMobile" name="addMobile"
-                    placeholder="Enter Mobile Number">
-                  <span class="error"></span>
-                </div>
-
-                <!-- Address -->
-                <div class="form-group">
-                  <label for="address">Address:</label>
-                  <textarea class="form-control" id="address" name="userAddress" placeholder="Enter Address"></textarea>
-                  <span class="error"></span>
-                </div>
-
-                <!-- City -->
-                <div class="form-group">
-                  <label for="city">City:</label>
-                  <input type="text" class="form-control" id="city" name="city" placeholder="Enter City">
-                  <span class="error"></span>
-                </div>
-
-                <!-- State -->
-                <div class="form-group">
-                  <label for="state">State:</label>
-                  <select class="form-control" id="state" name="state">
-                    <option value="">Select State</option>
-                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                    <option value="Assam">Assam</option>
-                    <option value="Bihar">Bihar</option>
-                    <option value="Chhattisgarh">Chhattisgarh</option>
-                    <option value="Goa">Goa</option>
-                    <option value="Gujarat">Gujarat</option>
-                    <option value="Haryana">Haryana</option>
-                    <option value="Himachal Pradesh">Himachal Pradesh</option>
-                    <option value="Jharkhand">Jharkhand</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="Kerala">Kerala</option>
-                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                    <option value="Manipur">Manipur</option>
-                    <option value="Meghalaya">Meghalaya</option>
-                    <option value="Mizoram">Mizoram</option>
-                    <option value="Nagaland">Nagaland</option>
-                    <option value="Odisha">Odisha</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Rajasthan">Rajasthan</option>
-                    <option value="Sikkim">Sikkim</option>
-                    <option value="Tamil Nadu">Tamil Nadu</option>
-                    <option value="Telangana">Telangana</option>
-                    <option value="Tripura">Tripura</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                    <option value="Uttarakhand">Uttarakhand</option>
-                    <option value="West Bengal">West Bengal</option>
-                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                    <option value="Chandigarh">Chandigarh</option>
-                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                    <option value="Daman and Diu">Daman and Diu</option>
-                    <option value="Lakshadweep">Lakshadweep</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Puducherry">Puducherry</option>
-                    <option value="Ladakh">Ladakh</option>
-                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                  </select>
-                  <span class="error"></span>
-                </div>
-
-
-                <!-- Pincode -->
-                <div class="form-group">
-                  <label for="pincode">Pincode:</label>
-                  <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter Pincode">
-                  <span class="error"></span>
-                </div>
-
-                <div class="form-group">
-                  <label for="type">Address Type:</label>
-                  <select class="form-control" id="type" name="type">
-                    <option value="">Select Type</option>
-                    <option value="Home">Home</option>
-                    <option value="Office">Office</option>
-                  </select>
-                  <span class="error"></span>
-                </div>
-
-                <!-- Alternative Mobile (optional) -->
-                <div class="form-group">
-                  <label for="altMobile">Alternative Mobile Number (optional):</label>
-                  <input type="text" class="form-control" id="altMobile" name="altMobile"
-                    placeholder="Enter Alternative Mobile Number">
-                </div>
-
-                <!-- Submit Button -->
-                <button style="margin-bottom: 20px;" type="submit" class="btn btn-success">Save Address</button>
-              </form>
-
-            </div>
-          </div>
-          <!-- /Billing Details -->
-          <div class="d-flex">
-            <% if(coupon){%>
-              <div>
-                <form id="couponForm" class="align-items-start p-3 border rounded shadow-sm" style="max-width: 400px;">
-                  <div class="mb-3 w-100">
-                    <label for="couponInput" class="form-label fw-bold">Coupon:</label>
-                    <input type="text" value="<%= coupon.code %>" id="couponInput" disabled name="coupon"
-                      class="form-control" placeholder="Type your coupon code">
-                  </div>
-                  <button type="button" onclick="removeCoupon('<%= coupon.code %>')"
-                    class="btn btn-primary w-100">Remove
-                    Coupon</button>
-                </form>
-              </div>
-              <%}else{%>
-                <div>
-                  <form id="couponForm" class="align-items-start p-3 border rounded shadow-sm"
-                    style="max-width: 400px;">
-                    <div class="mb-3 w-100">
-                      <label for="couponInput" class="form-label fw-bold">Coupon:</label>
-                      <input type="text" id="couponInput" name="coupon" class="form-control"
-                        placeholder="Type your coupon code">
+          <!-- First: Add Address Button and Coupon Option Side by Side -->
+          <div class="row">
+            <!-- Add New Address -->
+            <div class="col-md-6">
+              <div class="billing-details">
+                <button style="margin-bottom: 20px;" type="button" class="btn btn-primary" data-toggle="collapse"
+                  data-target="#addAddressForm">
+                  + Add New Address
+                </button>
+                <div id="addAddressForm" class="collapse">
+                  <form id="addressForm">
+                    <!-- Full Name -->
+                    <div class="form-group">
+                      <label for="fullName">Full Name:</label>
+                      <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter Full Name">
+                      <span class="error"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Apply Coupon</button>
+
+                    <!-- Mobile Number -->
+                    <div class="form-group">
+                      <label for="addMobile">Mobile Number:</label>
+                      <input type="text" class="form-control" id="addMobile" name="addMobile"
+                        placeholder="Enter Mobile Number">
+                      <span class="error"></span>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-group">
+                      <label for="address">Address:</label>
+                      <textarea class="form-control" id="address" name="userAddress" placeholder="Enter Address"></textarea>
+                      <span class="error"></span>
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-group">
+                      <label for="city">City:</label>
+                      <input type="text" class="form-control" id="city" name="city" placeholder="Enter City">
+                      <span class="error"></span>
+                    </div>
+
+                    <!-- State -->
+                    <div class="form-group">
+                      <label for="state">State:</label>
+                      <select class="form-control" id="state" name="state">
+                        <option value="">Select State</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Ladakh">Ladakh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                      </select>
+                      <span class="error"></span>
+                    </div>
+
+
+                    <!-- Pincode -->
+                    <div class="form-group">
+                      <label for="pincode">Pincode:</label>
+                      <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter Pincode">
+                      <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="type">Address Type:</label>
+                      <select class="form-control" id="type" name="type">
+                        <option value="">Select Type</option>
+                        <option value="Home">Home</option>
+                        <option value="Office">Office</option>
+                      </select>
+                      <span class="error"></span>
+                    </div>
+
+                    <!-- Alternative Mobile (optional) -->
+                    <div class="form-group">
+                      <label for="altMobile">Alternative Mobile Number (optional):</label>
+                      <input type="text" class="form-control" id="altMobile" name="altMobile"
+                        placeholder="Enter Alternative Mobile Number">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button style="margin-bottom: 20px;" type="submit" class="btn btn-success">Save Address</button>
                   </form>
+
                 </div>
-                <%} %>
-                  <div class="mb-3">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                      Coupons
-                    </button>
+              </div>
+              <!-- /Billing Details -->
+            </div>
 
-                    <!-- Modal Structure -->
-                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="myModalLabel">Available Coupons</h4>
-                          </div>
-                          <div class="modal-body">
-                            <% coupons.forEach(item=>{%>
-                              <% if(item.expiryDate> Date.now()){%>
-                                <div class="coupon-item"
-                                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                  <p style="margin: 0;">
-                                    <%= item.code %>
-                                  </p>
-                                  <button class="btn btn-primary btn-sm copy-btn"
-                                    onclick="copyToClipboard('<%= item.code %>')">
-                                    Copy
-                                  </button>
-                                </div>
-                                <%} %>
-                                  <%}) %>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          </div>
-                        </div>
+            <!-- Coupon Section -->
+            <div class="col-md-6">
+              <div class="d-flex">
+                <% if(coupon){%>
+                  <div>
+                    <form id="couponForm" class="align-items-start p-3 border rounded shadow-sm" style="max-width: 400px;">
+                      <div class="mb-3 w-100">
+                        <label for="couponInput" class="form-label fw-bold">Coupon:</label>
+                        <input type="text" value="<%= coupon.code %>" id="couponInput" disabled name="coupon"
+                          class="form-control" placeholder="Type your coupon code">
                       </div>
-                    </div>
+                      <button type="button" onclick="removeCoupon('<%= coupon.code %>')"
+                        class="btn btn-primary w-100">Remove
+                        Coupon</button>
+                    </form>
                   </div>
-          </div>
-        </div>
-
-        <form id="orderDetails" action="">
-          <div class="col-md-7">
-            <!-- Shiping Details -->
-            <div class="shiping-details">
-              <div class="input-checkbox">
-                <% if(address && address.addresses.length> 0){%>
-                  <% address.addresses.forEach(address=>{%>
-                    <div class="panel panel-default address-panel" data-address-id="<%= address.fullName %>">
-                      <div class="panel-body" style="cursor: pointer;">
-                        <div class="address-details" style="flex: 1;">
-                          <p><strong style="font-size: 20px;">
-                              <%= address.fullName %>
-                            </strong></p>
-                          <p><span
-                              style="background-color: brown ; color: white; border-radius: 5px; padding: 2px 5px;">
-                              <%= address.addressType %>
-                            </span></p>
-                          <p class="address">
-                            <%= address.address %>
-                          </p>
-                          <p class="city">
-                            <%= address.city %>
-                          </p>
-                          <p class="state">
-                            <%= address.state %>
-                          </p>
-                          <p class="pincode">
-                            <%= address.pincode %>
-                          </p>
-                          <p class="mobile">
-                            <%= address.mobile %>
-                          </p>
-                          <p class="altMobile">
-                            <% if(address.altMobile) { %>
-                              <%= address.altMobile %>
-                                <% } %>
-                          </p>
-                        </div>
-                        <div class="address-actions" style="position: relative;left: 90%;bottom: 65px;">
-                          <a href="/address/<%= address.fullName %>?from=checkout"
-                            class="btn btn-warning btn-sm mb-2">Edit</a>
-                          <input type="radio" checked name="selectedAddress" class="address-radio">
-                        </div>
-                      </div>
-                    </div>
-                    <%}) %>
-
-                      <%}else{%>
-                        <div class="">
-                          <h4 style="text-align: center;">You don't have a address<br> Create one by clicking the add
-                            address</h4>
-                        </div>
-                        <%} %>
-              </div>
-            </div>
-            <!-- /Shiping Details -->
-
-          </div>
-
-          <!-- Order Details -->
-          <div class="col-md-5 order-details">
-
-            <div class="section-title text-center">
-              <h3 class="title">Your Order</h3>
-            </div>
-            <div class="order-summary">
-              <div class="order-col">
-                <div><strong>PRODUCT</strong></div>
-                <div><strong>TOTAL</strong></div>
-              </div>
-              <div class="order-products">
-                <% cart.products.forEach(product=>{%>
-                  <div class="order-col">
+                  <%}else{%>
                     <div>
-                      <%= product.quantity %>x <%= product.productId.name %>
+                      <form id="couponForm" class="align-items-start p-3 border rounded shadow-sm"
+                        style="max-width: 400px;">
+                        <div class="mb-3 w-100">
+                          <label for="couponInput" class="form-label fw-bold">Coupon:</label>
+                          <input type="text" id="couponInput" name="coupon" class="form-control"
+                            placeholder="Type your coupon code">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Apply Coupon</button>
+                      </form>
                     </div>
-                    <div>₹<%=product.quantity*product.price%>
+                    <%} %>
+                      <div class="mb-3">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                          Coupons
+                        </button>
+
+                        <!-- Modal Structure -->
+                        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Available Coupons</h4>
+                              </div>
+                              <div class="modal-body">
+                                <% coupons.forEach(item=>{%>
+                                  <% if(item.expiryDate> Date.now()){%>
+                                    <div class="coupon-item"
+                                      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                      <p style="margin: 0;">
+                                        <%= item.code %>
+                                      </p>
+                                      <button class="btn btn-primary btn-sm copy-btn"
+                                        onclick="copyToClipboard('<%= item.code %>')">
+                                        Copy
+                                      </button>
+                                    </div>
+                                    <%} %>
+                                      <%}) %>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Under: Address Selection -->
+          <form id="orderDetails" action="">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Shiping Details -->
+                <div class="shiping-details">
+                  <div class="input-checkbox">
+                    <% if(address && address.addresses.length> 0){%>
+                      <% address.addresses.forEach(address=>{%>
+                        <div class="panel panel-default address-panel" data-address-id="<%= address.fullName %>">
+                          <div class="panel-body">
+                            <div class="address-details" style="flex: 1;">
+                              <p><strong style="font-size: 20px;">
+                                  <%= address.fullName %>
+                                </strong></p>
+                              <p><span
+                                  style="background-color: brown ; color: white; border-radius: 5px; padding: 2px 5px;">
+                                  <%= address.addressType %>
+                                </span></p>
+                              <p class="address">
+                                <%= address.address %>
+                              </p>
+                              <p class="city">
+                                <%= address.city %>
+                              </p>
+                              <p class="state">
+                                <%= address.state %>
+                              </p>
+                              <p class="pincode">
+                                <%= address.pincode %>
+                              </p>
+                              <p class="mobile">
+                                <%= address.mobile %>
+                              </p>
+                              <p class="altMobile">
+                                <% if(address.altMobile) { %>
+                                  <%= address.altMobile %>
+                                    <% } %>
+                              </p>
+                            </div>
+                            <div class="address-actions">
+                              <a href="/address/<%= address.fullName %>?from=checkout"
+                                class="btn btn-warning btn-sm mb-2">Edit</a>
+                              <input type="radio" checked name="selectedAddress" class="address-radio">
+                            </div>
+                          </div>
+                        </div>
+                        <%}) %>
+
+                          <%}else{%>
+                            <div class="">
+                              <h4 style="text-align: center;">You don't have a address<br> Create one by clicking the add
+                                address</h4>
+                            </div>
+                            <%} %>
+                  </div>
+                </div>
+                <!-- /Shiping Details -->
+              </div>
+            </div>
+
+            <!-- Under All: Checkout and Payment Options -->
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Order Details -->
+                <div class="order-details">
+
+                  <div class="section-title text-center">
+                    <h3 class="title">Your Order</h3>
+                  </div>
+                  <div class="order-summary">
+                    <div class="order-col">
+                      <div><strong>PRODUCT</strong></div>
+                      <div><strong>TOTAL</strong></div>
+                    </div>
+                    <div class="order-products">
+                      <% cart.products.forEach(product=>{%>
+                        <div class="order-col">
+                          <div>
+                            <%= product.quantity %>x <%= product.productId.name %>
+                          </div>
+                          <div>₹<%=product.quantity*product.price%>
+                          </div>
+                        </div>
+                        <%}) %>
+
+                    </div>
+                    <div class="order-col">
+                      <div>Offer discount</div>
+                      <div>
+                        <strong>
+                          <% let discountTotal=0; cart.products.forEach(product=> {
+                            if (product.productId.offerId) {
+                            discountTotal += product.quantity * product.productId.offerPrice;
+                            }
+                            });
+                            %>
+                            <%= discountTotal> 0 ? `₹${discountTotal}` : 0 %>
+                        </strong>
+                      </div>
+                    </div>
+                    <div class="order-col">
+                      <div>Coupon discount</div>
+                      <div>
+                        <strong>
+                          <% if(coupon){%>
+                            <% if(coupon.discountType==="fixed" ){%>
+                              -₹<%= coupon.discountValue %>
+                                <%}else{%>
+                                  ₹<%= discount %>
+                                    <%} %>
+                                      <%}else{%>
+                                        0
+                                        <%} %>
+                        </strong>
+                      </div>
+                    </div>
+                    <div class="order-col">
+                      <div><strong>TOTAL</strong></div>
+
+                      <div><strong id="totalPrice" class="order-total">₹<%= cart.totalPrice %></strong></div>
                     </div>
                   </div>
-                  <%}) %>
+                  <div class="payment-method">
+                    <div class="input-radio">
+                      <input type="radio" value="Razorpay" checked name="payment" id="payment-1">
+                      <label for="payment-1">
+                        <span></span>
+                        Razorpay
+                      </label>
+                    </div>
+                    <div class="input-radio">
+                      <input type="radio" value="Wallet" name="payment" id="payment-2">
+                      <label for="payment-2">
+                        <span></span>
+                        Wallet
+                      </label>
+                    </div>
+                    <div class="input-radio">
+                      <input type="radio" name="payment" id="payment-3" value="Cash on Delivery">
+                      <label for="payment-3">
+                        <span></span>
+                        Cash on Delivery
+                      </label>
+                    </div>
+                  </div>
 
-              </div>
-              <div class="order-col">
-                <div>Offer discount</div>
-                <div>
-                  <strong>
-                    <% let discountTotal=0; cart.products.forEach(product=> {
-                      if (product.productId.offerId) {
-                      discountTotal += product.quantity * product.productId.offerPrice;
-                      }
-                      });
-                      %>
-                      <%= discountTotal> 0 ? `₹${discountTotal}` : 0 %>
-                  </strong>
+                  <button type="submit" class="primary-btn order-submit">Place order</button>
                 </div>
-              </div>
-              <div class="order-col">
-                <div>Coupon discount</div>
-                <div>
-                  <strong>
-                    <% if(coupon){%>
-                      <% if(coupon.discountType==="fixed" ){%>
-                        -₹<%= coupon.discountValue %>
-                          <%}else{%>
-                            ₹<%= discount %>
-                              <%} %>
-                                <%}else{%>
-                                  0
-                                  <%} %>
-                  </strong>
-                </div>
-              </div>
-              <div class="order-col">
-                <div><strong>TOTAL</strong></div>
-
-                <div><strong id="totalPrice" class="order-total">₹<%= cart.totalPrice %></strong></div>
+                <!-- /Order Details -->
               </div>
             </div>
-            <div class="payment-method">
-              <div class="input-radio">
-                <input type="radio" value="Razorpay" checked name="payment" id="payment-1">
-                <label for="payment-1">
-                  <span></span>
-                  Razorpay
-                </label>
-              </div>
-              <div class="input-radio">
-                <input type="radio" value="Wallet" name="payment" id="payment-2">
-                <label for="payment-2">
-                  <span></span>
-                  Wallet
-                </label>
-              </div>
-              <div class="input-radio">
-                <input type="radio" name="payment" id="payment-3" value="Cash on Delivery">
-                <label for="payment-3">
-                  <span></span>
-                  Cash on Delivery
-                </label>
-              </div>
-            </div>
+          </form>
 
-            <button type="submit" class="primary-btn order-submit">Place order</button>
-          </div>
-          <!-- /Order Details -->
-        </form>
-
+        </div>
       </div>
       <!-- /row -->
     </div>
