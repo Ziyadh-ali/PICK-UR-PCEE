@@ -211,23 +211,25 @@
 
                                   <td>
                                     <% if (category.status) { %>
-                                      <span class="badge rounded-pill alert-success">Active</span>
+                                      <span class="badge rounded-pill alert-success status-badge"
+                                        data-id="<%= category._id %>">Active</span>
+
                                       <% } else { %>
-                                        <span class="badge rounded-pill alert-danger">Not Active</span>
+                                        <span class="badge rounded-pill alert-danger status-badge"
+                                          data-id="<%= category._id %>">Not Active</span>
+
                                         <% } %>
                                   </td>
 
                                   <td>
                                     <% if (category.status) { %>
-                                      <form action="/admin/categories/unlist/<%= category._id %>?_method=PATCH"
-                                        method="POST" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-danger">Unlist</button>
-                                      </form>
+                                      <button type="button" class="btn btn-sm btn-danger unlist-btn"
+                                        data-id="<%= category._id %>">Unlist</button>
+
                                       <% } else { %>
-                                        <form action="/admin/categories/list/<%= category._id %>?_method=PATCH"
-                                          method="POST" style="display:inline;">
-                                          <button type="submit" class="btn btn-sm btn-success">List</button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-success list-btn"
+                                          data-id="<%= category._id %>">List</button>
+
                                         <% } %>
                                   </td>
 
@@ -436,6 +438,72 @@
       }
     });
   </script>
+
+  <script>
+    $(document).ready(function () {
+
+      attachListEvents();
+      attachUnlistEvents();
+
+      // UNLIST CATEGORY
+      function attachUnlistEvents() {
+        $(".unlist-btn").off("click").on("click", function () {
+          const id = $(this).data("id");
+          const btn = $(this);
+
+          $.ajax({
+            url: `/admin/categories/unlist/${id}`,
+            method: "PATCH",
+            contentType: "application/json",
+            success: function (data) {
+              if (data.success) {
+
+                // Update badge
+                const badge = $(`.status-badge[data-id="${id}"]`);
+                badge.text("Not Active");
+                badge.removeClass("alert-success").addClass("alert-danger");
+
+                // Replace button
+                btn.replaceWith(`<button type="button" class="btn btn-sm btn-success list-btn" data-id="${id}">List</button>`);
+
+                attachListEvents(); // reattach events
+              }
+            }
+          });
+        });
+      }
+
+      // LIST CATEGORY
+      function attachListEvents() {
+        $(".list-btn").off("click").on("click", function () {
+          const id = $(this).data("id");
+          const btn = $(this);
+
+          $.ajax({
+            url: `/admin/categories/list/${id}`,
+            method: "PATCH",
+            contentType: "application/json",
+            success: function (data) {
+              if (data.success) {
+
+                // Update badge
+                const badge = $(`.status-badge[data-id="${id}"]`);
+                badge.text("Active");
+                badge.removeClass("alert-danger").addClass("alert-success");
+
+                // Replace button
+                btn.replaceWith(`<button type="button" class="btn btn-sm btn-danger unlist-btn" data-id="${id}">Unlist</button>`);
+
+                attachUnlistEvents(); // reattach events
+              }
+            }
+          });
+        });
+      }
+    });
+  </script>
+
+
 </body>
 
 </html>

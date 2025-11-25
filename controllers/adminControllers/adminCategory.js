@@ -65,7 +65,7 @@ const listCategory = async (req, res) => {
     try {
         const id = req.params.id;
         const list = await Category.findByIdAndUpdate(id, { status: true });
-        res.redirect("/admin/categories");
+        return res.json({ success: true })
     } catch (error) {
         console.error(error);
     }
@@ -74,7 +74,7 @@ const unlistCategory = async (req, res) => {
     try {
         const id = req.params.id;
         const list = await Category.findByIdAndUpdate(id, { status: false });
-        res.redirect("/admin/categories");
+        return res.json({ success: true });
     } catch (error) {
         console.error(error);
     }

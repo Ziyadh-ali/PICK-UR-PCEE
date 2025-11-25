@@ -166,17 +166,13 @@
                                         </td>
                                         <td>
                                             <% if (user.isBlocked) { %>
-                                                <form action="/admin/user/unblock/<%= user._id %>?_method=PATCH"
-                                                    method="POST">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-success">Unblock</button>
-                                                </form>
+                                                <button class="btn btn-sm btn-success unblock-btn"
+                                                    data-id="<%= user._id %>">Unblock</button>
+
                                                 <% } else { %>
-                                                    <form action="/admin/user/block/<%= user._id %>?_method=PATCH"
-                                                        method="POST">
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-danger">Block</button>
-                                                    </form>
+                                                    <button class="btn btn-sm btn-danger block-btn"
+                                                        data-id="<%= user._id %>">Block</button>
+
                                                     <% } %>
                                         </td>
                                     </tr>
@@ -234,6 +230,87 @@
     <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // BLOCK user
+            document.querySelectorAll(".block-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.dataset.id;
+
+                    const res = await fetch(`/admin/user/block/${id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" }
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        // Update UI → change badge + button without reloading
+                        btn.closest("tr").querySelector("td:nth-child(4)").innerHTML =
+                            `<span class="badge rounded-pill alert-danger">Blocked</span>`;
+
+                        btn.outerHTML =
+                            `<button class="btn btn-sm btn-success unblock-btn" data-id="${id}">Unblock</button>`;
+
+                        attachUnblockEvents(); // Add listener for new button
+                    }
+                });
+            });
+
+
+            // UNBLOCK user
+            function attachUnblockEvents() {
+                document.querySelectorAll(".unblock-btn").forEach(btn => {
+                    btn.addEventListener("click", async () => {
+                        const id = btn.dataset.id;
+
+                        const res = await fetch(`/admin/user/unblock/${id}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" }
+                        });
+
+                        const data = await res.json();
+                        if (data.success) {
+                            btn.closest("tr").querySelector("td:nth-child(4)").innerHTML =
+                                `<span class="badge rounded-pill alert-success">Active</span>`;
+
+                            btn.outerHTML =
+                                `<button class="btn btn-sm btn-danger block-btn" data-id="${id}">Block</button>`;
+
+                            attachBlockEvents();
+                        }
+                    });
+                });
+            }
+
+            function attachBlockEvents() {
+                document.querySelectorAll(".block-btn").forEach(btn => {
+                    btn.addEventListener("click", async () => {
+                        const id = btn.dataset.id;
+
+                        const res = await fetch(`/admin/user/block/${id}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" }
+                        });
+
+                        const data = await res.json();
+                        if (data.success) {
+                            btn.closest("tr").querySelector("td:nth-child(4)").innerHTML =
+                                `<span class="badge rounded-pill alert-danger">Blocked</span>`;
+
+                            btn.outerHTML =
+                                `<button class="btn btn-sm btn-success unblock-btn" data-id="${id}">Unblock</button>`;
+
+                            attachUnblockEvents();
+                        }
+                    });
+                });
+            }
+
+            attachUnblockEvents(); // initial attach
+        });
+    </script>
+
 </body>
 
 </html>

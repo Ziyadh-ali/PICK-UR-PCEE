@@ -52,7 +52,7 @@ const unBlockUser = async (req, res) => {
     try {
         const id = req.params.id;
         const list = await User.findByIdAndUpdate(id, { isBlocked: false });
-        res.redirect("/admin/userList");
+        return res.json({ success: true, message: "User unblocked" });
     } catch (error) {
         console.error(error);
     }
@@ -61,7 +61,7 @@ const blockUser = async (req, res) => {
     try {
         const id = req.params.id;
         const list = await User.findByIdAndUpdate(id, { isBlocked: true });
-        res.redirect("/admin/userList");
+        return res.json({ success: true, message: "User blocked" });
     } catch (error) {
         console.error(error);
     }

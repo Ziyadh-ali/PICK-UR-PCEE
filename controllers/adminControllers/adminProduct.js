@@ -168,7 +168,7 @@ const unlistProduct = async (req, res) => {
   try {
     const id = req.params.id;
     const list = await Product.findByIdAndUpdate(id, { isActive: false });
-    res.redirect("/admin/products");
+    return res.json({ success: true })
   } catch (error) {
     console.error(error);
   }
@@ -177,7 +177,7 @@ const listProduct = async (req, res) => {
   try {
     const id = req.params.id;
     const list = await Product.findByIdAndUpdate(id, { isActive: true });
-    res.redirect("/admin/products");
+    return res.json({ success: true })
   } catch (error) {
     console.error(error);
   }

@@ -109,8 +109,8 @@ aRouter.get("/brands/edit/:id", auth.isLogin, loadEditBrands);
 aRouter.patch("/brands/edit/:id", auth.isLogin, editBrand);
 // User List Routes
 aRouter.get("/userList", auth.isLogin, loadUserList);
-aRouter.get("/user/block/:id", auth.isLogin, blockUser);
-aRouter.get("/user/unblock/:id", auth.isLogin, unBlockUser);
+aRouter.patch("/user/block/:id", auth.isLogin, blockUser);
+aRouter.patch("/user/unblock/:id", auth.isLogin, unBlockUser);
 // Order 
 aRouter.get("/orderlist", auth.isLogin, orderList);
 aRouter.get("/orderDetails/:id", auth.isLogin, orderDetails);

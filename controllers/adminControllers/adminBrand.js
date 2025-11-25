@@ -73,7 +73,7 @@ const unlistBrand = async (req, res) => {
     try {
         const id = req.params.id;
         const list = await Brand.findByIdAndUpdate(id, { status: false });
-        res.redirect("/admin/brands");
+        res.json({ success: true });
     } catch (error) {
         console.error(error);
     }
@@ -82,7 +82,7 @@ const listBrand = async (req, res) => {
     try {
         const id = req.params.id;
         const list = await Brand.findByIdAndUpdate(id, { status: true });
-        res.redirect("/admin/brands");
+        res.json({ success: true });
     } catch (error) {
         console.error(error);
     }

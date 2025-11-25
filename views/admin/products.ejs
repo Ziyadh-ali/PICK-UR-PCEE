@@ -203,19 +203,12 @@
                                         <i class="material-icons md-edit"></i> Edit
                                     </a>
                                     <% if (product.isActive) { %>
-                                        <form action="/admin/products/unlist/<%= product._id %>?_method=PATCH"
-                                            method="POST" style="display:inline;">
-                                            <button type="submit" class="btn btn-sm font-sm btn-danger rounded">
-                                                Unlist
-                                            </button>
-                                        </form>
+                                        <button class="btn btn-sm font-sm btn-danger rounded unlist-btn"
+                                            data-id="<%= product._id %>">Unlist</button>
                                         <% } else { %>
-                                            <form action="/admin/products/list/<%= product._id %>?_method=PATCH"
-                                                method="POST" style="display:inline;">
-                                                <button type="submit" class="btn btn-sm font-sm btn-success rounded">
-                                                    List
-                                                </button>
-                                            </form>
+                                            <button class="btn btn-sm font-sm btn-success rounded list-btn"
+                                                data-id="<%= product._id %>">List</button>
+
                                             <% } %>
 
                                 </div>
@@ -281,6 +274,73 @@
     <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            attachListEvents();
+            attachUnlistEvents();
+
+            // ----------------- UNLIST PRODUCT -----------------
+            function attachUnlistEvents() {
+                document.querySelectorAll(".unlist-btn").forEach(btn => {
+                    btn.addEventListener("click", async () => {
+                        const id = btn.dataset.id;
+
+                        const res = await fetch(`/admin/products/unlist/${id}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" }
+                        });
+
+                        const data = await res.json();
+                        if (data.success) {
+                            const row = btn.closest(".itemlist");
+
+                            row.querySelector(".col-status").innerHTML =
+                                `<span class="badge rounded-pill alert-danger">Inactive</span>`;
+
+                            btn.outerHTML = `
+                        <button class="btn btn-sm font-sm btn-success rounded list-btn"
+                                data-id="${id}">List</button>
+                    `;
+
+                            attachListEvents();
+                        }
+                    });
+                });
+            }
+
+            // ----------------- LIST PRODUCT -----------------
+            function attachListEvents() {
+                document.querySelectorAll(".list-btn").forEach(btn => {
+                    btn.addEventListener("click", async () => {
+                        const id = btn.dataset.id;
+
+                        const res = await fetch(`/admin/products/list/${id}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" }
+                        });
+
+                        const data = await res.json();
+                        if (data.success) {
+                            const row = btn.closest(".itemlist");
+
+                            row.querySelector(".col-status").innerHTML =
+                                `<span class="badge rounded-pill alert-success">Active</span>`;
+
+                            btn.outerHTML = `
+                        <button class="btn btn-sm font-sm btn-danger rounded unlist-btn"
+                                data-id="${id}">Unlist</button>
+                    `;
+
+                            attachUnlistEvents();
+                        }
+                    });
+                });
+            }
+
+        });
+    </script>
+
 </body>
 
 </html>

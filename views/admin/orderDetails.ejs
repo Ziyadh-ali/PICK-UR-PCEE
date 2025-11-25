@@ -15,11 +15,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
-    <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
@@ -30,7 +27,8 @@
                 <h2>PICK UR PCEE</h2>
             </a>
             <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
             </div>
         </div>
         <nav>
@@ -62,10 +60,10 @@
                 </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/salesReport">
-                      <i class="icon material-icons md-monetization_on"></i>
-                      <span class="text">Sales Report</span>
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Sales Report</span>
                     </a>
-                  </li>
+                </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
                         <span class="text">User</span>
@@ -74,7 +72,7 @@
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/offers"> <i class="icon material-icons md-comment"></i>
                         <span class="text">Offers</span>
-                    </a> 
+                    </a>
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/brands"> <i class="icon material-icons md-stars"></i>
@@ -82,10 +80,10 @@
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" disabled href="/admin/coupons">
-                      <i class="icon material-icons md-pie_chart"></i>
-                      <span class="text">Coupons</span>
+                        <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Coupons</span>
                     </a>
-                  </li>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -94,29 +92,32 @@
             <div class="col-search">
             </div>
             <div class="col-nav">
-              <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
-                <i class="material-icons md-apps"></i>
-              </button>
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link btn-icon darkmode" href="#">
-                    <i class="material-icons md-nights_stay"></i>
-                  </a>
-                </li>
-                <li class="dropdown nav-item">
-                    <a class="dropdown-item text-danger" href="/admin/logout"><i
-                        class="material-icons md-exit_to_app"></i>Logout</a>
-                  
-                </li>
-              </ul>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+                    <i class="material-icons md-apps"></i>
+                </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#">
+                            <i class="material-icons md-nights_stay"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                class="material-icons md-exit_to_app"></i>Logout</a>
+
+                    </li>
+                </ul>
             </div>
-          </header>
+        </header>
         <section class="content-main">
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Order detail</h2>
-                    <p>Details for Order ID: <%= order._id %></p>
-                    <p id="orderId" hidden> <%= order._id %></p>
+                    <p>Details for Order ID: <%= order._id %>
+                    </p>
+                    <p id="orderId" hidden>
+                        <%= order._id %>
+                    </p>
 
                 </div>
             </div>
@@ -125,26 +126,29 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
                             <span>
-                                <i class="material-icons md-calendar_today"></i> <b><%= new Date(order.orderedAt).toDateString() %></b>
+                                <i class="material-icons md-calendar_today"></i> <b>
+                                    <%= new Date(order.orderedAt).toDateString() %>
+                                </b>
                             </span> <br>
                             <!-- <small class="text-muted">Order ID: <%= order._id %></small> -->
                         </div>
-                        <% if(order.orderStatus === "Cancelled"){%>
+                        <% if(order.orderStatus==="Cancelled" ){%>
                             <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                <h4 style="color: red;">Cancelled</h4>
+                                <h4 id="statusText" style="color: red;">Cancelled</h4>
                             </div>
-                            <%}else if(order.orderStatus === "Delivered"){%>
+                            <%}else if(order.orderStatus==="Delivered" ){%>
                                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                    <h4 style="color: green;">Delivered</h4>
+                                    <h4 id="statusText" style="color: green;">Delivered</h4>
                                 </div>
-                                <%}else if (order.orderStatus === "Failed"){%>
+                                <%}else if (order.orderStatus==="Failed" ){%>
                                     <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                        <h4 style="color: red;">Failed</h4>
+                                        <h4 id="statusText" style="color: red;">Failed</h4>
                                     </div>
                                     <%}else{%>
                                         <form id="statusChange">
                                             <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                                                <select id="orderStatus"  class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                                                <select id="orderStatus"
+                                                    class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
                                                     <option value="">Change status</option>
                                                     <option value="Processing">Processing</option>
                                                     <option value="Shipped">Shipped</option>
@@ -155,8 +159,8 @@
                                             </div>
                                         </form>
                                         <%} %>
-                        
-                       
+
+
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
@@ -169,7 +173,10 @@
                                 <div class="text">
                                     <h6 class="mb-1">Customer</h6>
                                     <p class="mb-1">
-                                        <%= order.userId.firstName %> <%= order.userId.lastName %> <br><%= order.userId.email %> <br> <%= order.userId.mobile %>
+                                        <%= order.userId.firstName %>
+                                            <%= order.userId.lastName %> <br>
+                                                <%= order.userId.email %> <br>
+                                                    <%= order.userId.mobile %>
                                     </p>
                                 </div>
                             </article>
@@ -182,9 +189,13 @@
                                 <div class="text">
                                     <h6 class="mb-1">Order info</h6>
                                     <p class="mb-1">
-                                         Pay method: <%= order.paymentMethod %> <br> Status: <%= order.orderStatus %>
+                                        Pay method: <%= order.paymentMethod %> <br>
+                                            Status: <span id="orderStatusInfo">
+                                                <%= order.orderStatus %>
+                                            </span>
+
                                     </p>
-                                    
+
                                 </div>
                             </article>
                         </div> <!-- col// -->
@@ -197,7 +208,9 @@
                                     <h6 class="mb-1">Deliver to</h6>
                                     <p class="mb-1">
                                         Address: <%= order.selectedAddress.address %> <br>
-                                        City: <%= order.selectedAddress.city %> <br><%= order.selectedAddress.state %> <br> <%= order.selectedAddress.pincode %>
+                                            City: <%= order.selectedAddress.city %> <br>
+                                                <%= order.selectedAddress.state %> <br>
+                                                    <%= order.selectedAddress.pincode %>
                                     </p>
                                 </div>
                             </article>
@@ -216,51 +229,63 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% order.products.forEach(product =>{%>
+                                        <% order.products.forEach(product=>{%>
                                             <tr>
                                                 <td>
                                                     <a class="itemside" href="#">
                                                         <div class="left">
-                                                            <img src="<%= product.productId.image[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                            <img src="<%= product.productId.image[0] %>" width="40"
+                                                                height="40" class="img-xs" alt="Item">
                                                         </div>
-                                                        <div class="info"> <%= product.productId.name %> </div>
+                                                        <div class="info">
+                                                            <%= product.productId.name %>
+                                                        </div>
                                                     </a>
                                                 </td>
                                                 <% if(product.offerId){%>
-                                                    <td> ₹ <%= product.price - product.offerPrice %> </td>
+                                                    <td> ₹ <%= product.price - product.offerPrice %>
+                                                    </td>
                                                     <%}else{%>
-                                                        <td> ₹ <%= product.price %> </td>
-                                                        <%} %>  
-                                                <td> <%= product.quantity %> </td>
-                                                <% if(product.offerId){%>
-                                                    <td class="text-end"> ₹ <%= (product.price - product.offerPrice) * product.quantity %> </td>
-                                                    <%}else{%>
-                                                        <td class="text-end"> ₹ <%= product.price  * product.quantity %> </td>
-                                                        <%} %>  
-                                                
+                                                        <td> ₹ <%= product.price %>
+                                                        </td>
+                                                        <%} %>
+                                                            <td>
+                                                                <%= product.quantity %>
+                                                            </td>
+                                                            <% if(product.offerId){%>
+                                                                <td class="text-end"> ₹ <%= (product.price -
+                                                                        product.offerPrice) * product.quantity %>
+                                                                </td>
+                                                                <%}else{%>
+                                                                    <td class="text-end"> ₹ <%= product.price *
+                                                                            product.quantity %>
+                                                                    </td>
+                                                                    <%} %>
+
                                             </tr>
                                             <%}) %>
-                                        
-                                        <tr>
-                                            <td colspan="4">
-                                                <article class="float-end">
-                                                    <dl class="dlist">
-                                                        <dt>Subtotal:</dt>
-                                                        <dd>₹ <%= order.totalPrice %></dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt>Grand total:</dt>
-                                                        <dd> <b class="h5">₹ <%= order.totalPrice %></b> </dd>
-                                                    </dl>
-                                                    <!-- <dl class="dlist">
+
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <article class="float-end">
+                                                            <dl class="dlist">
+                                                                <dt>Subtotal:</dt>
+                                                                <dd>₹ <%= order.totalPrice %>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl class="dlist">
+                                                                <dt>Grand total:</dt>
+                                                                <dd> <b class="h5">₹ <%= order.totalPrice %></b> </dd>
+                                                            </dl>
+                                                            <!-- <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
                                                         <dd>
                                                             <span class="badge rounded-pill alert-success text-success">Payment done</span>
                                                         </dd>
                                                     </dl> -->
-                                                </article>
-                                            </td>
-                                        </tr>
+                                                        </article>
+                                                    </td>
+                                                </tr>
                                     </tbody>
                                 </table>
                             </div> <!-- table-responsive// -->
@@ -270,10 +295,10 @@
                             <div class="box shadow-sm bg-light">
                                 <h6 class="mb-15">Payment info</h6>
                                 <p>
-                                    Method :  <%= order.paymentMethod %>
+                                    Method : <%= order.paymentMethod %>
                                 </p>
                                 <p>
-                                   Status :  <%= order.paymentStatus %>
+                                    Status : <%= order.paymentStatus %>
                                 </p>
                             </div>
                         </div> <!-- col// -->
@@ -285,7 +310,7 @@
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
                     <script>
-                    document.write(new Date().getFullYear())
+                        document.write(new Date().getFullYear())
                     </script> ©, Evara - HTML Ecommerce Template .
                 </div>
                 <div class="col-sm-6">
@@ -304,57 +329,80 @@
     <!-- Main Scr/ipt -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
     <script>
-        document.getElementById("statusChange").addEventListener("submit",function (event){
+        document.getElementById("statusChange").addEventListener("submit", function (event) {
             event.preventDefault();
-            const statusSelected = document.getElementById("orderStatus").value;
-            const orderId = document.getElementById("orderId").innerText.trim();
-            if(statusSelected === ""){
-               return showToast("No changes made","orange")
-            }
-            $.ajax({
-                url : "/admin/orderStatus",
-                type : "PATCH",
-                data : {
-                    statusSelected,
-                    orderId
-                },
-                success : function ( response ){
-                    if(response.success){
-                        showToast("Status Changed","success");  
-                        location.reload()
-                    }else{
-                        showToast("Error changing","error");
 
+            const newStatus = document.getElementById("orderStatus").value;
+            const orderId = document.getElementById("orderId").innerText.trim();
+
+            if (newStatus === "") {
+                return showToast("Please select a status!", "orange");
+            }
+
+            $.ajax({
+                url: "/admin/orderStatus",
+                type: "PATCH",
+                data: { orderId, statusSelected: newStatus },
+
+                success: function (response) {
+                    if (response.success) {
+                        showToast("Status updated successfully", "success");
+
+                        const statusText = document.getElementById("statusText");
+                        const statusInfo = document.getElementById("orderStatusInfo");
+
+                        if (!statusText) {
+                            const container = document.querySelector(".text-md-end");
+                            const newHeading = document.createElement("h4");
+                            newHeading.id = "statusText";
+                            container.appendChild(newHeading);
+                        }
+
+                        const statusElement = document.getElementById("statusText");
+
+                        statusElement.innerText = newStatus;
+                        statusInfo.innerText = newStatus;
+
+                        if (newStatus === "Delivered") {
+                            statusElement.style.color = "green";
+                        } else if (newStatus === "Cancelled" || newStatus === "Failed") {
+                            statusElement.style.color = "red";
+                        } else {
+                            statusElement.style.color = "orange";
+                        }
+
+                        if (newStatus === "Delivered" || newStatus === "Cancelled") {
+                            document.getElementById("statusChange").remove();
+                        }
+                    } else {
+                        showToast("Something went wrong", "error");
                     }
                 },
-                error : function(error) {
-                    showToast("error response"+ error,"error");
-                }
-            })
-        })
 
+                error: function (error) {
+                    showToast("Server error", "error");
+                    console.error(error);
+                }
+            });
+        });
 
         function showToast(message, type) {
-          let backgroundColor;
-        
-          if (type === "success") {
-            backgroundColor = "green";
-          } else if (type === "error") {
-            backgroundColor = "red";
-          } else {
-            backgroundColor = "orange";
-          }
-        
-          Toastify({
-            text: message,
-            duration: 2000,
-            close: true,
-            gravity: "top",
-            position: "right",
-            backgroundColor: backgroundColor,
-          }).showToast();
+            let backgroundColor = "orange";
+
+            if (type === "success") backgroundColor = "green";
+            if (type === "error") backgroundColor = "red";
+
+            Toastify({
+                text: message,
+                duration: 2000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: backgroundColor,
+            }).showToast();
         }
     </script>
+
 </body>
 
 </html>

@@ -207,7 +207,9 @@
 
                   <% Brands.forEach((brand , index)=>{ %>
                     <tr>
-                      <td><%= (currentPage - 1) * limit + index + 1 %></td>
+                      <td>
+                        <%= (currentPage - 1) * limit + index + 1 %>
+                      </td>
                       <td><b>
                           <%= brand.name %>
                         </b></td>
@@ -226,25 +228,20 @@
                           <%} %>
                             <% if (brand.status) { %>
                               <td>
-                                <form action="/admin/brands/unlist/<%= brand._id %>?_method=PATCH" method="POST"
-                                  style="display:inline;">
-                                  <input type="hidden" name="status" value="false">
-                                  <button type="submit" class="btn btn-sm font-sm rounded btn-danger">
-                                    Unlist
-                                  </button>
-                                </form>
+                                <button type="button" class="btn btn-sm font-sm rounded btn-danger unlist-btn"
+                                  data-id="<%= brand._id %>">
+                                  Unlist
+                                </button>
                               </td>
                               <% } else { %>
                                 <td>
-                                  <form action="/admin/brands/list/<%= brand._id %>?_method=PATCH" method="POST"
-                                    style="display:inline;">
-                                    <input type="hidden" name="status" value="true">
-                                    <button type="submit" class="btn btn-sm font-sm rounded btn-brand">
-                                      List
-                                    </button>
-                                  </form>
+                                  <button type="button" class="btn btn-sm font-sm rounded btn-brand list-btn"
+                                    data-id="<%= brand._id %>">
+                                    List
+                                  </button>
                                 </td>
                                 <% } %>
+
                                   <td>
                                     <button type="button" class="btn btn-sm font-sm rounded btn-brand editBtn"
                                       data-id="<%= brand._id %>" data-name="<%= brand.name %>"
@@ -458,6 +455,88 @@
       }
     });
   </script>
+
+  <script>
+    $(document).ready(function () {
+
+      attachListEvents();
+      attachUnlistEvents();
+
+      // UNLIST BRAND
+      function attachUnlistEvents() {
+        $(".unlist-btn").off("click").on("click", function () {
+          const id = $(this).data("id");
+          const btn = $(this);
+
+          $.ajax({
+            url: `/admin/brands/unlist/${id}`,
+            method: "PATCH",
+            contentType: "application/json",
+            success: function (data) {
+              if (data.success) {
+
+                // Update status badge
+                const badge = btn.closest("tr").find("span.badge");
+                badge.removeClass("alert-success")
+                  .addClass("alert-danger")
+                  .text("Not Active");
+
+                // Replace button with LIST
+                btn.replaceWith(`
+              <button type="button"
+                class="btn btn-sm font-sm rounded btn-brand list-btn"
+                data-id="${id}">
+                List
+              </button>
+            `);
+
+                // Reattach events
+                attachListEvents();
+              }
+            }
+          });
+        });
+      }
+
+      // LIST BRAND
+      function attachListEvents() {
+        $(".list-btn").off("click").on("click", function () {
+          const id = $(this).data("id");
+          const btn = $(this);
+
+          $.ajax({
+            url: `/admin/brands/list/${id}`,
+            method: "PATCH",
+            contentType: "application/json",
+            success: function (data) {
+              if (data.success) {
+
+                // Update status badge
+                const badge = btn.closest("tr").find("span.badge");
+                badge.removeClass("alert-danger")
+                  .addClass("alert-success")
+                  .text("Active");
+
+                // Replace button with UNLIST
+                btn.replaceWith(`
+              <button type="button"
+                class="btn btn-sm font-sm rounded btn-danger unlist-btn"
+                data-id="${id}">
+                Unlist
+              </button>
+            `);
+
+                // Reattach events
+                attachUnlistEvents();
+              }
+            }
+          });
+        });
+      }
+
+    });
+  </script>
+
 
 </body>
 
